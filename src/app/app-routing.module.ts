@@ -12,6 +12,7 @@ const routes: Routes = [
       { path: 'categories', loadChildren: () => import('./categories/categories.module').then(m => m.CategoriesModule) },
       { path: 'events', loadChildren: () => import('./events/events.module').then(m => m.EventsModule) },
       { path: 'profile', loadChildren: () => import('./profile/profile.module').then(m => m.ProfileModule) },
+      { path: 'admin-dashboard', loadChildren: () => import('./admin-dashboard/admin-dashboard.module').then(m => m.AdminDashboardModule) },
       { path: '**', redirectTo: '' },
     ]
   }
