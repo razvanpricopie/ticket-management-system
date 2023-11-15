@@ -1,0 +1,23 @@
+.mat-toolbar {
+    display: flex;
+    justify-content: space-between;
+}
+
+.navbar-left-container {
+    display: flex;
+    align-items: center;
+}
+
+.navbar-right-container {
+    display: flex;
+    align-items: center;
+}
+
+.search-bar {
+    padding-left: 64px;
+}
+
+.mat-mdc-form-field-has-icon-suffix .mat-mdc-text-field-wrapper {
+    border-radius: 9px;
+    width: 300px;
+}

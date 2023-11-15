@@ -1,6 +1,29 @@
-<p>layout works!</p>
+<mat-toolbar color="primary" class="navbar">
+
+    <div class="navbar-left-container">
+        <span>Ticketing App</span>
+
+        <div class="search-bar">
+            <mat-form-field subscriptSizing="dynamic">
+                <mat-label>Search Event</mat-label>
+                <input type="text" matInput />
+                <mat-icon matSuffix>search</mat-icon>
+            </mat-form-field>
+        </div>
+
+    </div>
+
+    <div class="navbar-right-container">
+        <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
+            <mat-icon>shopping_cart</mat-icon>
+
+        </button>
+        <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
+            <mat-icon>person</mat-icon>
+        </button>
+    </div>
+
+
+</mat-toolbar>
 
 <router-outlet></router-outlet>
-
-
-<p>pls</p>
