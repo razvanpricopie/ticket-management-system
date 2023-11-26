@@ -2,30 +2,40 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment.development';
 import { Observable } from 'rxjs';
-import { EventDetails, EventSimple } from '../models/event.model';
+import { EventDetails } from '../models/event.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class EventService {
   private readonly basePath = environment.API_ENDPOINT;
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient) {}
 
-  getAllEvents(): Observable<EventSimple[]> {
-    return this.httpClient.get<EventSimple[]>(`${this.basePath}/api/event/all`);
+  getAllEvents(): Observable<EventDetails[]> {
+    return this.httpClient.get<EventDetails[]>(
+      `${this.basePath}/api/event/all`
+    );
   }
 
   getEventDetails(id: string): Observable<EventDetails> {
-    return this.httpClient.get<EventDetails>(`${this.basePath}/api/event/${id}`);
+    return this.httpClient.get<EventDetails>(
+      `${this.basePath}/api/event/${id}`
+    );
   }
 
   createEvent(createdEvent: EventDetails): Observable<string> {
-    return this.httpClient.post<string>(`${this.basePath}/api/event/addevent`, createdEvent)
+    return this.httpClient.post<string>(
+      `${this.basePath}/api/event/addevent`,
+      createdEvent
+    );
   }
 
   updateEvent(updatedEvent: EventDetails): Observable<void> {
-    return this.httpClient.put<void>(`${this.basePath}/api/event/updateevent`, updatedEvent)
+    return this.httpClient.put<void>(
+      `${this.basePath}/api/event/updateevent`,
+      updatedEvent
+    );
   }
 
   deleteEvent(id: string): Observable<void> {

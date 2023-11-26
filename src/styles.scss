@@ -42,3 +42,91 @@ $ticket-management-system-theme: mat.define-light-theme((
 @include mat.all-component-themes($ticket-management-system-theme);
 
 /* You can add global styles to this file, and also import other style files */
+
+/* to be replaced with grid.scss */
+.grid {
+  box-sizing: border-box;
+  max-width: 1280px;
+  margin: auto;
+  padding: 12px 48px;
+  display: flex;
+  flex-wrap: wrap;
+  flex: 0 0 100%;
+  align-items: stretch;
+
+  &.no-vertical-padding {
+      padding-top: 0;
+      padding-bottom: 0;
+  }
+
+  &.no-horizontal-padding {
+      padding-left: 0;
+      padding-right: 0;
+  }
+
+  [class*="block"] {
+      box-sizing: border-box;
+      padding: 12px;
+
+      .content {
+          box-sizing: border-box;
+          flex: 0 0 100%;
+          max-width: 100%;
+      }
+  }
+
+  .block-full {
+      flex: 0 0 100%;
+      max-width: 100%;
+  }
+
+  .block-half {
+      flex: 0 0 50%;
+      max-width: 50%;
+  }
+
+  .block-quarter {
+      flex: 0 0 25%;
+      max-width: 25%;
+  }
+}
+
+@media screen and (min-width: 721px) and (max-width: 1080px) {
+  .grid {
+      padding: 16px 28px;
+
+      [class*="block"] {
+          padding: 8px;
+      }
+
+      .block-half {
+          flex: 0 0 100%;
+          max-width: 100%;
+      }
+
+      .block-quarter {
+          flex: 0 0 50%;
+          max-width: 50%;
+      }
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .grid {
+      padding: 12px 16px;
+
+      [class*="block"] {
+          padding: 4px;
+      }
+
+      .block-half {
+          flex: 0 0 100%;
+          max-width: 100%;
+      }
+
+      .block-quarter {
+          flex: 0 0 100%;
+          max-width: 100%;
+      }
+  }
+}

@@ -1,7 +1,14 @@
-<p>home works!</p>
+<!-- <div class="categories-container">
+  <a *ngFor="let category of categories">{{ category.name }}</a>
+</div> -->
 
-<div *ngFor="let event of events">
-    Id - {{event.eventId}}
-    Name - {{event.name}}
-    Date - {{event.date}}
+<div class="grid no-horizontal-padding">
+  <div *ngFor="let event of events" class="block-quarter">
+    <app-event-card
+      [name]="event.name"
+      [date]="event.date"
+      [location]="event.location"
+      [imageUrl]="event.imageUrl"
+    ></app-event-card>
+  </div>
 </div>

@@ -1,9 +1,4 @@
-export interface EventSimple {
-    eventId: string;
-    name: string;
-    date: string;
-    imageUrl: string
-}
+import { Category } from "./category.model";
 
 export interface EventDetails {
     eventId: string;
@@ -12,6 +7,7 @@ export interface EventDetails {
     artist: string;
     date: string;
     description: string;
+    location: string;
     imageUrl: string
-    categoryId: string;
+    category: Category;
 }

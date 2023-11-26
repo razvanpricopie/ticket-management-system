@@ -1,0 +1,25 @@
+.event-card-container {
+  mat-card {
+    mat-card-header {
+      padding: 0px;
+      margin-bottom: 12px;
+
+      .product-image {
+        width: 100%;
+        height: 150px;
+      }
+    }
+
+    mat-card-content {
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+      gap: 12px;
+    }
+
+    mat-card-actions {
+      flex-direction: row-reverse;
+      gap: 8px;
+    }
+  }
+}
