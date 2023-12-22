@@ -1,16 +1,31 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { EventsComponent } from './events.component';
+import { EventDetailsComponent } from './event-details/event-details.component';
 
 const routes: Routes = [
   {
+    path: '',
+    redirectTo: '/home',
+    pathMatch: 'full',
+  },
+  {
     path: ':id',
-    component: EventsComponent,
+    component: EventDetailsComponent,
+    children: [
+      {
+        path: ':id',
+        component: EventDetailsComponent,
+      },
+    ],
+  },
+  {
+    path: '**',
+    redirectTo: '/home',
   }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class EventsRoutingModule { }
+export class EventsRoutingModule {}
