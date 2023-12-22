@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { EventDetails } from 'src/app/core/models/event.model';
 
 @Component({
@@ -7,10 +8,13 @@ import { EventDetails } from 'src/app/core/models/event.model';
   styleUrls: ['./event-card.component.scss']
 })
 export class EventCardComponent implements OnInit {
+  @Input() eventId: string;
   @Input() name: string;
   @Input() date: string;
   @Input() location: string;
   @Input() imageUrl: string;
+
+  constructor(private router: Router){}
 
   ngOnInit(): void {
     const currentEvent = <EventDetails> {
@@ -19,7 +23,9 @@ export class EventCardComponent implements OnInit {
       location: this.location,
       imageUrl: this.imageUrl
     }
+  }
 
-    console.log(currentEvent);
+  redirectToEvent(eventId: string) {
+    this.router.navigate(['/events', eventId]);
   }
 }

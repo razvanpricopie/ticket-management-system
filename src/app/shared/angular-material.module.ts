@@ -51,6 +51,8 @@ import { OverlayModule } from '@angular/cdk/overlay';
     MatToolbarModule,
     MatInputModule,
     MatCardModule,
+    MatDividerModule,
+    MatChipsModule
   ]
 })
 export class AngularMaterialModule { }

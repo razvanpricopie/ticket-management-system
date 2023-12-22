@@ -1,38 +1,35 @@
-<div class="event-card-container">
-  <mat-card>
-    <mat-card-header>
-      <img
-        mat-card-image
-        class="product-image"
-        src="https://material.angular.io/assets/img/examples/shiba2.jpg"
-        alt="Product Image"
-      />
-    </mat-card-header>
+<mat-card (click)="redirectToEvent(eventId)">
+  <mat-card-header>
+    <img
+      mat-card-image
+      class="product-image"
+      src="https://material.angular.io/assets/img/examples/shiba2.jpg"
+      alt="Product Image"
+    />
+  </mat-card-header>
 
-    <mat-card-content>
-      <mat-card-title>{{ name }}</mat-card-title>
-      <mat-card-subtitle>{{ date }}</mat-card-subtitle>
+  <mat-card-content>
+    <mat-card-title>{{ name }}</mat-card-title>
+    <mat-card-subtitle>{{ date }}</mat-card-subtitle>
 
-      <section>{{ location }}</section>
-    </mat-card-content>
+    <span>{{ location }}</span>
+  </mat-card-content>
 
-    <mat-card-actions>
-      <div class="buttons-container">
-        <button
-          mat-mini-fab
-          color="warn"
-          aria-label="Example icon button with a filter list icon"
-        >
-          <mat-icon>favorite</mat-icon>
-        </button>
-        <button
-          mat-mini-fab
-          color="warn"
-          aria-label="Example icon button with a filter list icon"
-        >
-          <mat-icon>share</mat-icon>
-        </button>
-      </div>
-    </mat-card-actions>
-  </mat-card>
-</div>
+  <mat-card-actions>
+      <button
+        mat-mini-fab
+        color="warn"
+        aria-label="Example icon button with a filter list icon"
+      >
+        <mat-icon>favorite</mat-icon>
+      </button>
+      <button
+        mat-mini-fab
+        color="warn"
+        aria-label="Example icon button with a filter list icon"
+        
+      >
+        <mat-icon>share</mat-icon>
+      </button>
+  </mat-card-actions>
+</mat-card>

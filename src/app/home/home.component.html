@@ -3,8 +3,28 @@
 </div> -->
 
 <div class="grid no-horizontal-padding">
+  <div class="presentation-carrousel-placeholder">
+    <img
+      mat-card-image
+      class="product-image"
+      src="https://media.geeksforgeeks.org/wp-content/uploads/geek.png"
+      alt="Product Image"
+    />
+  </div>
+</div>
+
+<mat-divider></mat-divider>
+
+<div class="grid no-horizontal-padding">
+  <mat-chip-listbox>
+    <mat-chip *ngFor="let category of categories">{{ category.name }}</mat-chip>
+  </mat-chip-listbox>
+</div>
+
+<div class="grid no-horizontal-padding">
   <div *ngFor="let event of events" class="block-quarter">
     <app-event-card
+      [eventId]="event.eventId"
       [name]="event.name"
       [date]="event.date"
       [location]="event.location"
