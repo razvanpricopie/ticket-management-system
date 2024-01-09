@@ -13,7 +13,7 @@ const routes: Routes = [
       { path: 'events', loadChildren: () => import('./events/events.module').then(m => m.EventsModule) },
       { path: 'profile', loadChildren: () => import('./profile/profile.module').then(m => m.ProfileModule) },
       { path: 'admin-dashboard', loadChildren: () => import('./admin-dashboard/admin-dashboard.module').then(m => m.AdminDashboardModule) },
-      { path: '**', redirectTo: '' },
+      { path: '**', redirectTo: '/home' },
     ]
   }
 ];
