@@ -5,6 +5,11 @@ import { CategoriesComponent } from './categories.component';
 const routes: Routes = [
   {
     path: '',
+    redirectTo: '/home',
+    pathMatch: 'full',
+  },
+  {
+    path: ':id',
     component: CategoriesComponent,
   }
 ];

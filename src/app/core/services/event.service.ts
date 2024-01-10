@@ -14,13 +14,13 @@ export class EventService {
 
   getAllEvents(): Observable<EventDetails[]> {
     return this.httpClient.get<EventDetails[]>(
-      `${this.basePath}/api/event/all`
+      `${this.basePath}/api/event/allevents`
     );
   }
 
-  getEventDetails(id: string): Observable<EventDetails> {
+  getEventDetails(eventId: string): Observable<EventDetails> {
     return this.httpClient.get<EventDetails>(
-      `${this.basePath}/api/event/${id}`
+      `${this.basePath}/api/event/${eventId}`
     );
   }
 

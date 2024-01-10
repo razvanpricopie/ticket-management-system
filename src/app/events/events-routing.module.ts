@@ -11,16 +11,6 @@ const routes: Routes = [
   {
     path: ':id',
     component: EventDetailsComponent,
-    children: [
-      {
-        path: ':id',
-        component: EventDetailsComponent,
-      },
-    ],
-  },
-  {
-    path: '**',
-    redirectTo: '/home',
   }
 ];
 

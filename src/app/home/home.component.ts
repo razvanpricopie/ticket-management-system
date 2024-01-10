@@ -25,10 +25,13 @@ export class HomeComponent implements OnInit {
     this.initEvents();
   }
 
+  redirectToCategoryPage(categoryId: string) {
+    this.router.navigate(['/categories', categoryId]);
+  }
+
   private initCategories() {
     this.categoryService.getAllCategories().subscribe((categories) => {
       this.categories = categories;
-      console.log(this.categories);
     });
   }
 
