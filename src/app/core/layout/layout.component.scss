@@ -21,3 +21,14 @@
     border-radius: 9px;
     width: 300px;
 }
+
+.example-menu {
+    display: inline-flex;
+    flex-direction: column;
+    min-width: 180px;
+    max-width: 280px;
+    background-color: rgb(255, 255, 255);
+    padding: 6px 0;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.15);
+  }
