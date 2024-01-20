@@ -34,7 +34,7 @@
           <input matInput type="number" formControlName="quantity" min="0" (keydown)="$event.preventDefault()" />
         </mat-form-field>
 
-        <button mat-raised-button color="primary" type="submit" [disabled]="form.get('quantity')!.value == 0">
+        <button mat-raised-button color="warn" type="submit" [disabled]="form.get('quantity')!.value == 0">
           Checkout <span *ngIf="form.get('quantity')!.value != 0">for {{quantityValueMultiplied}}</span>
         </button>
       </form>
