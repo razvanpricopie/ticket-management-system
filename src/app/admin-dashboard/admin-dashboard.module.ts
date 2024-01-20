@@ -7,6 +7,7 @@ import { SharedModule } from '../shared/shared.module';
 import { AdminEventsComponent } from './admin-events/admin-events.component';
 import { AdminCategoriesComponent } from './admin-categories/admin-categories.component';
 import { AdminOrdersComponent } from './admin-orders/admin-orders.component';
+import { EventDetailsDialogComponent } from './admin-events/event-details-dialog/event-details-dialog.component';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { AdminOrdersComponent } from './admin-orders/admin-orders.component';
     AdminDashboardComponent,
     AdminEventsComponent,
     AdminCategoriesComponent,
-    AdminOrdersComponent
+    AdminOrdersComponent,
+    EventDetailsDialogComponent
   ],
   imports: [
     CommonModule,

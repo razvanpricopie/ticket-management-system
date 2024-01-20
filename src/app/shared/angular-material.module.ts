@@ -57,7 +57,8 @@ import { OverlayModule } from '@angular/cdk/overlay';
     MatFormFieldModule,
     MatSidenavModule,
     MatListModule,
-    MatTableModule
+    MatTableModule,
+    MatDialogModule
   ]
 })
 export class AngularMaterialModule { }
