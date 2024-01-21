@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment.development';
 import { Observable } from 'rxjs';
-import { EventDetails } from '../models/event.model';
+import { CreateEvent, EventDetails, UpdateEvent } from '../models/event.model';
 
 @Injectable({
   providedIn: 'root',
@@ -24,14 +24,14 @@ export class EventService {
     );
   }
 
-  createEvent(createdEvent: EventDetails): Observable<string> {
+  createEvent(createdEvent: CreateEvent): Observable<string> {
     return this.httpClient.post<string>(
       `${this.basePath}/api/event/addevent`,
       createdEvent
     );
   }
 
-  updateEvent(updatedEvent: EventDetails): Observable<void> {
+  updateEvent(updatedEvent: UpdateEvent): Observable<void> {
     return this.httpClient.put<void>(
       `${this.basePath}/api/event/updateevent`,
       updatedEvent

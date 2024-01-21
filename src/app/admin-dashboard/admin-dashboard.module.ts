@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 
 import { AdminDashboardRoutingModule } from './admin-dashboard-routing.module';
 import { AdminDashboardComponent } from './admin-dashboard.component';
@@ -26,6 +26,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     AdminDashboardRoutingModule,
     SharedModule,
     ReactiveFormsModule
-  ]
+  ],
+  providers:[DatePipe]
 })
 export class AdminDashboardModule { }

@@ -32,16 +32,20 @@ export class AdminEventsComponent implements OnInit, OnDestroy {
   constructor(private eventService: EventService, private dialog: MatDialog) {}
 
   ngOnInit(): void {
-    this.sub = this.eventService.getAllEvents().subscribe((events) => {
-      this.events = events;
-      this.dataSource = [...this.events];
-    });
+    this.initEventTableData();
 
     this.dataSource = [...this.events];
   }
 
   ngOnDestroy(): void {
     this.sub.unsubscribe();
+  }
+
+  initEventTableData() {
+    this.sub = this.eventService.getAllEvents().subscribe((events) => {
+      this.events = events;
+      this.dataSource = [...this.events];
+    });
   }
 
   openEventDetails(row: EventDetails) {
@@ -52,15 +56,23 @@ export class AdminEventsComponent implements OnInit, OnDestroy {
   }
 
   openAddDeviceDialog() {
-    this.dialog.open(EventAddUpdateDialogComponent, {
+    const dialogRef = this.dialog.open(EventAddUpdateDialogComponent, {
       width: '800px',
     });
+
+    dialogRef.afterClosed().subscribe(() => {
+      this.initEventTableData();
+    })
   }
 
   openUpdateDeviceDialog(row: EventDetails) {
-    this.dialog.open(EventAddUpdateDialogComponent, {
+    const dialogRef = this.dialog.open(EventAddUpdateDialogComponent, {
       data: row,
       width: '800px',
     });
+
+    dialogRef.afterClosed().subscribe(() => {
+      this.initEventTableData();
+    })
   }
 }

@@ -1,11 +1,12 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { EventDetails } from 'src/app/core/models/event.model';
+import { CreateEvent, EventDetails, UpdateEvent } from 'src/app/core/models/event.model';
 import { EventDetailsDialogComponent } from '../event-details-dialog/event-details-dialog.component';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Category } from 'src/app/core/models/category.model';
 import { Subscription } from 'rxjs';
 import { CategoryService } from 'src/app/core/services/category.service';
+import { EventService } from 'src/app/core/services/event.service';
 
 @Component({
   selector: 'app-event-add-update-dialog',
@@ -18,21 +19,30 @@ export class EventAddUpdateDialogComponent implements OnInit, OnDestroy {
   categoryOptions: Category[];
   eventDetailsForm: FormGroup;
 
+  tomorrowDate: Date = new Date();
+
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: EventDetails,
-    private dialog: MatDialogRef<EventDetailsDialogComponent>,
+    private dialogRef: MatDialogRef<EventDetailsDialogComponent>,
     private formBuilder: FormBuilder,
-    private categoryService: CategoryService
+    private categoryService: CategoryService,
+    private eventService: EventService,
   ) {}
 
   ngOnInit(): void {
     this.clonedEventData = this.data ?? {};
+
+    this.initTomorrowDate();
 
     this.initCategoryOptions();
   }
 
   ngOnDestroy(): void {
     this.sub.unsubscribe();
+  }
+
+  initTomorrowDate() {
+    this.tomorrowDate.setDate(this.tomorrowDate.getDate() + 1);
   }
 
   initCategoryOptions() {
@@ -46,40 +56,112 @@ export class EventAddUpdateDialogComponent implements OnInit, OnDestroy {
 
   initEventDetailsFormGroup() {
     this.eventDetailsForm = this.formBuilder.group({
-      name: [this.clonedEventData.name ?? ''],
-      artist: [this.clonedEventData.artist ?? ''],
-      date: [this.clonedEventData.date ?? new Date()],
-      categoryName: [
+      name: [
+        this.clonedEventData.name ?? '',
+        [
+          Validators.required,
+          Validators.minLength(5),
+          Validators.maxLength(30),
+        ],
+      ],
+      artist: [
+        this.clonedEventData.artist ?? '',
+        [
+          Validators.required,
+          Validators.minLength(5),
+          Validators.maxLength(30),
+        ],
+      ],
+      date: [
+        this.clonedEventData.date ?? this.tomorrowDate,
+        [Validators.required],
+      ],
+      category: [
         this.clonedEventData.category?.categoryId ??
           this.categoryOptions[0].categoryId,
+        [Validators.required],
       ],
-      location: [this.clonedEventData.location ?? ''],
-      price: [this.clonedEventData.price ?? ''],
-      description: [this.clonedEventData.description ?? ''],
+      location: [
+        this.clonedEventData.location ?? '',
+        [
+          Validators.required,
+          Validators.minLength(5),
+          Validators.maxLength(30),
+        ],
+      ],
+      price: [
+        this.clonedEventData.price ?? '',
+        [Validators.required, Validators.min(1)],
+      ],
+      description: [
+        this.clonedEventData.description ?? '',
+        [
+          Validators.required,
+          Validators.minLength(10),
+          Validators.maxLength(100),
+        ],
+      ],
     });
   }
 
   submit() {
-    if (!this.eventDetailsForm.valid)
-      return;
+    if (!this.eventDetailsForm.valid) return;
 
-    if(this.clonedEventData.eventId) {
+    if (this.clonedEventData.eventId) {
       this.update();
     } else {
       this.create();
     }
-
   }
 
   update() {
-    console.log('TODO - implement update method');
+    let eventUpdated: UpdateEvent = {
+      eventId: this.clonedEventData.eventId,
+      name: this.eventDetailsForm.get('name')?.value,
+      price: this.eventDetailsForm.get('price')?.value,
+      artist: this.eventDetailsForm.get('artist')?.value,
+      date: this.eventDetailsForm.get('date')?.value,
+      description: this.eventDetailsForm.get('description')?.value,
+      location: this.eventDetailsForm.get('location')?.value,
+      imageUrl: '', //TO COMPLETE AFTER IMAGE FEATURE IMPLEMENTED
+      categoryId: this.eventDetailsForm.get('category')?.value,
+    };
+
+    this.eventService.updateEvent(eventUpdated).subscribe(
+      (result) => {
+        console.log(result);
+        this.dialogRef.close(true);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
 
   create() {
-    console.log('TODO - implement create method');
+    let newEventCreated: CreateEvent = {
+      name: this.eventDetailsForm.get('name')?.value,
+      price: this.eventDetailsForm.get('price')?.value,
+      artist: this.eventDetailsForm.get('artist')?.value,
+      date: this.eventDetailsForm.get('date')?.value,
+      description: this.eventDetailsForm.get('description')?.value,
+      location: this.eventDetailsForm.get('location')?.value,
+      imageUrl: '', //TO COMPLETE AFTER IMAGE FEATURE IMPLEMENTED
+      categoryId: this.eventDetailsForm.get('category')?.value,
+    };
+
+    this.eventService.createEvent(newEventCreated).subscribe(
+      (result) => {
+        console.log(result);
+        this.dialogRef.close(true);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
 
   close() {
-    this.dialog.close();
+    this.dialogRef.close();
   }
 }

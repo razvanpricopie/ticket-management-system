@@ -1,6 +1,12 @@
 <ng-container *ngIf="categoryOptions">
-  <form (ngSubmit)="submit()" [formGroup]="eventDetailsForm" class="event-details-dialog-component">
-    <ng-container *ngIf="clonedEventData.eventId; else createNewDeviceTitleTemplate">
+  <form
+    (ngSubmit)="submit()"
+    [formGroup]="eventDetailsForm"
+    class="event-details-dialog-component"
+  >
+    <ng-container
+      *ngIf="clonedEventData.eventId; else createNewDeviceTitleTemplate"
+    >
       <h2 mat-dialog-title>Event Details</h2>
     </ng-container>
     <ng-template #createNewDeviceTitleTemplate>
@@ -13,27 +19,88 @@
           <mat-form-field>
             <mat-label>Name: </mat-label>
             <input matInput formControlName="name" />
+            <mat-error
+              *ngIf="
+                eventDetailsForm.get('name')?.errors?.['required'] &&
+                eventDetailsForm.get('name')?.touched
+              "
+            >
+              Name field is required
+            </mat-error>
+            <mat-error
+              *ngIf="
+                eventDetailsForm.get('name')?.errors?.['minlength'] &&
+                eventDetailsForm.get('name')?.touched
+              "
+            >
+              Name field must be at least 5 characters long
+            </mat-error>
+            <mat-error
+              *ngIf="
+                eventDetailsForm.get('name')?.errors?.['maxlength'] &&
+                eventDetailsForm.get('name')?.touched
+              "
+            >
+              Name field cannot be more than 50 characters long
+            </mat-error>
           </mat-form-field>
           <mat-form-field>
             <mat-label>Artist: </mat-label>
             <input matInput formControlName="artist" />
+            <mat-error
+              *ngIf="
+                eventDetailsForm.get('artist')?.errors?.['required'] &&
+                eventDetailsForm.get('artist')?.touched
+              "
+            >
+              Artist field is required
+            </mat-error>
+            <mat-error
+              *ngIf="
+                eventDetailsForm.get('artist')?.errors?.['minlength'] &&
+                eventDetailsForm.get('artist')?.touched
+              "
+            >
+              Artist field must be at least 5 characters long
+            </mat-error>
+            <mat-error
+              *ngIf="
+                eventDetailsForm.get('artist')?.errors?.['maxlength'] &&
+                eventDetailsForm.get('artist')?.touched
+              "
+            >
+              Artist field cannot be more than 50 characters long
+            </mat-error>
           </mat-form-field>
           <mat-form-field>
             <mat-label>Date: </mat-label>
-            <input matInput [matDatepicker]="picker" formControlName="date" />
+            <input
+              matInput
+              [matDatepicker]="picker"
+              [min]="tomorrowDate"
+              [readonly]="true"
+              formControlName="date"
+            />
             <mat-datepicker-toggle
               matSuffix
               [for]="picker"
             ></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
+            <mat-error
+              *ngIf="
+              eventDetailsForm.get('date')?.errors?.['required'] &&
+                eventDetailsForm.get('date')?.touched
+              "
+            >
+              Date field is required
+            </mat-error>
           </mat-form-field>
         </div>
 
         <div class="event-details-column">
           <mat-form-field>
             <mat-label>Category: </mat-label>
-            <!-- <input matInput > -->
-            <mat-select formControlName="categoryName">
+            <mat-select formControlName="category">
               <mat-option
                 *ngFor="let category of categoryOptions"
                 [value]="category.categoryId"
@@ -41,14 +108,62 @@
                 {{ category.name }}
               </mat-option>
             </mat-select>
+            <mat-error
+              *ngIf="
+                eventDetailsForm.get('category')?.errors?.['required'] &&
+                eventDetailsForm.get('category')?.touched
+              "
+            >
+              Location field is required
+            </mat-error>
           </mat-form-field>
           <mat-form-field>
             <mat-label>Location: </mat-label>
             <input matInput formControlName="location" />
+            <mat-error
+              *ngIf="
+                eventDetailsForm.get('location')?.errors?.['required'] &&
+                eventDetailsForm.get('location')?.touched
+              "
+            >
+              Location field is required
+            </mat-error>
+            <mat-error
+              *ngIf="
+                eventDetailsForm.get('location')?.errors?.['minlength'] &&
+                eventDetailsForm.get('location')?.touched
+              "
+            >
+              Location field must be at least 5 characters long
+            </mat-error>
+            <mat-error
+              *ngIf="
+                eventDetailsForm.get('location')?.errors?.['maxlength'] &&
+                eventDetailsForm.get('location')?.touched
+              "
+            >
+              Location field cannot be more than 50 characters long
+            </mat-error>
           </mat-form-field>
           <mat-form-field>
             <mat-label>Price: </mat-label>
-            <input matInput formControlName="price" />
+            <input matInput formControlName="price" type="number" />
+            <mat-error
+              *ngIf="
+                eventDetailsForm.get('price')?.errors?.['required'] &&
+                eventDetailsForm.get('price')?.touched
+              "
+            >
+              Price field is required
+            </mat-error>
+            <mat-error
+              *ngIf="
+                eventDetailsForm.get('price')?.errors?.['min'] &&
+                eventDetailsForm.get('price')?.touched
+              "
+            >
+              Price value must be greater than 0
+            </mat-error>
           </mat-form-field>
         </div>
       </div>
@@ -57,6 +172,30 @@
         <mat-form-field style="width: 100%">
           <mat-label>Description: </mat-label>
           <input matInput formControlName="description" />
+          <mat-error
+            *ngIf="
+                eventDetailsForm.get('description')?.errors?.['required'] &&
+                eventDetailsForm.get('description')?.touched
+              "
+          >
+            Description field is required
+          </mat-error>
+          <mat-error
+            *ngIf="
+                eventDetailsForm.get('description')?.errors?.['minlength'] &&
+                eventDetailsForm.get('description')?.touched
+              "
+          >
+            Description field must be at least 5 characters long
+          </mat-error>
+          <mat-error
+            *ngIf="
+                eventDetailsForm.get('description')?.errors?.['maxlength'] &&
+                eventDetailsForm.get('description')?.touched
+              "
+          >
+            Description field cannot be more than 50 characters long
+          </mat-error>
         </mat-form-field>
       </div>
     </div>
@@ -65,13 +204,13 @@
       <button mat-button color="warn" (click)="close()">Close</button>
 
       <button mat-flat-button type="submit" color="warn">
-        <ng-container *ngIf="clonedEventData.eventId; else createNewDeviceButtonTemplate">
-            Update
+        <ng-container
+          *ngIf="clonedEventData.eventId; else createNewDeviceButtonTemplate"
+        >
+          Update
         </ng-container>
-        <ng-template #createNewDeviceButtonTemplate>
-            Create
-        </ng-template>
-    </button>
+        <ng-template #createNewDeviceButtonTemplate> Create </ng-template>
+      </button>
     </div>
   </form>
 </ng-container>
