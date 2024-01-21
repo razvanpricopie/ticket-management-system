@@ -1,7 +1,7 @@
 <div class="grid no-horizontal-padding">
   <div class="events-container">
     <div class="events-action-buttons">
-      <button mat-raised-button color="accent">ADD EVENT</button>
+      <button mat-raised-button color="accent" (click)="openAddDeviceDialog()">ADD EVENT</button>
     </div>
     <table
       mat-table
@@ -11,7 +11,7 @@
     >
       <ng-container matColumnDef="index">
         <th mat-header-cell *matHeaderCellDef>No.</th>
-        <td mat-cell *matCellDef="let event; let index = index">{{ index }}</td>
+        <td mat-cell *matCellDef="let event; let index = index">{{ index + 1 }}</td>
       </ng-container>
 
       <ng-container matColumnDef="name">
@@ -26,7 +26,7 @@
 
       <ng-container matColumnDef="date">
         <th mat-header-cell *matHeaderCellDef>Date</th>
-        <td mat-cell *matCellDef="let event">{{ event.date }}</td>
+        <td mat-cell *matCellDef="let event">{{ event.date | date }}</td>
       </ng-container>
 
       <ng-container matColumnDef="location">
@@ -43,7 +43,7 @@
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let event" (click)="$event.stopPropagation()">
           <div class="column-event-action-buttons">
-            <button mat-icon-button color="accent">
+            <button mat-icon-button color="accent" (click)="openUpdateDeviceDialog(event)">
               <i class="material-icons">edit</i>
             </button>
             <button mat-icon-button color="accent">

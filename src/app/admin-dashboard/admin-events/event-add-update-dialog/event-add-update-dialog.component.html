@@ -1,0 +1,77 @@
+<ng-container *ngIf="categoryOptions">
+  <form (ngSubmit)="submit()" [formGroup]="eventDetailsForm" class="event-details-dialog-component">
+    <ng-container *ngIf="clonedEventData.eventId; else createNewDeviceTitleTemplate">
+      <h2 mat-dialog-title>Event Details</h2>
+    </ng-container>
+    <ng-template #createNewDeviceTitleTemplate>
+      <h2 mat-dialog-title>Create new event</h2>
+    </ng-template>
+
+    <div mat-dialog-content class="event-details-container">
+      <div class="event-details-columns">
+        <div class="event-details-column">
+          <mat-form-field>
+            <mat-label>Name: </mat-label>
+            <input matInput formControlName="name" />
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Artist: </mat-label>
+            <input matInput formControlName="artist" />
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Date: </mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="date" />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="picker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </div>
+
+        <div class="event-details-column">
+          <mat-form-field>
+            <mat-label>Category: </mat-label>
+            <!-- <input matInput > -->
+            <mat-select formControlName="categoryName">
+              <mat-option
+                *ngFor="let category of categoryOptions"
+                [value]="category.categoryId"
+              >
+                {{ category.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Location: </mat-label>
+            <input matInput formControlName="location" />
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Price: </mat-label>
+            <input matInput formControlName="price" />
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="event-description-container">
+        <mat-form-field style="width: 100%">
+          <mat-label>Description: </mat-label>
+          <input matInput formControlName="description" />
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div mat-dialog-actions>
+      <button mat-button color="warn" (click)="close()">Close</button>
+
+      <button mat-flat-button type="submit" color="warn">
+        <ng-container *ngIf="clonedEventData.eventId; else createNewDeviceButtonTemplate">
+            Update
+        </ng-container>
+        <ng-template #createNewDeviceButtonTemplate>
+            Create
+        </ng-template>
+    </button>
+    </div>
+  </form>
+</ng-container>

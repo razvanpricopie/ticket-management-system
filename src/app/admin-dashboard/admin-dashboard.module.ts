@@ -8,6 +8,8 @@ import { AdminEventsComponent } from './admin-events/admin-events.component';
 import { AdminCategoriesComponent } from './admin-categories/admin-categories.component';
 import { AdminOrdersComponent } from './admin-orders/admin-orders.component';
 import { EventDetailsDialogComponent } from './admin-events/event-details-dialog/event-details-dialog.component';
+import { EventAddUpdateDialogComponent } from './admin-events/event-add-update-dialog/event-add-update-dialog.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -16,12 +18,14 @@ import { EventDetailsDialogComponent } from './admin-events/event-details-dialog
     AdminEventsComponent,
     AdminCategoriesComponent,
     AdminOrdersComponent,
-    EventDetailsDialogComponent
+    EventDetailsDialogComponent,
+    EventAddUpdateDialogComponent,
   ],
   imports: [
     CommonModule,
     AdminDashboardRoutingModule,
-    SharedModule
+    SharedModule,
+    ReactiveFormsModule
   ]
 })
 export class AdminDashboardModule { }

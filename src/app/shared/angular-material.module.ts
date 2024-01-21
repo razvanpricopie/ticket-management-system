@@ -58,7 +58,10 @@ import { OverlayModule } from '@angular/cdk/overlay';
     MatSidenavModule,
     MatListModule,
     MatTableModule,
-    MatDialogModule
+    MatDialogModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatSelectModule
   ]
 })
 export class AngularMaterialModule { }

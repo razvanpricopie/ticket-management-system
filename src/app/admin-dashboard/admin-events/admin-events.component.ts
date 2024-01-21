@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import { EventDetails } from 'src/app/core/models/event.model';
 import { EventService } from 'src/app/core/services/event.service';
 import { EventDetailsDialogComponent } from './event-details-dialog/event-details-dialog.component';
+import { EventAddUpdateDialogComponent } from './event-add-update-dialog/event-add-update-dialog.component';
 
 @Component({
   selector: 'admin-events',
@@ -17,7 +18,15 @@ export class AdminEventsComponent implements OnInit, OnDestroy {
   sub!: Subscription;
   events: EventDetails[] = [];
 
-  displayedColumns: string[] = ['index', 'name', 'artist', 'date', 'location', 'category', 'edit-delete'];
+  displayedColumns: string[] = [
+    'index',
+    'name',
+    'artist',
+    'date',
+    'location',
+    'category',
+    'edit-delete',
+  ];
   dataSource: EventDetails[] = [];
 
   constructor(private eventService: EventService, private dialog: MatDialog) {}
@@ -38,7 +47,20 @@ export class AdminEventsComponent implements OnInit, OnDestroy {
   openEventDetails(row: EventDetails) {
     this.dialog.open(EventDetailsDialogComponent, {
       data: row,
-      width: '700px'
+      width: '800px',
+    });
+  }
+
+  openAddDeviceDialog() {
+    this.dialog.open(EventAddUpdateDialogComponent, {
+      width: '800px',
+    });
+  }
+
+  openUpdateDeviceDialog(row: EventDetails) {
+    this.dialog.open(EventAddUpdateDialogComponent, {
+      data: row,
+      width: '800px',
     });
   }
 }
