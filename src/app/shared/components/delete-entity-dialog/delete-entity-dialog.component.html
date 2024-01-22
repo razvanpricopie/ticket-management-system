@@ -1,0 +1,18 @@
+<div class="delete-entity-dialog-container">
+  <h2 mat-dialog-title>Delete {{ clonedEntityData.entityType }}</h2>
+  <div mat-dialog-content class="delete-entity-dialog-content">
+    <span
+      >Are you sure you want to delete the {{ clonedEntityData.entityType }} named
+      <b>{{ clonedEntityData.entity.name }}</b
+      >?</span
+    >
+    <span>This action is irreversible!</span>
+  </div>
+
+  <div mat-dialog-actions>
+    <div mat-dialog-actions>
+      <button mat-button color="warn" (click)="close()">Close</button>
+      <button mat-flat-button color="warn" (click)="confirmDelete()">Delete</button>
+    </div>
+  </div>
+</div>

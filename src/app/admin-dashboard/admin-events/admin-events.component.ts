@@ -6,6 +6,7 @@ import { EventDetails } from 'src/app/core/models/event.model';
 import { EventService } from 'src/app/core/services/event.service';
 import { EventDetailsDialogComponent } from './event-details-dialog/event-details-dialog.component';
 import { EventAddUpdateDialogComponent } from './event-add-update-dialog/event-add-update-dialog.component';
+import { DeleteEntityDialogComponent } from 'src/app/shared/components/delete-entity-dialog/delete-entity-dialog.component';
 
 @Component({
   selector: 'admin-events',
@@ -48,9 +49,9 @@ export class AdminEventsComponent implements OnInit, OnDestroy {
     });
   }
 
-  openEventDetails(row: EventDetails) {
+  openEventDetails(event: EventDetails) {
     this.dialog.open(EventDetailsDialogComponent, {
-      data: row,
+      data: event,
       width: '800px',
     });
   }
@@ -60,19 +61,33 @@ export class AdminEventsComponent implements OnInit, OnDestroy {
       width: '800px',
     });
 
-    dialogRef.afterClosed().subscribe(() => {
-      this.initEventTableData();
-    })
+    dialogRef.afterClosed().subscribe((result) => {
+      result && this.initEventTableData();
+    });
   }
 
-  openUpdateDeviceDialog(row: EventDetails) {
+  openUpdateDeviceDialog(event: EventDetails) {
     const dialogRef = this.dialog.open(EventAddUpdateDialogComponent, {
-      data: row,
+      data: event,
       width: '800px',
     });
 
-    dialogRef.afterClosed().subscribe(() => {
-      this.initEventTableData();
-    })
+    dialogRef.afterClosed().subscribe((result) => {
+      result && this.initEventTableData();
+    });
+  }
+
+  deleteEvent(event: EventDetails) {
+    const dialogRef = this.dialog.open(DeleteEntityDialogComponent, {
+      width: '640px',
+      data: { entity: event, entityType: 'event' },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      result &&
+        this.eventService.deleteEvent(event.eventId).subscribe(() => {
+          this.initEventTableData();
+        });
+    });
   }
 }

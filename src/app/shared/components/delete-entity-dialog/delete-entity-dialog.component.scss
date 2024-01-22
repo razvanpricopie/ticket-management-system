@@ -1,0 +1,9 @@
+.delete-entity-dialog-container {
+    padding: 16px;
+
+    .delete-entity-dialog-content {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+}
