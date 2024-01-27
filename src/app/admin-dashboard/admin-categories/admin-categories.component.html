@@ -1,1 +1,41 @@
-<p>admin-categories works!</p>
+<div class="grid no-horizontal-padding">
+    <div class="categories-container">
+      <div class="categories-action-buttons">
+        <button mat-raised-button color="accent" (click)="openAddCategoryDialog()">ADD CATEGORY</button>
+      </div>
+      <table
+        mat-table
+        *ngIf="dataSource"
+        [dataSource]="dataSource"
+        class="categories-table mat-elevation-z8"
+      >
+        <ng-container matColumnDef="index">
+          <th mat-header-cell *matHeaderCellDef>No.</th>
+          <td mat-cell *matCellDef="let category; let index = index">{{ index + 1 }}</td>
+        </ng-container>
+  
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef>Name</th>
+          <td mat-cell *matCellDef="let category">{{ category.name }}</td>
+        </ng-container>
+  
+        <ng-container matColumnDef="edit-delete">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let category" (click)="$event.stopPropagation()">
+            <div class="column-category-action-buttons">
+              <button mat-icon-button color="accent" (click)="openUpdateCategoryDialog(category)">
+                <i class="material-icons">edit</i>
+              </button>
+              <button mat-icon-button color="accent" (click)="deleteCategory(category)">
+                <i class="material-icons">delete_forever</i>
+              </button>
+            </div>
+          </td>
+        </ng-container>
+  
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns" (click)="openCategoryDetails(row)" class="category-clickable-row"></tr>
+      </table>
+    </div>
+  </div>
+  

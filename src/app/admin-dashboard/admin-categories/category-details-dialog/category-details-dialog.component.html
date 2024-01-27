@@ -1,0 +1,16 @@
+<div class="event-details-dialog-component">
+  <h2 mat-dialog-title>Category details</h2>
+
+  <div mat-dialog-content class="event-details-container">
+    <div class="event-details-column">
+      <div class="event-details-property">
+        <mat-label>Name: </mat-label>
+        <span>{{ clonedCategoryData.name }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div mat-dialog-actions>
+    <button mat-button color="warn" (click)="close()">Close</button>
+  </div>
+</div>

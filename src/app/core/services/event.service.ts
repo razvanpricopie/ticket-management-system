@@ -38,7 +38,7 @@ export class EventService {
     );
   }
 
-  deleteEvent(id: string): Observable<void> {
-    return this.httpClient.delete<void>(`${this.basePath}/api/event/${id}`);
+  deleteEvent(eventId: string): Observable<void> {
+    return this.httpClient.delete<void>(`${this.basePath}/api/event/${eventId}`);
   }
 }

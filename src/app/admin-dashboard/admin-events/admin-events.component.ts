@@ -17,7 +17,7 @@ export class AdminEventsComponent implements OnInit, OnDestroy {
   @ViewChild(MatTable) table: MatTable<EventDetails>;
 
   sub!: Subscription;
-  events: EventDetails[] = [];
+  dataSource: EventDetails[] = [];
 
   displayedColumns: string[] = [
     'index',
@@ -28,14 +28,11 @@ export class AdminEventsComponent implements OnInit, OnDestroy {
     'category',
     'edit-delete',
   ];
-  dataSource: EventDetails[] = [];
 
   constructor(private eventService: EventService, private dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.initEventTableData();
-
-    this.dataSource = [...this.events];
   }
 
   ngOnDestroy(): void {
@@ -44,8 +41,7 @@ export class AdminEventsComponent implements OnInit, OnDestroy {
 
   initEventTableData() {
     this.sub = this.eventService.getAllEvents().subscribe((events) => {
-      this.events = events;
-      this.dataSource = [...this.events];
+      this.dataSource = [...events];
     });
   }
 
@@ -56,7 +52,7 @@ export class AdminEventsComponent implements OnInit, OnDestroy {
     });
   }
 
-  openAddDeviceDialog() {
+  openAddEventDialog() {
     const dialogRef = this.dialog.open(EventAddUpdateDialogComponent, {
       width: '800px',
     });
@@ -66,7 +62,7 @@ export class AdminEventsComponent implements OnInit, OnDestroy {
     });
   }
 
-  openUpdateDeviceDialog(event: EventDetails) {
+  openUpdateEventDialog(event: EventDetails) {
     const dialogRef = this.dialog.open(EventAddUpdateDialogComponent, {
       data: event,
       width: '800px',

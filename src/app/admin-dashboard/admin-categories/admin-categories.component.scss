@@ -1,0 +1,12 @@
+.categories-container {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    width: 100%;
+    padding-top: 48px;
+  
+    .category-clickable-row {
+      cursor: pointer
+    }
+  }
+  

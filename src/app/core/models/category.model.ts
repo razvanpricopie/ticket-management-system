@@ -5,3 +5,12 @@ export interface Category {
     name: string;
     events: EventDetails[];
 }
+
+export interface CreateCategory {
+    name: string;
+}
+
+export interface UpdateCategory {
+    categoryId: string;
+    name: string;
+}

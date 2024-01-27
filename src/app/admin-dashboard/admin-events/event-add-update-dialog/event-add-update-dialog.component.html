@@ -5,11 +5,11 @@
     class="event-details-dialog-component"
   >
     <ng-container
-      *ngIf="clonedEventData.eventId; else createNewDeviceTitleTemplate"
+      *ngIf="clonedEventData.eventId; else createNewEventTitleTemplate"
     >
       <h2 mat-dialog-title>Update this event</h2>
     </ng-container>
-    <ng-template #createNewDeviceTitleTemplate>
+    <ng-template #createNewEventTitleTemplate>
       <h2 mat-dialog-title>Create new event</h2>
     </ng-template>
 

@@ -10,6 +10,8 @@ import { AdminOrdersComponent } from './admin-orders/admin-orders.component';
 import { EventDetailsDialogComponent } from './admin-events/event-details-dialog/event-details-dialog.component';
 import { EventAddUpdateDialogComponent } from './admin-events/event-add-update-dialog/event-add-update-dialog.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { CategoryDetailsDialogComponent } from './admin-categories/category-details-dialog/category-details-dialog.component';
+import { CategoryAddUpdateDialogComponent } from './admin-categories/category-add-update-dialog/category-add-update-dialog.component';
 
 
 @NgModule({
@@ -20,6 +22,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     AdminOrdersComponent,
     EventDetailsDialogComponent,
     EventAddUpdateDialogComponent,
+    CategoryDetailsDialogComponent,
+    CategoryAddUpdateDialogComponent,
   ],
   imports: [
     CommonModule,

@@ -1,0 +1,65 @@
+<ng-container>
+  <form
+    (ngSubmit)="submit()"
+    [formGroup]="categoryForm"
+    class="event-details-dialog-component"
+  >
+    <ng-container
+      *ngIf="clonedCategoryData.categoryId; else createNewCategoryTitleTemplate"
+    >
+      <h2 mat-dialog-title>Update this category</h2>
+    </ng-container>
+    <ng-template #createNewCategoryTitleTemplate>
+      <h2 mat-dialog-title>Create new category</h2>
+    </ng-template>
+
+    <div mat-dialog-content class="event-details-container">
+      <div class="event-details-column">
+        <mat-form-field>
+          <mat-label>Name: </mat-label>
+          <input matInput formControlName="name" />
+          <mat-error
+            *ngIf="
+                  categoryForm.get('name')?.errors?.['required'] &&
+                  categoryForm.get('name')?.touched
+                "
+          >
+            Name field is required
+          </mat-error>
+          <mat-error
+            *ngIf="
+                  categoryForm.get('name')?.errors?.['minlength'] &&
+                  categoryForm.get('name')?.touched
+                "
+          >
+            Name field must be at least 5 characters long
+          </mat-error>
+          <mat-error
+            *ngIf="
+                  categoryForm.get('name')?.errors?.['maxlength'] &&
+                  categoryForm.get('name')?.touched
+                "
+          >
+            Name field cannot be more than 50 characters long
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div mat-dialog-actions>
+      <button mat-button color="warn" (click)="close()">Close</button>
+
+      <button mat-flat-button type="submit" color="warn">
+        <ng-container
+          *ngIf="
+            clonedCategoryData.categoryId;
+            else createNewDeviceButtonTemplate
+          "
+        >
+          Update
+        </ng-container>
+        <ng-template #createNewDeviceButtonTemplate> Create </ng-template>
+      </button>
+    </div>
+  </form>
+</ng-container>

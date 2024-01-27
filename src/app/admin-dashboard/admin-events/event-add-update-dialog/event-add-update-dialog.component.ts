@@ -127,15 +127,10 @@ export class EventAddUpdateDialogComponent implements OnInit, OnDestroy {
       categoryId: this.eventDetailsForm.get('category')?.value,
     };
 
-    this.eventService.updateEvent(eventUpdated).subscribe(
-      (result) => {
-        console.log(result);
-        this.dialogRef.close(true);
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+    this.eventService.updateEvent(eventUpdated).subscribe({
+      next: (result) => this.dialogRef.close(true),
+      error: (error) => console.log(error)
+    });
   }
 
   create() {
@@ -150,15 +145,10 @@ export class EventAddUpdateDialogComponent implements OnInit, OnDestroy {
       categoryId: this.eventDetailsForm.get('category')?.value,
     };
 
-    this.eventService.createEvent(newEventCreated).subscribe(
-      (result) => {
-        console.log(result);
-        this.dialogRef.close(true);
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+    this.eventService.createEvent(newEventCreated).subscribe({
+      next: (result) => this.dialogRef.close(true),
+      error: (error) => console.log(error)
+    });
   }
 
   close() {

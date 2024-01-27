@@ -12,7 +12,7 @@ export class DeleteEntityDialogComponent implements OnInit {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: any,
-    private dialogRef: MatDialogRef<EventDetailsDialogComponent>
+    private dialogRef: MatDialogRef<DeleteEntityDialogComponent>
   ) {}
 
   ngOnInit(): void {

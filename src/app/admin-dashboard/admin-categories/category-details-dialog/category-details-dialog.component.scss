@@ -1,0 +1,25 @@
+.event-details-dialog-component {
+  padding: 16px;
+
+  .event-details-container {
+    display: flex;
+    flex-direction: column;
+
+    .event-details-column {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      gap: 12px;
+    }
+  }
+
+  .event-details-property {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+
+    mat-label {
+      font-weight: bold;
+    }
+  }
+}
