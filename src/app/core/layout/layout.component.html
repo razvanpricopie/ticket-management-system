@@ -12,22 +12,28 @@
   </div>
 
   <div class="navbar-right-container" cdkMenuBar>
-    <button mat-icon-button cdkMenuItem [cdkMenuTriggerFor]="cart">
+    <button mat-icon-button cdkMenuItem [cdkMenuTriggerFor]="cartPreview">
       <mat-icon>shopping_cart</mat-icon>
     </button>
     <button
       mat-icon-button
-      class="example-icon"
-      aria-label="Example icon-button with share icon"
+      cdkMenuItem 
+      [cdkMenuTriggerFor]="profileMenu"
     >
       <mat-icon>person</mat-icon>
     </button>
   </div>
 </mat-toolbar>
 
-<ng-template #cart>
+<ng-template #cartPreview>
   <div class="example-menu" cdkMenu>
-    Zambeste, Razvii te iubeste ❤️
+    <cart-panel></cart-panel>
+</div>
+</ng-template>
+
+<ng-template #profileMenu>
+  <div class="example-menu" cdkMenu>
+    <profile-menu></profile-menu>
 </div>
 </ng-template>
 
