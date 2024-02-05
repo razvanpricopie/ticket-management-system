@@ -1,1 +1,35 @@
-<p>admin-orders works!</p>
+<div class="grid no-horizontal-padding">
+  <div class="orders-container">
+    <table
+      mat-table
+      *ngIf="dataSource"
+      [dataSource]="dataSource"
+      class="orders-table mat-elevation-z8"
+    >
+      <ng-container matColumnDef="index">
+        <th mat-header-cell *matHeaderCellDef>No.</th>
+        <td mat-cell *matCellDef="let order; let index = index">
+          {{ index + 1 }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef>Date</th>
+        <td mat-cell *matCellDef="let order">{{ order.date | date }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="orderPaid">
+        <th mat-header-cell *matHeaderCellDef>Is Paid</th>
+        <td mat-cell *matCellDef="let order">{{ order.orderPaid }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="userId">
+        <th mat-header-cell *matHeaderCellDef>Client ID</th>
+        <td mat-cell *matCellDef="let order">{{ order.userId }}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  </div>
+</div>

@@ -6,7 +6,9 @@
       <b>{{ clonedEntityData.entity.name }}</b
       >?</span
     >
-    <span>This action is irreversible!</span>
+
+    <span *ngIf="clonedEntityData.entityType === 'category'" style="color: red"> All category's events will be deleted along with this!!! </span>
+    <span style="color: red">This action is irreversible!</span>
   </div>
 
   <div mat-dialog-actions>
