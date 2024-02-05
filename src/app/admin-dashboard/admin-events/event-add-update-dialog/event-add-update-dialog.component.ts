@@ -1,12 +1,17 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { CreateEvent, EventDetails, UpdateEvent } from 'src/app/core/models/event.model';
+import {
+  CreateEvent,
+  EventDetails,
+  UpdateEvent,
+} from 'src/app/core/models/event.model';
 import { EventDetailsDialogComponent } from '../event-details-dialog/event-details-dialog.component';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Category } from 'src/app/core/models/category.model';
 import { Subscription } from 'rxjs';
 import { CategoryService } from 'src/app/core/services/category.service';
 import { EventService } from 'src/app/core/services/event.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-event-add-update-dialog',
@@ -20,6 +25,7 @@ export class EventAddUpdateDialogComponent implements OnInit, OnDestroy {
   eventDetailsForm: FormGroup;
 
   tomorrowDate: Date = new Date();
+  errorMessage: string;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: EventDetails,
@@ -27,6 +33,7 @@ export class EventAddUpdateDialogComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     private categoryService: CategoryService,
     private eventService: EventService,
+    private datePipe: DatePipe
   ) {}
 
   ngOnInit(): void {
@@ -107,6 +114,11 @@ export class EventAddUpdateDialogComponent implements OnInit, OnDestroy {
   submit() {
     if (!this.eventDetailsForm.valid) return;
 
+    if (!this.eventDetailsForm.dirty) {
+      this.errorMessage = 'No changes made..';
+      return;
+    }
+
     if (this.clonedEventData.eventId) {
       this.update();
     } else {
@@ -120,7 +132,7 @@ export class EventAddUpdateDialogComponent implements OnInit, OnDestroy {
       name: this.eventDetailsForm.get('name')?.value,
       price: this.eventDetailsForm.get('price')?.value,
       artist: this.eventDetailsForm.get('artist')?.value,
-      date: this.eventDetailsForm.get('date')?.value,
+      date: this.formatDateToDateOnly(this.eventDetailsForm.get('date')?.value),
       description: this.eventDetailsForm.get('description')?.value,
       location: this.eventDetailsForm.get('location')?.value,
       imageUrl: '', //TO COMPLETE AFTER IMAGE FEATURE IMPLEMENTED
@@ -129,7 +141,7 @@ export class EventAddUpdateDialogComponent implements OnInit, OnDestroy {
 
     this.eventService.updateEvent(eventUpdated).subscribe({
       next: (result) => this.dialogRef.close(true),
-      error: (error) => console.log(error)
+      error: (error) => (this.errorMessage = error.error),
     });
   }
 
@@ -138,7 +150,7 @@ export class EventAddUpdateDialogComponent implements OnInit, OnDestroy {
       name: this.eventDetailsForm.get('name')?.value,
       price: this.eventDetailsForm.get('price')?.value,
       artist: this.eventDetailsForm.get('artist')?.value,
-      date: this.eventDetailsForm.get('date')?.value,
+      date: this.formatDateToDateOnly(this.eventDetailsForm.get('date')?.value),
       description: this.eventDetailsForm.get('description')?.value,
       location: this.eventDetailsForm.get('location')?.value,
       imageUrl: '', //TO COMPLETE AFTER IMAGE FEATURE IMPLEMENTED
@@ -147,11 +159,21 @@ export class EventAddUpdateDialogComponent implements OnInit, OnDestroy {
 
     this.eventService.createEvent(newEventCreated).subscribe({
       next: (result) => this.dialogRef.close(true),
-      error: (error) => console.log(error)
+      error: (error) => (this.errorMessage = error.error),
     });
   }
 
   close() {
     this.dialogRef.close();
+  }
+
+  //format date with time 00:00 for now
+  private formatDateToDateOnly(date: any): Date {
+    date = new Date(date);
+    date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
+    
+    return new Date(
+      Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())
+    );
   }
 }

@@ -5,7 +5,7 @@ export interface EventDetails {
     name: string;
     price: number;
     artist: string;
-    date: string;
+    date: Date;
     description: string;
     location: string;
     imageUrl: string
@@ -16,7 +16,7 @@ export interface CreateEvent {
     name: string;
     price: number;
     artist: string;
-    date: string;
+    date: Date;
     description: string;
     location: string;
     imageUrl: string
@@ -29,7 +29,7 @@ export interface UpdateEvent {
     price: number;
     artist: string;
     location: string;
-    date: string;
+    date: Date;
     description: string;
     imageUrl: string
     categoryId: string;

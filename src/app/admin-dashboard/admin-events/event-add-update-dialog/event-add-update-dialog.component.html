@@ -198,6 +198,10 @@
           </mat-error>
         </mat-form-field>
       </div>
+
+      <div *ngIf="errorMessage">
+        <span style="color: red">{{ errorMessage }}</span>
+      </div>
     </div>
 
     <div mat-dialog-actions>

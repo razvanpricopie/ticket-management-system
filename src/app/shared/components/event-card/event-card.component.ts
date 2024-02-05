@@ -10,7 +10,7 @@ import { EventDetails } from 'src/app/core/models/event.model';
 export class EventCardComponent implements OnInit {
   @Input() eventId: string;
   @Input() name: string;
-  @Input() date: string;
+  @Input() date: Date;
   @Input() location: string;
   @Input() imageUrl: string;
 
