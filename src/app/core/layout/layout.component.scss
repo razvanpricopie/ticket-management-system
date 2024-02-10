@@ -1,34 +1,21 @@
-.mat-toolbar {
-    display: flex;
-    justify-content: space-between;
+.navbar-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 300px;
 }
 
 .navbar-left-container {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .navbar-right-container {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
+  gap: 16px;
 }
 
-.search-bar {
-    padding-left: 64px;
+.transparent-backdrop {
+  background: transparent;
 }
-
-.mat-mdc-form-field-has-icon-suffix .mat-mdc-text-field-wrapper {
-    border-radius: 9px;
-    width: 300px;
-}
-
-.example-menu {
-    display: inline-flex;
-    flex-direction: column;
-    min-width: 180px;
-    max-width: 280px;
-    background-color: rgb(255, 255, 255);
-    padding: 6px 0;
-    border: 1px solid rgba(0, 0, 0, 0.12);
-    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.15);
-  }

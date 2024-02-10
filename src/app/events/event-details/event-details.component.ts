@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { EventDetails } from 'src/app/core/models/event.model';
+import { CartService } from 'src/app/core/services/cart.service';
 import { EventService } from 'src/app/core/services/event.service';
 
 @Component({
@@ -18,13 +19,13 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
 
   form: FormGroup;
 
-  submittedQuantity: number;
   quantityValueMultiplied: number = 0;
 
   constructor(
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
-    private eventService: EventService
+    private eventService: EventService,
+    private cartService: CartService
   ) {}
 
   ngOnInit(): void {
@@ -50,10 +51,10 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     this.quantitySub.unsubscribe();
   }
 
-  onSubmit() {
+  addTickets() {
     if (this.form.valid) {
-      this.submittedQuantity = this.form.value.quantity;
-      console.log('Form submitted:', this.submittedQuantity);
+      const submittedQuantity = this.form.value.quantity;
+      this.cartService.addToCart(this.eventDetails, submittedQuantity)
     }
   }
 }

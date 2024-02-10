@@ -1,0 +1,23 @@
+.cart-panel-container {
+  padding: 10px;
+
+  .cart-item {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .total-cart-amount-container {
+    height: 24px;
+    align-items: end;
+    font-size: large ;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .empty-cart-title {
+    text-align: center;
+    font-size: large;
+    font-weight: 500;
+  }
+}

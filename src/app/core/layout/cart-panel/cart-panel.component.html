@@ -1,1 +1,22 @@
-<p>cart-panel works!</p>
+<div class="cart-panel-container">
+    <ng-container *ngIf="cartItems.length > 0; else emptyCart">
+    <div *ngFor="let item of cartItems" class="cart-item">
+      <div>
+        <span>{{ item.quantity }}</span> x
+        <span
+          ><b>{{ item.event.name }}</b></span
+        >
+      </div>
+
+      <span>{{ item.event.price | currency : "EUR" }}</span>
+    </div>
+    <div class="total-cart-amount-container">
+      <span>TOTAL:</span>
+      <span>{{ totalCartAmount | currency : "EUR"}}</span>
+    </div>
+  </ng-container>
+  
+  <ng-template #emptyCart>
+    <div class="empty-cart-title">THERE'S NOTHING IN HERE..</div>
+  </ng-template>
+</div>

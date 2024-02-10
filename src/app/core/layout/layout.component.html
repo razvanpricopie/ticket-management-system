@@ -1,40 +1,24 @@
-<mat-toolbar color="primary" class="navbar">
-  <div class="navbar-left-container">
-    <span routerLink="/">Ticketing App</span>
+<mat-toolbar color="primary">
+  <div class="navbar-container">
+    <div class="navbar-left-container">
+      <span routerLink="/">Ticketing App</span>
+    </div>
 
-    <!-- <div class="search-bar">
-      <mat-form-field subscriptSizing="dynamic">
-        <mat-label>Search Event</mat-label>
-        <input type="text" matInput />
-        <mat-icon matSuffix>search</mat-icon>
-      </mat-form-field>
-    </div> -->
-  </div>
+    <div class="navbar-right-container" >
 
-  <div class="navbar-right-container" cdkMenuBar>
-    <button mat-icon-button cdkMenuItem [cdkMenuTriggerFor]="cartPreview">
-      <mat-icon>shopping_cart</mat-icon>
-    </button>
-    <button
-      mat-icon-button
-      cdkMenuItem 
-      [cdkMenuTriggerFor]="profileMenu"
-    >
-      <mat-icon>person</mat-icon>
-    </button>
+      <button mat-icon-button (click)="openCartPanelAsDialog($event)">
+        <mat-icon
+          [matBadge]="cartItemCount > 0 ? cartItemCount : null"
+          matBadgeColor="accent"
+          >shopping_cart</mat-icon
+        >
+      </button>
+
+      <button mat-icon-button (click)="openProfileMenuAsDialog($event)">
+        <mat-icon>person</mat-icon>
+      </button>
+    </div>
   </div>
 </mat-toolbar>
-
-<ng-template #cartPreview>
-  <div class="example-menu" cdkMenu>
-    <cart-panel></cart-panel>
-</div>
-</ng-template>
-
-<ng-template #profileMenu>
-  <div class="example-menu" cdkMenu>
-    <profile-menu></profile-menu>
-</div>
-</ng-template>
 
 <router-outlet></router-outlet>

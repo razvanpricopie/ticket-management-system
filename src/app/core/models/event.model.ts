@@ -34,3 +34,8 @@ export interface UpdateEvent {
     imageUrl: string
     categoryId: string;
 }
+
+export interface CartItem {
+    event: EventDetails;
+    quantity: number;
+  }
