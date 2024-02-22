@@ -1,5 +1,4 @@
 .event-details-dialog-component {
-    padding: 16px;
   
     .event-details-container {
       display: flex;
@@ -29,7 +28,7 @@
       gap: 12px;
   
       mat-label {
-        font-weight: bold;
+        font-weight: 500;
       }
     }
   }

@@ -8,7 +8,7 @@ import { EventDetails } from 'src/app/core/models/event.model';
   styleUrls: ['./event-details-dialog.component.scss'],
 })
 export class EventDetailsDialogComponent implements OnInit {
-  clonedEventData: EventDetails;
+  eventData: EventDetails;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: EventDetails,
@@ -16,7 +16,7 @@ export class EventDetailsDialogComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.data.eventId && (this.clonedEventData = JSON.parse(JSON.stringify(this.data)));
+    this.data.eventId && (this.eventData = JSON.parse(JSON.stringify(this.data)));
   }
 
   close() {

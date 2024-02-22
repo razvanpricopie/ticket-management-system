@@ -6,30 +6,30 @@
       <div class="event-details-column">
         <div class="event-details-property">
           <mat-label>Name: </mat-label>
-          <span>{{ clonedEventData.name }}</span>
+          <span>{{ eventData.name }}</span>
         </div>
         <div class="event-details-property">
           <mat-label>Artist: </mat-label>
-          <span>{{ clonedEventData.artist }}</span>
+          <span>{{ eventData.artist }}</span>
         </div>
         <div class="event-details-property">
           <mat-label>Date: </mat-label>
-          <span>{{ clonedEventData.date | date }}</span>
+          <span>{{ eventData.date | date }}</span>
         </div>
       </div>
 
       <div class="event-details-column">
         <div class="event-details-property">
           <mat-label>Category: </mat-label>
-          <span>{{ clonedEventData.category.name }}</span>
+          <span>{{ eventData.category.name }}</span>
         </div>
         <div class="event-details-property">
           <mat-label>Location: </mat-label>
-          <span>{{ clonedEventData.location }}</span>
+          <span>{{ eventData.location }}</span>
         </div>
         <div class="event-details-property">
           <mat-label>Price: </mat-label>
-          <span>{{ clonedEventData.price }}</span>
+          <span>{{ eventData.price }}</span>
         </div>
       </div>
     </div>
@@ -37,7 +37,7 @@
     <div class="event-description-container">
       <div class="event-details-property">
         <mat-label>Description: </mat-label>
-        <span>{{ clonedEventData.description }}</span>
+        <span>{{ eventData.description }}</span>
       </div>
     </div>
   </div>
