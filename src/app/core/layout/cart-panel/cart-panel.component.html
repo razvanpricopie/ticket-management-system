@@ -14,6 +14,9 @@
       <span>TOTAL:</span>
       <span>{{ totalCartAmount | currency : "EUR"}}</span>
     </div>
+    <div class="checkout-button-container">
+      <button color="accent" mat-flat-button class="checkout-button" (click)="redirectToCheckout()">Go to check-out</button>
+    </div>
   </ng-container>
   
   <ng-template #emptyCart>

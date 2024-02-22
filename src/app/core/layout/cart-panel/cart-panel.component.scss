@@ -2,17 +2,26 @@
   padding: 10px;
 
   .cart-item {
+    height: 24px;
     display: flex;
     justify-content: space-between;
     border-bottom: 1px solid #ddd;
   }
 
   .total-cart-amount-container {
-    height: 24px;
+    height: 32px;
     align-items: end;
-    font-size: large ;
+    font-size: large;
     display: flex;
     justify-content: space-between;
+  }
+
+  .checkout-button-container {
+    padding: 12px 8px 0 8px;
+    
+    .checkout-button {
+      width: 100%;
+    }
   }
 
   .empty-cart-title {

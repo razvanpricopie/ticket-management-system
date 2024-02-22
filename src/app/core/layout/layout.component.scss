@@ -2,12 +2,16 @@
   width: 100%;
   display: flex;
   justify-content: space-between;
-  padding: 0 300px;
 }
 
 .navbar-left-container {
   display: flex;
   align-items: center;
+
+  .logo-link {
+    color: white;
+    text-decoration: none;
+  }
 }
 
 .navbar-right-container {

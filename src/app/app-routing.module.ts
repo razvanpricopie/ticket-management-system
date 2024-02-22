@@ -13,9 +13,10 @@ const routes: Routes = [
       { path: 'events', loadChildren: () => import('./events/events.module').then(m => m.EventsModule) },
       { path: 'profile', loadChildren: () => import('./profile/profile.module').then(m => m.ProfileModule) },
       { path: 'admin-dashboard', loadChildren: () => import('./admin-dashboard/admin-dashboard.module').then(m => m.AdminDashboardModule) },
+      { path: 'cart', loadChildren: () => import('./cart/cart.module').then(m => m.CartModule) },
       { path: '**', redirectTo: '/home' },
     ]
-  }
+  },
 ];
 
 @NgModule({
