@@ -1,0 +1,44 @@
+.order-details-dialog-component {
+  .order-details-container {
+    display: flex;
+    flex-direction: column;
+
+    .order-details-columns {
+      display: flex;
+      flex-direction: row;
+      gap: 96px;
+
+      .order-details-column {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+
+        .order-details-property {
+          display: flex;
+          flex-direction: row;
+          gap: 12px;
+        }
+      }
+    }
+
+    .tickets-details-container {
+      margin-top: 36px;
+
+      .tickets-details-container-title {
+        margin: 0 0 8px;
+        font-weight: bold;
+      }
+
+      .ticket-details-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        gap: 24px;
+      }
+    }
+  }
+
+  mat-label {
+    font-weight: 500;
+  }
+}

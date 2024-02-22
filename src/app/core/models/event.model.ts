@@ -1,41 +1,41 @@
-import { Category } from "./category.model";
+import { Category } from './category.model';
 
 export interface EventDetails {
-    eventId: string;
-    name: string;
-    price: number;
-    artist: string;
-    date: Date;
-    description: string;
-    location: string;
-    imageUrl: string
-    category: Category;
+  eventId: string;
+  name: string;
+  price: number;
+  artist: string;
+  date: Date;
+  description: string;
+  location: string;
+  imageUrl: string;
+  category: Category;
 }
 
 export interface CreateEvent {
-    name: string;
-    price: number;
-    artist: string;
-    date: Date;
-    description: string;
-    location: string;
-    imageUrl: string
-    categoryId: string;
+  name: string;
+  price: number;
+  artist: string;
+  date: Date;
+  description: string;
+  location: string;
+  imageUrl: string;
+  categoryId: string;
 }
 
 export interface UpdateEvent {
-    eventId: string;
-    name: string;
-    price: number;
-    artist: string;
-    location: string;
-    date: Date;
-    description: string;
-    imageUrl: string
-    categoryId: string;
+  eventId: string;
+  name: string;
+  price: number;
+  artist: string;
+  location: string;
+  date: Date;
+  description: string;
+  imageUrl: string;
+  categoryId: string;
 }
 
 export interface CartItem {
-    event: EventDetails;
-    quantity: number;
-  }
+  event: EventDetails;
+  quantity: number;
+}

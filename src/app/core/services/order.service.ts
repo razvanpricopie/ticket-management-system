@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment.development';
-import { CreateOrder, OrderDetails } from '../models/order.model';
+import { CreateOrder, OrderDetails, OrderDetailsPreview } from '../models/order.model';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -12,8 +12,8 @@ export class OrderService {
 
   constructor(private httpClient: HttpClient) {}
 
-  getAllOrders(): Observable<OrderDetails[]> {
-    return this.httpClient.get<OrderDetails[]>(
+  getAllOrders(): Observable<OrderDetailsPreview[]> {
+    return this.httpClient.get<OrderDetailsPreview[]>(
       `${this.basePath}/api/order/all`
     );
   }

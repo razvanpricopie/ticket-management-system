@@ -12,6 +12,7 @@ import { EventAddUpdateDialogComponent } from './admin-events/event-add-update-d
 import { ReactiveFormsModule } from '@angular/forms';
 import { CategoryDetailsDialogComponent } from './admin-categories/category-details-dialog/category-details-dialog.component';
 import { CategoryAddUpdateDialogComponent } from './admin-categories/category-add-update-dialog/category-add-update-dialog.component';
+import { OrderDetailsDialogComponent } from './admin-orders/order-details-dialog/order-details-dialog.component';
 
 
 @NgModule({
@@ -24,6 +25,7 @@ import { CategoryAddUpdateDialogComponent } from './admin-categories/category-ad
     EventAddUpdateDialogComponent,
     CategoryDetailsDialogComponent,
     CategoryAddUpdateDialogComponent,
+    OrderDetailsDialogComponent,
   ],
   imports: [
     CommonModule,

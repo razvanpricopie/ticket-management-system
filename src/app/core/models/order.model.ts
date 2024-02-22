@@ -1,9 +1,17 @@
-export interface OrderDetails {
-    orderId: string;
+export interface OrderDetailsPreview {
+    id: string;
     userId: string;
     orderTotal: number;
-    date: Date;
-    orderPaid: boolean;
+    numberOfTickets: number;
+    createdDate: Date;
+}
+
+export interface OrderDetails {
+    id: string;
+    userId: string;
+    orderTotal: number;
+    tickets: OrderTicket[];
+    createdDate: Date;
 }
 
 export interface CreateOrder {
@@ -11,4 +19,11 @@ export interface CreateOrder {
     orderTotal: number;
     date: Date;
     orderPaid: boolean;
+}
+
+export interface OrderTicket {
+    ticketId: string;
+    quantity: number;
+    price: number;
+    eventName: number;
 }

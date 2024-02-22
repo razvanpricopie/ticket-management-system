@@ -1,0 +1,52 @@
+<div class="order-details-dialog-component">
+  <h2 mat-dialog-title>Order details</h2>
+
+  <div mat-dialog-content class="order-details-container">
+    <div class="order-details-columns">
+      <div class="order-details-column">
+        <div class="order-details-property">
+          <mat-label>Order ID: </mat-label>
+          <span>{{ orderDetailsData.id }}</span>
+        </div>
+        <div class="order-details-property">
+          <mat-label>User ID: </mat-label>
+          <span>{{ orderDetailsData.userId }}</span>
+        </div>
+      </div>
+
+      <div class="order-details-column">
+        <div class="order-details-property">
+          <mat-label>Created Date: </mat-label>
+          <span>{{ orderDetailsData.createdDate | date }}</span>
+        </div>
+        <div class="order-details-property">
+          <mat-label>Total Amount: </mat-label>
+          <span>{{ orderDetailsData.orderTotal | currency }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="tickets-details-container">
+      <h3 class="tickets-details-container-title">Tickets:</h3>
+      <div
+        *ngFor="let ticket of orderDetailsData.tickets"
+        class="ticket-details-container"
+      >
+        <div class="ticket-details-property">
+          <mat-label>Event name:</mat-label> <span>{{ ticket.eventName }}</span>
+        </div>
+        <div class="ticket-details-property">
+          <mat-label>Price:</mat-label> <span>{{ ticket.price }}</span>
+        </div>
+        <div class="ticket-details-property">
+          <mat-label>Quantity:</mat-label> <span>{{ ticket.quantity }}</span>
+        </div>
+        <mat-divider></mat-divider>
+      </div>
+    </div>
+  </div>
+
+  <div mat-dialog-actions>
+    <button mat-button color="warn" (click)="close()">Close</button>
+  </div>
+</div>
