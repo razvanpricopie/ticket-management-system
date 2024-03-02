@@ -1,22 +1,30 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CartService } from '../../services/cart.service';
-import { CartItem } from '../../models/event.model';
+import { Ticket } from '../../models/event.model';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'cart-panel',
   templateUrl: './cart-panel.component.html',
-  styleUrls: ['./cart-panel.component.scss']
+  styleUrls: ['./cart-panel.component.scss'],
 })
-export class CartPanelComponent implements OnInit {
-  cartItems: CartItem[]
-  totalCartAmount: number;
+export class CartPanelComponent implements OnInit, OnDestroy {
+  sub: Subscription;
+  tickets: Ticket[];
+  cartTotalAmount: number;
 
-  constructor(private router: Router, private cartService: CartService){}
+  constructor(private router: Router, private cartService: CartService) {}
 
   ngOnInit(): void {
-    this.cartItems = this.cartService.getCart();
-    this.totalCartAmount = this.cartService.getCartTotalAmount();
+    this.tickets = this.cartService.getCart();
+    this.cartService.getCartTotalAmount().subscribe((cartTotalAmount) => {
+      this.cartTotalAmount = cartTotalAmount;
+    });
+  }
+  
+  ngOnDestroy(): void {
+    this.sub.unsubscribe();
   }
 
   redirectToCheckout() {

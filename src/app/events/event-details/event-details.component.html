@@ -20,7 +20,7 @@
         <div class="mat-body-1">Artist: {{ eventDetails.artist }}</div>
         <div class="mat-body-1">Category: {{ eventDetails.category.name }}</div>
         <div class="mat-body-1">Location: {{ eventDetails.location }}</div>
-        <div class="mat-body-1">Price: {{ eventDetails.price }}</div>
+        <div class="mat-body-1">Price: {{ eventDetails.price | currency : "EUR"}}</div>
         <div class="mat-body-1">
           Description: {{ eventDetails.description }}
         </div>
@@ -35,7 +35,7 @@
         </mat-form-field>
 
         <button mat-raised-button color="warn" type="submit" [disabled]="form.get('quantity')!.value == 0">
-          Checkout <span *ngIf="form.get('quantity')!.value != 0">for {{quantityValueMultiplied}}</span>
+          Add to cart <span *ngIf="form.get('quantity')!.value != 0">for {{quantityValueMultiplied}}</span>
         </button>
       </form>
     </div>

@@ -1,1 +1,26 @@
-<p>cart works!</p>
+<div class="grid no-horizontal-padding">
+  <div class="cart-container">
+    <h1>My cart</h1>
+    <ng-container *ngIf="tickets.length > 0; else emptyCart">
+      <div class="cart-container-content">
+        <div class="cart-ticket-list-container">
+          <div *ngFor="let ticket of tickets">
+            <cart-ticket-item
+              [ticket]="ticket"
+              *ngIf="ticket.quantity > 0"
+            ></cart-ticket-item>
+          </div>
+        </div>
+        <div class="check-out-deatils-container">
+          <span>Total price: {{ cartTotalAmount | currency : "EUR" }}</span>
+        </div>
+      </div>
+    </ng-container>
+    <ng-template #emptyCart>
+      <div class="cart-container-empty">
+        <span class="cart-container-empty-text">Your shopping cart contains no tickets. To add some, please return to <a class="logo-link" routerLink="/">EVENTS PAGE</a></span>
+      </div>
+      <!-- <div class="empty-cart-title"></div> -->
+    </ng-template>
+  </div>
+</div>

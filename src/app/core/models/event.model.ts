@@ -35,7 +35,8 @@ export interface UpdateEvent {
   categoryId: string;
 }
 
-export interface CartItem {
+export interface Ticket {
   event: EventDetails;
   quantity: number;
+  price: number;
 }

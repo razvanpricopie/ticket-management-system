@@ -10,7 +10,7 @@ export interface OrderDetails {
     id: string;
     userId: string;
     orderTotal: number;
-    tickets: OrderTicket[];
+    tickets: OrderTicketDetails[];
     createdDate: Date;
 }
 
@@ -21,7 +21,7 @@ export interface CreateOrder {
     orderPaid: boolean;
 }
 
-export interface OrderTicket {
+export interface OrderTicketDetails {
     ticketId: string;
     quantity: number;
     price: number;

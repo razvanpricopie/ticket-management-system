@@ -1,0 +1,38 @@
+<div class="cart-ticket-item-container">
+  <div class="cart-ticket-container-left">
+    <img
+      mat-card-image
+      class="product-image"
+      src="https://media.geeksforgeeks.org/wp-content/uploads/geek.png"
+      alt="Product Image"
+    />
+    <div class="ticket-event-preview-details">
+      <span>{{ ticket.event.name }}</span>
+      <span>{{ ticket.event.artist }}</span>
+      <span>{{ ticket.event.date | date }}</span>
+      <span>{{ ticket.event.location }}</span>
+    </div>
+    <div class="price-details">
+      Total amount of item: {{ ticketTotalAmount | currency : "EUR" }}
+    </div>
+  </div>
+  <div class="cart-ticket-container-right">
+    <div class="action-buttons">
+      <form [formGroup]="ticketForm">
+        <mat-form-field class="ticket-form-counter">
+          <mat-label>Quantity</mat-label>
+          <input
+            matInput
+            type="number"
+            formControlName="quantity"
+            min="0"
+            (keydown)="$event.preventDefault()"
+          />
+        </mat-form-field>
+      </form>
+      <button mat-raised-button color="warn" (click)="removeTicketFromCart()">
+        Remove
+      </button>
+    </div>
+  </div>
+</div>

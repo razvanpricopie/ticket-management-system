@@ -38,12 +38,8 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
       });
 
     this.form = this.formBuilder.group({ quantity: [0, Validators.min(0)] });
-
-    this.quantitySub.add(
-      this.form.get('quantity')?.valueChanges.subscribe((value) => {
-        this.quantityValueMultiplied = value * this.eventDetails.price;
-      })
-    );
+  
+      this.subscribeToQuantityValueChange();
   }
 
   ngOnDestroy(): void {
@@ -54,7 +50,19 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   addTickets() {
     if (this.form.valid) {
       const submittedQuantity = this.form.value.quantity;
-      this.cartService.addToCart(this.eventDetails, submittedQuantity)
+      this.cartService.increaseQuantityToCart(
+        this.eventDetails,
+        submittedQuantity
+      );
+      this.form.setValue({ quantity: 0 });
     }
+  }
+
+  private subscribeToQuantityValueChange() {
+    this.quantitySub.add(
+      this.form.get('quantity')?.valueChanges.subscribe((value) => {
+        this.quantityValueMultiplied = value * this.eventDetails.price;
+      })
+    );
   }
 }

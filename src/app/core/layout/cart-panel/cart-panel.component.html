@@ -1,6 +1,6 @@
 <div class="cart-panel-container">
-    <ng-container *ngIf="cartItems.length > 0; else emptyCart">
-    <div *ngFor="let item of cartItems" class="cart-item">
+    <ng-container *ngIf="tickets.length > 0; else emptyCart">
+    <div *ngFor="let item of tickets" class="cart-item">
       <div>
         <span>{{ item.quantity }}</span> x
         <span
@@ -8,11 +8,11 @@
         >
       </div>
 
-      <span>{{ item.event.price | currency : "EUR" }}</span>
+      <span>{{ item.price * item.quantity | currency : "EUR" }}</span>
     </div>
     <div class="total-cart-amount-container">
       <span>TOTAL:</span>
-      <span>{{ totalCartAmount | currency : "EUR"}}</span>
+      <span>{{ cartTotalAmount | currency : "EUR"}}</span>
     </div>
     <div class="checkout-button-container">
       <button color="accent" mat-flat-button class="checkout-button" (click)="redirectToCheckout()">Go to check-out</button>
