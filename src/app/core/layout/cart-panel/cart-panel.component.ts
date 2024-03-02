@@ -18,7 +18,7 @@ export class CartPanelComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.tickets = this.cartService.getCart();
-    this.cartService.getCartTotalAmount().subscribe((cartTotalAmount) => {
+    this.sub = this.cartService.getCartTotalAmount().subscribe((cartTotalAmount) => {
       this.cartTotalAmount = cartTotalAmount;
     });
   }
