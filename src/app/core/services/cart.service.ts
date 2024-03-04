@@ -44,7 +44,7 @@ export class CartService {
     this.cartItemCount.next(this.cartItemCount.value + quantity);
 
     this.updateCartTotalAmount();
-    this.saveCart();
+    this.saveCartToLocalStorage();
   }
 
   decreaseQuantityToCart(event: EventDetails, quantity: number) {
@@ -65,7 +65,7 @@ export class CartService {
     }
 
     this.updateCartTotalAmount();
-    this.saveCart();
+    this.saveCartToLocalStorage();
   }
 
   removeTicketFromCart(event: EventDetails) {
@@ -80,7 +80,15 @@ export class CartService {
     }
 
     this.updateCartTotalAmount();
-    this.saveCart();
+    this.saveCartToLocalStorage();
+  }
+
+  refreshCart() {
+    this.cartItems = [];
+    this.cartItemCount.next(0);
+    this.cartTotalAmount.next(0);
+
+    this.deleteCartFromLocalStorage();
   }
 
   private updateCartTotalAmount() {
@@ -89,11 +97,15 @@ export class CartService {
       0
     );
 
-    this.cartTotalAmount.next(totalAmount)
+    this.cartTotalAmount.next(totalAmount);
   }
 
-  private saveCart() {
+  private saveCartToLocalStorage() {
     localStorage.setItem('cartItems', JSON.stringify(this.cartItems));
+  }
+
+  private deleteCartFromLocalStorage() {
+    localStorage.removeItem('cartItems');
   }
 
   private loadCart() {
@@ -105,6 +117,13 @@ export class CartService {
         0
       );
       this.cartItemCount.next(totalCartItemCount);
+
+      let cartTotalAmount = this.cartItems.reduce(
+        (count, item) => count + item.quantity * item.price,
+        0
+      );
+
+      this.cartTotalAmount.next(cartTotalAmount);
     }
   }
 }

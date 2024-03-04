@@ -12,7 +12,7 @@ import { CartService } from 'src/app/core/services/cart.service';
 export class CartTicketItemComponent implements OnInit, OnDestroy {
   @Input() ticket: Ticket;
 
-  quantitySub: Subscription;
+  quantitySub: Subscription = new Subscription;
 
   ticketQuantity: number;
   ticketTotalAmount: number;

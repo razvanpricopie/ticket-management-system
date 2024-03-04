@@ -11,8 +11,9 @@
             ></cart-ticket-item>
           </div>
         </div>
-        <div class="check-out-deatils-container">
-          <span>Total price: {{ cartTotalAmount | currency : "EUR" }}</span>
+        <div class="check-out-details-container">
+          <button mat-raised-button color="warn" (click)="createOrder()">Complete the order</button>
+          <div class="check-out-total-amount"><span>Total price: {{ cartTotalAmount | currency : "EUR" }}</span></div>
         </div>
       </div>
     </ng-container>

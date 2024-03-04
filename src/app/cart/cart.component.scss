@@ -9,12 +9,17 @@
       gap: 24px;
     }
 
-    .check-out-deatils-container {
+    .check-out-details-container {
       display: flex;
       flex-direction: row-reverse;
+      align-items: center;
+      gap: 16px;
       padding: 24px;
-      font-size: xx-large;
-      font-weight: 400;
+
+      .check-out-total-amount {
+        font-size: xx-large;
+        font-weight: 400;
+      }
     }
   }
 
