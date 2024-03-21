@@ -27,8 +27,6 @@ export class CategoryAddUpdateDialogComponent implements OnInit {
   ngOnInit(): void {
     this.clonedCategoryData = this.data ?? {};
 
-    console.log(typeof(this.clonedCategoryData));
-
     this.initCategoryFormGroup();
   }
 
@@ -71,8 +69,6 @@ export class CategoryAddUpdateDialogComponent implements OnInit {
     let newCategoryCreated: CreateCategory = {
       name: this.categoryForm.get('name')?.value,
     };
-
-    console.log(newCategoryCreated);
 
     this.categoryService.createCategory(newCategoryCreated).subscribe({
       next: (result) => this.dialogRef.close(true),

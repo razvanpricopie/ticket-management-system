@@ -7,20 +7,26 @@ import { CoreModule } from './core/core.module';
 import { LayoutModule } from './core/layout/layout.module';
 import { SharedModule } from './shared/shared.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AccountService } from './core/account/account.service';
+import { adminGuardFactory } from './core/account/admin.guard';
+import { Router } from '@angular/router';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
     CoreModule,
-    LayoutModule,
     SharedModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [
+    {
+      provide: 'adminGuard',
+      useFactory: adminGuardFactory,
+      deps: [AccountService, Router],
+    },
+  ],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
