@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import { CreateOrder, CreateOrderTicket } from '../core/models/order.model';
 import { Router } from '@angular/router';
 import { OrderService } from '../core/services/order.service';
+import { AccountService } from '../core/account/account.service';
 
 @Component({
   selector: 'app-cart',
@@ -18,9 +19,12 @@ export class CartComponent implements OnInit, OnDestroy {
 
   cartTotalAmount: number;
 
+  isUserLoggedIn: boolean;
+
   constructor(
     private cartService: CartService,
     private orderService: OrderService,
+    private accountService: AccountService,
     private router: Router
   ) {}
 
@@ -32,6 +36,8 @@ export class CartComponent implements OnInit, OnDestroy {
       .subscribe((cartTotalAmount) => {
         this.cartTotalAmount = cartTotalAmount;
       });
+
+    this.isUserLoggedIn = this.accountService.isUserLoggedIn().value;
   }
 
   ngOnDestroy(): void {

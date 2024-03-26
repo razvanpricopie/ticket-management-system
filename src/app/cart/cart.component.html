@@ -12,14 +12,28 @@
           </div>
         </div>
         <div class="check-out-details-container">
-          <button mat-raised-button color="warn" (click)="createOrder()">Complete the order</button>
-          <div class="check-out-total-amount"><span>Total price: {{ cartTotalAmount | currency : "EUR" }}</span></div>
+          <ng-container *ngIf="isUserLoggedIn; else userNotLogin">
+            <button mat-raised-button color="warn" (click)="createOrder()">
+              Complete the order
+            </button>
+          </ng-container>
+          <div class="check-out-total-amount">
+            <span>Total price: {{ cartTotalAmount | currency : "EUR" }}</span>
+          </div>
         </div>
       </div>
     </ng-container>
+    <ng-template #userNotLogin>
+      <button mat-flat-button [routerLink]="'/authentication'">
+        Go to Log In page To complete the order
+      </button>
+    </ng-template>
     <ng-template #emptyCart>
       <div class="cart-container-empty">
-        <span class="cart-container-empty-text">Your shopping cart contains no tickets. To add some, please return to <a class="logo-link" routerLink="/">EVENTS PAGE</a></span>
+        <span class="cart-container-empty-text"
+          >Your shopping cart contains no tickets. To add some, please return to
+          <a class="logo-link" routerLink="/">EVENTS PAGE</a></span
+        >
       </div>
     </ng-template>
   </div>

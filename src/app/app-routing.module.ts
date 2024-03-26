@@ -3,6 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { LayoutComponent } from './core/layout/layout.component';
 import { OrderCompletedComponent } from './shared/components/order-completed/order-completed.component';
 import { orderCompletionGuard } from './cart/order-completion.guard';
+import { AuthenticationComponent } from './core/account/authentication/authentication.component';
+import { RegistrationComponent } from './core/account/registration/registration.component';
 
 const routes: Routes = [
   { path: 'error', component: LayoutComponent },
@@ -10,6 +12,16 @@ const routes: Routes = [
     path: '',
     component: LayoutComponent,
     children: [
+      {
+        path: 'authentication',
+        canActivate: ['notAuthGuard'],
+        component: AuthenticationComponent,
+      },
+      {
+        path: 'registration',
+        canActivate: ['notAuthGuard'],
+        component: RegistrationComponent,
+      },
       {
         path: 'home',
         loadChildren: () =>

@@ -1,0 +1,22 @@
+.registration-page-container {
+  width: 350px;
+  display: flex;
+  flex-direction: row;
+  margin: auto;
+  padding-top: 64px;
+  text-align: center;
+
+  .registration-form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 12px;
+
+    .action-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 64px;
+    }
+  }
+}

@@ -10,6 +10,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AccountService } from './core/account/account.service';
 import { adminGuardFactory } from './core/account/admin.guard';
 import { Router } from '@angular/router';
+import { authGuardFactory } from './core/account/auth.guard';
+import { notAuthGuardFactory } from './core/account/not-auth.guard';
 
 @NgModule({
   declarations: [AppComponent],
@@ -24,6 +26,16 @@ import { Router } from '@angular/router';
     {
       provide: 'adminGuard',
       useFactory: adminGuardFactory,
+      deps: [AccountService, Router],
+    },
+    {
+      provide: 'authGuard',
+      useFactory: authGuardFactory,
+      deps: [AccountService, Router],
+    },
+    {
+      provide: 'notAuthGuard',
+      useFactory: notAuthGuardFactory,
       deps: [AccountService, Router],
     },
   ],

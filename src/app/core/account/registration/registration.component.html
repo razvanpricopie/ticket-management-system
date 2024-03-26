@@ -1,0 +1,108 @@
+<div class="grid no-horizontal-padding">
+  <div class="registration-page-container">
+    <form
+      (submit)="register()"
+      [formGroup]="registrationForm"
+      class="registration-form"
+    >
+      <h2>Create a new account</h2>
+      <mat-form-field>
+        <mat-label>First name</mat-label>
+        <input matInput formControlName="firstName" required />
+        <mat-error
+          *ngIf="
+                  registrationForm.get('firstName')?.errors?.['required'] &&
+                  registrationForm.get('firstName')?.touched
+                "
+        >
+          First name field is required
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Last name</mat-label>
+        <input matInput formControlName="lastName" required />
+        <mat-error
+          *ngIf="
+                  registrationForm.get('lastName')?.errors?.['required'] &&
+                  registrationForm.get('lastName')?.touched
+                "
+        >
+          Last name field is required
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" required />
+        <mat-error
+          *ngIf="
+                    registrationForm.get('email')?.errors?.['required'] &&
+                    registrationForm.get('email')?.touched
+                  "
+        >
+          Email field is required
+        </mat-error>
+        <mat-error
+          *ngIf="
+                    registrationForm.get('email')?.errors?.['email'] &&
+                    registrationForm.get('email')?.touched
+                  "
+        >
+          Invalid email format
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Password</mat-label>
+        <input matInput formControlName="password" type="password" required />
+        <mat-error
+          *ngIf="
+                      registrationForm.get('password')?.errors?.['nonAlphanumeric'] &&
+                      registrationForm.get('password')?.touched
+                    "
+        >
+          Password must contains non-alphanumeric characters
+        </mat-error>
+        <mat-error
+          *ngIf="
+                      registrationForm.get('password')?.errors?.['numeric'] &&
+                      registrationForm.get('password')?.touched
+                    "
+        >
+          Password must contains numeric characters
+        </mat-error>
+        <mat-error
+          *ngIf="
+                      registrationForm.get('password')?.errors?.['uppercase'] &&
+                      registrationForm.get('password')?.touched
+                    "
+        >
+          Password must contains uppercase characters
+        </mat-error>
+        <mat-error
+          *ngIf="
+                      registrationForm.get('password')?.errors?.['minlength'] &&
+                      registrationForm.get('password')?.touched
+                    "
+        >
+          Password must have mininum 6 characters
+        </mat-error>
+      </mat-form-field>
+
+      <div *ngIf="errorMessageList">
+        <mat-error *ngFor="let errorMessage of errorMessageList">
+          {{ errorMessage }}
+        </mat-error>
+      </div>
+
+      <div class="action-buttons">
+        <a [routerLink]="'/authentication'">You already have an account?</a>
+
+        <div class="registration-button">
+          <button mat-flat-button type="submit" color="warn">Register</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

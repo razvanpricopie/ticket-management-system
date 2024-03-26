@@ -4,10 +4,10 @@
       <a class="logo-link" routerLink="/">Ticketing App</a>
     </div>
 
-    <div class="navbar-right-container" >
-
+    <div class="navbar-right-container">
       <button mat-icon-button (click)="openCartPanelAsDialog($event)">
         <mat-icon
+          aria-hidden="false"
           [matBadge]="cartItemCount > 0 ? cartItemCount : null"
           matBadgeColor="accent"
           >shopping_cart</mat-icon

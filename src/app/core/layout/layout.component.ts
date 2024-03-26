@@ -3,6 +3,7 @@ import { CartService } from '../services/cart.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { CartPanelComponent } from './cart-panel/cart-panel.component';
 import { ProfileMenuComponent } from './profile-menu/profile-menu.component';
+import { AccountService } from '../account/account.service';
 
 @Component({
   selector: 'app-layout',
@@ -13,14 +14,21 @@ import { ProfileMenuComponent } from './profile-menu/profile-menu.component';
 export class LayoutComponent implements OnInit {
   cartItemCount: number;
   displayBadge: boolean = false;
+  isUserLoggedIn: boolean;
 
-  constructor(private cartService: CartService, private dialog: MatDialog) {}
+  constructor(
+    private cartService: CartService,
+    private dialog: MatDialog,
+    private accountService: AccountService
+  ) {}
 
   ngOnInit(): void {
     this.cartService.getCartItemCount().subscribe((count) => {
       this.cartItemCount = count;
       this.displayBadge = this.cartItemCount > 0;
     });
+
+    this.isUserLoggedIn = this.accountService.isUserLoggedIn().value;
   }
 
   openCartPanelAsDialog(event: MouseEvent) {
@@ -42,13 +50,19 @@ export class LayoutComponent implements OnInit {
   openProfileMenuAsDialog(event: MouseEvent) {
     const target = event.target as Element;
     const rect = target.getBoundingClientRect();
-    const dialogWidth = 250;
+    let dialogWidth = 150;
+
+    if (this.isUserLoggedIn) {
+      dialogWidth = 150;
+    } else {
+      dialogWidth = 300;
+    }
 
     let profileMenuDialogRef = this.dialog.open(ProfileMenuComponent, {
       width: `${dialogWidth}px`,
       position: {
         top: `${rect.bottom}px`,
-        left: `${rect.left}px`,
+        left: `${rect.left - (dialogWidth - rect.width)}px`,
       },
       hasBackdrop: true,
       backdropClass: 'transparent-backdrop',

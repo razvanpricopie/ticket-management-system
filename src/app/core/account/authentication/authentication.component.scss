@@ -1,0 +1,15 @@
+.authentication-page-container {
+  width: 350px;
+  display: flex;
+  flex-direction: row;
+  margin: auto;
+  padding-top: 64px;
+  text-align: center;
+
+  .authentication-form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 12px;
+  }
+}

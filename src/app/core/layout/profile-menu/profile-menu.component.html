@@ -1,1 +1,38 @@
-<p>profile-menu works!</p>
+<div class="profile-menu-container">
+  <ng-container *ngIf="isUserLoggedIn; else accountContainer">
+    <div class="menu-buttons-container">
+      <a
+        class="menu-button"
+        *ngFor="let button of menuButtons"
+        [routerLink]="button.url"
+      >
+        {{ button.label }}</a
+      >
+      <a class="menu-button" (click)="logout()">Logout</a>
+    </div>
+  </ng-container>
+  <ng-template #accountContainer>
+    <div class="account-container">
+      <span class="info-text">You are currently not authenticated</span>
+
+      <div class="account-buttons">
+        <button
+          color="accent"
+          mat-flat-button
+          class="account-button"
+          (click)="redirectToLoginPage()"
+        >
+          Log In
+        </button>
+        <button
+          color="accent"
+          mat-flat-button
+          class="account-button"
+          (click)="redirectToRegisterPage()"
+        >
+          Register
+        </button>
+      </div>
+    </div>
+  </ng-template>
+</div>

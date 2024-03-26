@@ -141,7 +141,7 @@ export class EventAddUpdateDialogComponent implements OnInit, OnDestroy {
 
     this.eventService.updateEvent(eventUpdated).subscribe({
       next: (result) => this.dialogRef.close(true),
-      error: (error) => (this.errorMessage = error.error),
+      error: (error) => (this.errorMessage = error.error.error),
     });
   }
 
@@ -171,7 +171,7 @@ export class EventAddUpdateDialogComponent implements OnInit, OnDestroy {
   private formatDateToDateOnly(date: any): Date {
     date = new Date(date);
     date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
-    
+
     return new Date(
       Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())
     );
