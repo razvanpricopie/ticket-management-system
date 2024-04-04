@@ -12,9 +12,12 @@ import { EventDetails } from '../core/models/event.model';
 })
 export class CategoriesComponent implements OnInit, OnDestroy {
   sub!: Subscription;
+
   categoryId: string;
   category: Category;
   eventsOfCategory: EventDetails[] = [];
+
+  loading: boolean = true;
 
   constructor(
     private route: ActivatedRoute,
@@ -29,6 +32,7 @@ export class CategoriesComponent implements OnInit, OnDestroy {
       .subscribe((category) => {
         this.category = category;
         this.eventsOfCategory = category.events;
+        this.loading = false;
       });
   }
 

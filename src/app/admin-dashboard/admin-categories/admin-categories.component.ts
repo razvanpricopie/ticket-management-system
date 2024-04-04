@@ -18,6 +18,8 @@ export class AdminCategoriesComponent implements OnInit, OnDestroy {
 
   displayedColumns: string[] = ['index', 'name', 'edit-delete'];
 
+  loading: boolean = true;
+
   constructor(private categoryService: CategoryService, private dialog: MatDialog) {}
 
   ngOnInit(): void {
@@ -33,6 +35,7 @@ export class AdminCategoriesComponent implements OnInit, OnDestroy {
       .getAllCategories()
       .subscribe((categories) => {
         this.dataSource = [...categories];
+        this.loading = false;
       });
   }
 

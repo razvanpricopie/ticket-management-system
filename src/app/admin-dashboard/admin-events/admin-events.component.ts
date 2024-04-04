@@ -29,6 +29,8 @@ export class AdminEventsComponent implements OnInit, OnDestroy {
     'edit-delete',
   ];
 
+  loading: boolean = true;
+
   constructor(private eventService: EventService, private dialog: MatDialog) {}
 
   ngOnInit(): void {
@@ -42,6 +44,7 @@ export class AdminEventsComponent implements OnInit, OnDestroy {
   initEventTableData() {
     this.sub = this.eventService.getAllEvents().subscribe((events) => {
       this.dataSource = [...events];
+      this.loading = false;
     });
   }
 

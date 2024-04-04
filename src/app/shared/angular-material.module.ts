@@ -63,7 +63,8 @@ import { OverlayModule } from '@angular/cdk/overlay';
     MatNativeDateModule,
     MatSelectModule,
     MatBadgeModule,
-    MatMenuModule
+    MatMenuModule,
+    MatProgressSpinnerModule
   ]
 })
 export class AngularMaterialModule { }

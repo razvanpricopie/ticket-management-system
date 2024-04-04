@@ -25,6 +25,8 @@ export class AdminOrdersComponent implements OnInit, OnDestroy {
     'createdDate',
   ];
 
+  loading: boolean = true;
+
   constructor(private orderService: OrderService, private dialog: MatDialog) {}
 
   ngOnInit() {
@@ -38,6 +40,7 @@ export class AdminOrdersComponent implements OnInit, OnDestroy {
   initOrdersTable() {
     this.sub = this.orderService.getAllOrders().subscribe((orders) => {
       this.dataSource = [...orders];
+      this.loading = false;
     });
   }
 
