@@ -1,7 +1,17 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment.development';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import {
+  BehaviorSubject,
+  Observable,
+  Subject,
+  filter,
+  interval,
+  startWith,
+  switchMap,
+  takeUntil,
+  tap,
+} from 'rxjs';
 import {
   AuthenticationRequest,
   AuthenticationResponse,
@@ -13,6 +23,7 @@ import {
   providedIn: 'root',
 })
 export class AccountService {
+  userRole$: Observable<UserRoles>;
   userAuthStatus$: Observable<boolean>;
 
   private ROLE_CLAIM =
@@ -21,23 +32,18 @@ export class AccountService {
 
   private userRoleSubject = new BehaviorSubject<UserRoles>(UserRoles.None);
   private userAuthStatusSubject = new BehaviorSubject<boolean>(false);
+  private startCheckTokenExpirySubject = new Subject<void>();
 
   constructor(private httpClient: HttpClient) {
     this.loadUserData();
+    this.userRole$ = this.userRoleSubject.asObservable();
     this.userAuthStatus$ = this.userAuthStatusSubject.asObservable();
-    this.checkTokenExpiry();
-  }
 
-  getUserAuthStatus() {
-    return this.userAuthStatusSubject.value;
+    this.triggerCheckingTokenInterval();
   }
 
   setUserAuthStatus(userAuthStatus: boolean) {
     this.userAuthStatusSubject.next(userAuthStatus);
-  }
-
-  getUserRole() {
-    return this.userRoleSubject;
   }
 
   setUserRole(jwt: any) {
@@ -60,6 +66,7 @@ export class AccountService {
         tap((response) => {
           const jwt = response.token;
           localStorage.setItem('jwt', jwt);
+          this.startCheckTokenExpirySubject.next();
         })
       );
   }
@@ -68,6 +75,7 @@ export class AccountService {
     if (!localStorage.getItem('jwt')) return;
 
     localStorage.removeItem('jwt');
+    this.startCheckTokenExpirySubject.next();
   }
 
   register(registrationUser: RegistrationUser) {
@@ -90,21 +98,34 @@ export class AccountService {
     this.setUserAuthStatus(true);
   }
 
+  private triggerCheckingTokenInterval() {
+    this.userAuthStatus$
+      .pipe(
+        filter((isAuthenticated) => isAuthenticated),
+        switchMap(() =>
+          interval(1800000).pipe(
+            startWith(0),
+            takeUntil(this.startCheckTokenExpirySubject)
+          )
+        )
+      )
+      .subscribe(() => this.checkTokenExpiry());
+  }
+
   private checkTokenExpiry() {
-    setInterval(() => {
-      const jwt = localStorage.getItem('jwt');
+    const jwt = localStorage.getItem('jwt');
 
-      if (jwt) {
-        const payloadJson = this.decodeJwtPayload(jwt);
-        const expiry = new Date(payloadJson.exp * 1000);
+    if (jwt) {
+      const payloadJson = this.decodeJwtPayload(jwt);
+      const expiry = new Date(payloadJson.exp * 1000);
 
-        if (expiry && expiry < new Date()) {
-          localStorage.removeItem('jwt');
+      if (expiry && expiry < new Date()) {
+        localStorage.removeItem('jwt');
 
-          this.setUserAuthStatus(false);
-        }
+        this.setUserAuthStatus(false);
+        this.startCheckTokenExpirySubject.next();
       }
-    }, 600000);
+    }
   }
 
   private decodeJwtPayload(jwt: any) {

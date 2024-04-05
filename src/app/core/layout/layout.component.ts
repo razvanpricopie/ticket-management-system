@@ -1,9 +1,10 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { CartService } from '../services/cart.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { CartPanelComponent } from './cart-panel/cart-panel.component';
 import { ProfileMenuComponent } from './profile-menu/profile-menu.component';
 import { AccountService } from '../account/account.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-layout',
@@ -11,7 +12,9 @@ import { AccountService } from '../account/account.service';
   styleUrls: ['./layout.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class LayoutComponent implements OnInit {
+export class LayoutComponent implements OnInit, OnDestroy {
+  subscriptions: Subscription[] = [];
+
   cartItemCount: number;
   displayBadge: boolean = false;
   isUserLoggedIn: boolean;
@@ -23,9 +26,11 @@ export class LayoutComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.initCartItemCount();
+    this.initSubscriptions();
+  }
 
-    this.initUserAuthStatus();
+  ngOnDestroy(): void {
+    this.subscriptions.forEach((subscription) => subscription.unsubscribe());
   }
 
   openCartPanelAsDialog(event: MouseEvent) {
@@ -66,16 +71,18 @@ export class LayoutComponent implements OnInit {
     });
   }
 
-  private initCartItemCount() {
-    this.cartService.getCartItemCount().subscribe((count) => {
-      this.cartItemCount = count;
-      this.displayBadge = this.cartItemCount > 0;
-    });
-  }
-  
-  private initUserAuthStatus() {
-    this.accountService.userAuthStatus$.subscribe((isUserLoggedIn) => {
-      this.isUserLoggedIn = isUserLoggedIn;
-    });
+  private initSubscriptions() {
+    this.subscriptions.push(
+      this.cartService.cartItemCount$.subscribe((cartItemCount) => {
+        this.cartItemCount = cartItemCount;
+        this.displayBadge = this.cartItemCount > 0;
+      })
+    );
+
+    this.subscriptions.push(
+      this.accountService.userAuthStatus$.subscribe((isUserLoggedIn) => {
+        this.isUserLoggedIn = isUserLoggedIn;
+      })
+    );
   }
 }

@@ -45,11 +45,9 @@ export class AdminOrdersComponent implements OnInit, OnDestroy {
   }
 
   openOrderDetails(orderId: string) {
-    this.orderService.getOrderDetails(orderId).subscribe((orderDetails) => {
-      this.dialog.open(OrderDetailsDialogComponent, {
-        data: orderDetails,
-        width: '800px',
-      });
+    this.dialog.open(OrderDetailsDialogComponent, {
+      data: orderId,
+      width: '800px',
     });
   }
 }

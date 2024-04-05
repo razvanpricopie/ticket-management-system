@@ -13,12 +13,12 @@ import { EventService } from 'src/app/core/services/event.service';
 })
 export class EventDetailsComponent implements OnInit, OnDestroy {
   subscriptions: Subscription[] = [];
-  
+
   form: FormGroup;
 
   eventId: string;
   eventDetails: EventDetails;
-  
+
   quantitySub: Subscription = new Subscription();
   quantityValueMultiplied: number = 0;
 
@@ -40,7 +40,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subscriptions.forEach((subscription) => subscription.unsubscribe())
+    this.subscriptions.forEach((subscription) => subscription.unsubscribe());
   }
 
   addTickets() {
@@ -56,10 +56,15 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
 
   private initSubscriptions() {
     this.subscriptions.push(
-      this.eventService.getEventDetails(this.eventId).subscribe((eventDetails) => {
-        this.eventDetails = eventDetails;
-        this.loading = false;
-      }),
+      this.eventService
+        .getEventDetails(this.eventId)
+        .subscribe((eventDetails) => {
+          this.eventDetails = eventDetails;
+          this.loading = false;
+        })
+    );
+
+    this.subscriptions.push(
       this.form.get('quantity')?.valueChanges.subscribe((value) => {
         this.quantityValueMultiplied = value * this.eventDetails.price;
       }) || new Subscription()

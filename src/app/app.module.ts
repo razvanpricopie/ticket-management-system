@@ -1,4 +1,4 @@
-import { ErrorHandler, NgModule } from '@angular/core';
+import { APP_INITIALIZER, ErrorHandler, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -16,6 +16,8 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ServerConnectionService } from './core/services/server-connection.service';
 import { ApiRequestInterceptor } from './core/interceptors/api-request.interceptor';
 import { ErrorHandlerService } from './core/services/error-handler.service';
+import { orderCompletionGuardFactory } from './cart/order-completion.guard';
+import { OrderService } from './core/services/order.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -27,6 +29,13 @@ import { ErrorHandlerService } from './core/services/error-handler.service';
     BrowserAnimationsModule,
   ],
   providers: [
+    {
+      provide: APP_INITIALIZER,
+      useFactory:
+        (serverConnectionService: ServerConnectionService) => () => {},
+      deps: [ServerConnectionService],
+      multi: true,
+    },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ApiRequestInterceptor,
@@ -50,6 +59,11 @@ import { ErrorHandlerService } from './core/services/error-handler.service';
       provide: 'authGuard',
       useFactory: authGuardFactory,
       deps: [AccountService, Router],
+    },
+    {
+      provide: 'orderCompletionGuard',
+      useFactory: orderCompletionGuardFactory,
+      deps: [OrderService, Router],
     },
   ],
   bootstrap: [AppComponent],

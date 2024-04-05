@@ -8,7 +8,6 @@ import {
 } from '@angular/common/http';
 import { Observable, catchError, tap, throwError } from 'rxjs';
 import { Router } from '@angular/router';
-import { ServerConnectionService } from '../services/server-connection.service';
 
 @Injectable()
 export class ApiRequestInterceptor implements HttpInterceptor {

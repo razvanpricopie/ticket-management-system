@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -9,13 +9,16 @@ import {
 import { AccountService } from '../account.service';
 import { Router } from '@angular/router';
 import { AuthenticationRequest, RegistrationUser } from '../account.model';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',
   styleUrls: ['./registration.component.scss'],
 })
-export class RegistrationComponent implements OnInit {
+export class RegistrationComponent implements OnInit, OnDestroy {
+  sub: Subscription;
+
   registrationForm: FormGroup;
 
   errorMessageList: string;
@@ -47,6 +50,10 @@ export class RegistrationComponent implements OnInit {
     });
   }
 
+  ngOnDestroy(): void {
+    this.sub.unsubscribe();
+  }
+
   register() {
     if (!this.registrationForm.valid || this.isUserLoggedIn) return;
 
@@ -75,7 +82,7 @@ export class RegistrationComponent implements OnInit {
   }
 
   private initUserAuthStatus() {
-    this.accountService.userAuthStatus$.subscribe((isUserLoggedIn) => {
+    this.sub = this.accountService.userAuthStatus$.subscribe((isUserLoggedIn) => {
       this.isUserLoggedIn = isUserLoggedIn;
     });
   }

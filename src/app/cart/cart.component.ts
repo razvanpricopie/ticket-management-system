@@ -14,7 +14,7 @@ import { AccountService } from '../core/account/account.service';
   encapsulation: ViewEncapsulation.None,
 })
 export class CartComponent implements OnInit, OnDestroy {
-  sub: Subscription;
+  subscriptions: Subscription[] = [];
 
   tickets: Ticket[];
 
@@ -31,20 +31,13 @@ export class CartComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.initUserAuthStatus();
+    this.initSubscriptions();
 
     this.tickets = this.cartService.getCart();
-
-    this.sub = this.cartService
-      .getCartTotalAmount()
-      .subscribe((cartTotalAmount) => {
-        this.cartTotalAmount = cartTotalAmount;
-        this.loading = false;
-      });
   }
 
   ngOnDestroy(): void {
-    this.sub.unsubscribe();
+    this.subscriptions.forEach((subscription) => subscription.unsubscribe());
   }
 
   createOrder() {
@@ -67,9 +60,18 @@ export class CartComponent implements OnInit, OnDestroy {
     });
   }
 
-  private initUserAuthStatus() {
-    this.accountService.userAuthStatus$.subscribe((isUserLoggedIn) => {
-      this.isUserLoggedIn = isUserLoggedIn;
-    });
+  private initSubscriptions() {
+    this.subscriptions.push(
+      this.cartService.cartTotalAmount$.subscribe((cartTotalAmount) => {
+        this.cartTotalAmount = cartTotalAmount;
+        this.loading = false;
+      })
+    );
+
+    this.subscriptions.push(
+      this.accountService.userAuthStatus$.subscribe((isUserLoggedIn) => {
+        this.isUserLoggedIn = isUserLoggedIn;
+      })
+    );
   }
 }

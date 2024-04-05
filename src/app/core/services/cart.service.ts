@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { EventDetails, Ticket } from '../models/event.model';
 import { ServerConnectionService } from './server-connection.service';
 
@@ -7,24 +7,29 @@ import { ServerConnectionService } from './server-connection.service';
   providedIn: 'root',
 })
 export class CartService {
+  cartItemCount$: Observable<number>;
+  cartTotalAmount$: Observable<number>;
+
   private cartItems: Ticket[] = [];
-  private cartItemCount = new BehaviorSubject(0);
-  private cartTotalAmount = new BehaviorSubject(0);
+  private cartItemCountSubject = new BehaviorSubject<number>(0);
+  private cartTotalAmountSubject = new BehaviorSubject<number>(0);
 
   constructor() {
     this.loadCart();
+    this.cartItemCount$ = this.cartItemCountSubject.asObservable();
+    this.cartTotalAmount$ = this.cartTotalAmountSubject.asObservable();
   }
 
   getCart() {
     return this.cartItems;
   }
 
-  getCartTotalAmount() {
-    return this.cartTotalAmount;
+  setCartItemCount(quantity: number) {
+    this.cartItemCountSubject.next(quantity);
   }
 
-  getCartItemCount() {
-    return this.cartItemCount;
+  setCartTotalAmount(totalAmount: number) {
+    this.cartTotalAmountSubject.next(totalAmount);
   }
 
   increaseQuantityToCart(event: EventDetails, quantity: number) {
@@ -42,7 +47,7 @@ export class CartService {
       });
     }
 
-    this.cartItemCount.next(this.cartItemCount.value + quantity);
+    this.setCartItemCount(this.cartItemCountSubject.value + quantity);
 
     this.updateCartTotalAmount();
     this.saveCartToLocalStorage();
@@ -57,7 +62,7 @@ export class CartService {
       if (item.quantity - quantity < 0) return;
 
       item.quantity -= quantity;
-      this.cartItemCount.next(this.cartItemCount.value - quantity);
+      this.setCartItemCount(this.cartItemCountSubject.value - quantity);
 
       if (item.quantity === 0) {
         let itemIndex = this.cartItems.indexOf(item);
@@ -77,7 +82,8 @@ export class CartService {
     if (item) {
       let itemIndex = this.cartItems.indexOf(item);
       this.cartItems.splice(itemIndex, 1);
-      this.cartItemCount.next(this.cartItemCount.value - item.quantity);
+
+      this.setCartItemCount(this.cartItemCountSubject.value - item.quantity);
     }
 
     this.updateCartTotalAmount();
@@ -86,8 +92,9 @@ export class CartService {
 
   refreshCart() {
     this.cartItems = [];
-    this.cartItemCount.next(0);
-    this.cartTotalAmount.next(0);
+
+    this.setCartItemCount(0);
+    this.setCartTotalAmount(0);
 
     this.deleteCartFromLocalStorage();
   }
@@ -98,7 +105,7 @@ export class CartService {
       0
     );
 
-    this.cartTotalAmount.next(totalAmount);
+    this.setCartTotalAmount(totalAmount);
   }
 
   private saveCartToLocalStorage() {
@@ -117,14 +124,15 @@ export class CartService {
         (count, item) => count + item.quantity,
         0
       );
-      this.cartItemCount.next(totalCartItemCount);
 
-      let cartTotalAmount = this.cartItems.reduce(
+      this.setCartItemCount(totalCartItemCount);
+
+      let totalAmount = this.cartItems.reduce(
         (count, item) => count + item.quantity * item.price,
         0
       );
 
-      this.cartTotalAmount.next(cartTotalAmount);
+      this.setCartTotalAmount(totalAmount);
     }
   }
 }

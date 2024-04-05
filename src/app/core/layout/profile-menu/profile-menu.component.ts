@@ -1,14 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AccountService } from '../../account/account.service';
 import { Router } from '@angular/router';
 import { MatDialogRef } from '@angular/material/dialog';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'profile-menu',
   templateUrl: './profile-menu.component.html',
   styleUrls: ['./profile-menu.component.scss'],
 })
-export class ProfileMenuComponent implements OnInit {
+export class ProfileMenuComponent implements OnInit, OnDestroy {
+  sub: Subscription;
+
   menuButtons: MenuButtons[];
 
   isUserLoggedIn: boolean;
@@ -20,10 +23,16 @@ export class ProfileMenuComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.initUserAuthStatus();
+
     this.menuButtons = [
       { label: 'Profile', url: '/profile' },
       { label: 'Tickets', url: '' },
     ];
+  }
+
+  ngOnDestroy(): void {
+    this.sub.unsubscribe();
   }
 
   logout() {
@@ -41,11 +50,13 @@ export class ProfileMenuComponent implements OnInit {
     this.router.navigate(['/registration']);
     this.dialog.close();
   }
-  
+
   private initUserAuthStatus() {
-    this.accountService.userAuthStatus$.subscribe((isUserLoggedIn) => {
-      this.isUserLoggedIn = isUserLoggedIn;
-    });
+    this.sub = this.accountService.userAuthStatus$.subscribe(
+      (isUserLoggedIn) => {
+        this.isUserLoggedIn = isUserLoggedIn;
+      }
+    );
   }
 }
 

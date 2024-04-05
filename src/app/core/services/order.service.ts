@@ -12,17 +12,17 @@ import { BehaviorSubject, Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class OrderService {
+  orderComplete$: Observable<boolean>;
+
   private readonly basePath = environment.API_ENDPOINT;
-  private orderComplete = new BehaviorSubject<boolean>(false);
+  private orderCompleteSubject = new BehaviorSubject<boolean>(false);
 
-  constructor(private httpClient: HttpClient) {}
-
-  setOrderComplete(status: boolean) {
-    this.orderComplete.next(status);
+  constructor(private httpClient: HttpClient) {
+    this.orderComplete$ = this.orderCompleteSubject.asObservable();
   }
 
-  isOrderComplete(): Observable<boolean> {
-    return this.orderComplete.asObservable();
+  setOrderComplete(status: boolean) {
+    this.orderCompleteSubject.next(status);
   }
 
   getAllOrders(): Observable<OrderDetailsPreview[]> {

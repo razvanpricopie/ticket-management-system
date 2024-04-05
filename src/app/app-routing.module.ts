@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LayoutComponent } from './core/layout/layout.component';
 import { OrderCompletedComponent } from './shared/components/order-completed/order-completed.component';
-import { orderCompletionGuard } from './cart/order-completion.guard';
 import { AuthenticationComponent } from './core/account/authentication/authentication.component';
 import { RegistrationComponent } from './core/account/registration/registration.component';
 import { ErrorComponent } from './core/error/error.component';
@@ -60,8 +59,8 @@ const routes: Routes = [
       },
       {
         path: 'order-completed/:id',
+        canActivate: ['orderCompletionGuard'],
         component: OrderCompletedComponent,
-        canActivate: [orderCompletionGuard],
       },
       { path: '**', redirectTo: '/home' },
     ],

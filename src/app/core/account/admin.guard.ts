@@ -1,20 +1,22 @@
 import { CanActivateFn, Router } from '@angular/router';
 import { AccountService } from './account.service';
 import { UserRoles } from './account.model';
-import { inject } from '@angular/core';
+import { map } from 'rxjs';
 
 export function adminGuardFactory(
   accountService: AccountService,
   router: Router
 ): CanActivateFn {
   return (route, state) => {
-    const roleValue = accountService.getUserRole().value;
+    return accountService.userRole$.pipe(
+      map((userRole) => {
+        if(userRole !== UserRoles.Admin){
+          router.navigate(['/']);
+          return false;
+        }
 
-    if (!roleValue || roleValue !== UserRoles.Admin) {
-      router.navigate(['/']);
-      return false;
-    }
-
-    return true;
+        return true;
+      })
+    );
   };
 }
