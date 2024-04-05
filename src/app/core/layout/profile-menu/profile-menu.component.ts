@@ -24,8 +24,6 @@ export class ProfileMenuComponent implements OnInit {
       { label: 'Profile', url: '/profile' },
       { label: 'Tickets', url: '' },
     ];
-
-    this.isUserLoggedIn = this.accountService.isUserLoggedIn().value;
   }
 
   logout() {
@@ -42,6 +40,12 @@ export class ProfileMenuComponent implements OnInit {
   redirectToRegisterPage() {
     this.router.navigate(['/registration']);
     this.dialog.close();
+  }
+  
+  private initUserAuthStatus() {
+    this.accountService.userAuthStatus$.subscribe((isUserLoggedIn) => {
+      this.isUserLoggedIn = isUserLoggedIn;
+    });
   }
 }
 

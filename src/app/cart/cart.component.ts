@@ -15,11 +15,13 @@ import { AccountService } from '../core/account/account.service';
 })
 export class CartComponent implements OnInit, OnDestroy {
   sub: Subscription;
+
   tickets: Ticket[];
 
   cartTotalAmount: number;
 
-  isUserLoggedIn: boolean;
+  isUserLoggedIn: boolean = false;
+  loading: boolean = true;
 
   constructor(
     private cartService: CartService,
@@ -29,15 +31,16 @@ export class CartComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.initUserAuthStatus();
+
     this.tickets = this.cartService.getCart();
 
     this.sub = this.cartService
       .getCartTotalAmount()
       .subscribe((cartTotalAmount) => {
         this.cartTotalAmount = cartTotalAmount;
+        this.loading = false;
       });
-
-    this.isUserLoggedIn = this.accountService.isUserLoggedIn().value;
   }
 
   ngOnDestroy(): void {
@@ -61,6 +64,12 @@ export class CartComponent implements OnInit, OnDestroy {
       this.cartService.refreshCart();
       this.orderService.setOrderComplete(true);
       this.router.navigate(['/order-completed', orderId]);
+    });
+  }
+
+  private initUserAuthStatus() {
+    this.accountService.userAuthStatus$.subscribe((isUserLoggedIn) => {
+      this.isUserLoggedIn = isUserLoggedIn;
     });
   }
 }

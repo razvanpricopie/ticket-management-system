@@ -5,9 +5,10 @@ import { OrderCompletedComponent } from './shared/components/order-completed/ord
 import { orderCompletionGuard } from './cart/order-completion.guard';
 import { AuthenticationComponent } from './core/account/authentication/authentication.component';
 import { RegistrationComponent } from './core/account/registration/registration.component';
+import { ErrorComponent } from './core/error/error.component';
 
 const routes: Routes = [
-  { path: 'error', component: LayoutComponent },
+  { path: 'error', component: ErrorComponent },
   {
     path: '',
     component: LayoutComponent,

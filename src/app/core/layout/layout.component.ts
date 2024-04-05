@@ -23,12 +23,9 @@ export class LayoutComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.cartService.getCartItemCount().subscribe((count) => {
-      this.cartItemCount = count;
-      this.displayBadge = this.cartItemCount > 0;
-    });
+    this.initCartItemCount();
 
-    this.isUserLoggedIn = this.accountService.isUserLoggedIn().value;
+    this.initUserAuthStatus();
   }
 
   openCartPanelAsDialog(event: MouseEvent) {
@@ -66,6 +63,19 @@ export class LayoutComponent implements OnInit {
       },
       hasBackdrop: true,
       backdropClass: 'transparent-backdrop',
+    });
+  }
+
+  private initCartItemCount() {
+    this.cartService.getCartItemCount().subscribe((count) => {
+      this.cartItemCount = count;
+      this.displayBadge = this.cartItemCount > 0;
+    });
+  }
+  
+  private initUserAuthStatus() {
+    this.accountService.userAuthStatus$.subscribe((isUserLoggedIn) => {
+      this.isUserLoggedIn = isUserLoggedIn;
     });
   }
 }

@@ -17,7 +17,9 @@ import { AuthenticationRequest, RegistrationUser } from '../account.model';
 })
 export class RegistrationComponent implements OnInit {
   registrationForm: FormGroup;
+
   errorMessageList: string;
+  isUserLoggedIn: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -26,6 +28,8 @@ export class RegistrationComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.initUserAuthStatus();
+    
     this.registrationForm = this.formBuilder.group({
       firstName: ['', [Validators.required]],
       lastName: ['', [Validators.required]],
@@ -44,11 +48,7 @@ export class RegistrationComponent implements OnInit {
   }
 
   register() {
-    if (
-      !this.registrationForm.valid ||
-      this.accountService.isUserLoggedIn().value
-    )
-      return;
+    if (!this.registrationForm.valid || this.isUserLoggedIn) return;
 
     let registrationUser: RegistrationUser = {
       firstName: this.registrationForm.get('firstName')?.value,
@@ -71,6 +71,12 @@ export class RegistrationComponent implements OnInit {
       error: (error) => {
         this.errorMessageList = error.error.error.split('\n');
       },
+    });
+  }
+
+  private initUserAuthStatus() {
+    this.accountService.userAuthStatus$.subscribe((isUserLoggedIn) => {
+      this.isUserLoggedIn = isUserLoggedIn;
     });
   }
 

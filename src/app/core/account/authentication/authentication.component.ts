@@ -11,7 +11,9 @@ import { Router } from '@angular/router';
 })
 export class AuthenticationComponent implements OnInit {
   authenticationForm: FormGroup;
+
   errorMessageList: string;
+  isUserLoggedIn: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -20,6 +22,8 @@ export class AuthenticationComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.initUserAuthStatus();
+    
     this.authenticationForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]],
@@ -27,11 +31,7 @@ export class AuthenticationComponent implements OnInit {
   }
 
   authenticate() {
-    if (
-      !this.authenticationForm.valid ||
-      this.accountService.isUserLoggedIn().value
-    )
-      return;
+    if (!this.authenticationForm.valid || this.isUserLoggedIn) return;
 
     let authUser: AuthenticationRequest = {
       email: this.authenticationForm.get('email')?.value,
@@ -45,6 +45,12 @@ export class AuthenticationComponent implements OnInit {
       error: (error) => {
         this.errorMessageList = error.error.error.split('\n');
       },
+    });
+  }
+
+  private initUserAuthStatus() {
+    this.accountService.userAuthStatus$.subscribe((isUserLoggedIn) => {
+      this.isUserLoggedIn = isUserLoggedIn;
     });
   }
 }

@@ -13,23 +13,39 @@ import {
   providedIn: 'root',
 })
 export class AccountService {
+  userAuthStatus$: Observable<boolean>;
+
   private ROLE_CLAIM =
     'http://schemas.microsoft.com/ws/2008/06/identity/claims/role';
   private basePath = environment.API_ENDPOINT;
 
-  private userRole = new BehaviorSubject<UserRoles>(UserRoles.None);
-  private userLoggedIn = new BehaviorSubject<boolean>(false);
+  private userRoleSubject = new BehaviorSubject<UserRoles>(UserRoles.None);
+  private userAuthStatusSubject = new BehaviorSubject<boolean>(false);
 
   constructor(private httpClient: HttpClient) {
     this.loadUserData();
+    this.userAuthStatus$ = this.userAuthStatusSubject.asObservable();
+    this.checkTokenExpiry();
+  }
+
+  getUserAuthStatus() {
+    return this.userAuthStatusSubject.value;
+  }
+
+  setUserAuthStatus(userAuthStatus: boolean) {
+    this.userAuthStatusSubject.next(userAuthStatus);
   }
 
   getUserRole() {
-    return this.userRole;
+    return this.userRoleSubject;
   }
 
-  isUserLoggedIn() {
-    return this.userLoggedIn;
+  setUserRole(jwt: any) {
+    const payloadJson = this.decodeJwtPayload(jwt);
+    const roleString = payloadJson[this.ROLE_CLAIM];
+    const role = UserRoles[roleString as keyof typeof UserRoles];
+
+    this.userRoleSubject.next(role);
   }
 
   authenticate(
@@ -42,8 +58,8 @@ export class AccountService {
       )
       .pipe(
         tap((response) => {
-          const token = response.token;
-          localStorage.setItem('jwt', token);
+          const jwt = response.token;
+          localStorage.setItem('jwt', jwt);
         })
       );
   }
@@ -62,21 +78,40 @@ export class AccountService {
   }
 
   private loadUserData() {
-    const token = localStorage.getItem('jwt');
+    const jwt = localStorage.getItem('jwt');
 
-    if (!token) {
-      this.userRole.next(UserRoles.None);
-      this.userLoggedIn.next(false);
+    if (!jwt) {
+      this.userRoleSubject.next(UserRoles.None);
+      this.userAuthStatusSubject.next(false);
       return;
     }
 
-    const payload = token.split('.')[1];
-    const payloadDecoded = atob(payload);
-    const payloadJson = JSON.parse(payloadDecoded);
-    const roleString = payloadJson[this.ROLE_CLAIM];
-    const role = UserRoles[roleString as keyof typeof UserRoles];
+    this.setUserRole(jwt);
+    this.setUserAuthStatus(true);
+  }
 
-    this.userRole.next(role);
-    this.userLoggedIn.next(true);
+  private checkTokenExpiry() {
+    setInterval(() => {
+      const jwt = localStorage.getItem('jwt');
+
+      if (jwt) {
+        const payloadJson = this.decodeJwtPayload(jwt);
+        const expiry = new Date(payloadJson.exp * 1000);
+
+        if (expiry && expiry < new Date()) {
+          localStorage.removeItem('jwt');
+
+          this.setUserAuthStatus(false);
+        }
+      }
+    }, 600000);
+  }
+
+  private decodeJwtPayload(jwt: any) {
+    const payload = jwt.split('.')[1];
+    const payloadDecoded = atob(payload);
+    const jwtPayload = JSON.parse(payloadDecoded);
+
+    return jwtPayload;
   }
 }
