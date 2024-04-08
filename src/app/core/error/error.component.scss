@@ -1,0 +1,24 @@
+.error-page-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding-top: 200px;
+  background-color: #D3D3D3;
+  height: 100%;
+
+  .error-page-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+
+    .error-page-text {
+      font-size: xx-large;
+    }
+
+    .warning-icon .material-icons {
+      font-size: 100px;
+      color: #f44336;
+    }
+  }
+}
