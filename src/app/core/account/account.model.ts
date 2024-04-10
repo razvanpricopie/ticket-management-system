@@ -4,9 +4,18 @@ export interface AuthenticationRequest {
 }
 
 export interface AuthenticationResponse {
-  id: string;
-  password: string;
+  userId: string;
+  email: string;
+  firstName: string;
+  lastName: string;
   token: string;
+}
+
+export interface UserDetails {
+  userId: string;
+  email: string;
+  firstName: string;
+  lastName: string;
 }
 
 export interface RegistrationUser {
@@ -14,6 +23,21 @@ export interface RegistrationUser {
   lastName: string;
   email: string;
   password: string;
+}
+
+export interface UpdateUser {
+  userId: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+}
+
+export interface UpdatePassword {
+  userId: string;
+  email: string;
+  currentPassword: string;
+  newPassword: string;
+  newPasswordConfirmation: string;
 }
 
 export enum UserRoles {

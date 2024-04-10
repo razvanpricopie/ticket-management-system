@@ -4,6 +4,7 @@ import { environment } from 'src/environments/environment.development';
 import {
   BehaviorSubject,
   Observable,
+  ReplaySubject,
   Subject,
   filter,
   interval,
@@ -16,8 +17,12 @@ import {
   AuthenticationRequest,
   AuthenticationResponse,
   RegistrationUser,
+  UpdatePassword,
+  UpdateUser,
+  UserDetails,
   UserRoles,
 } from './account.model';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -25,6 +30,7 @@ import {
 export class AccountService {
   userRole$: Observable<UserRoles>;
   userAuthStatus$: Observable<boolean>;
+  userDetails$: Observable<UserDetails>;
 
   private ROLE_CLAIM =
     'http://schemas.microsoft.com/ws/2008/06/identity/claims/role';
@@ -33,11 +39,15 @@ export class AccountService {
   private userRoleSubject = new BehaviorSubject<UserRoles>(UserRoles.None);
   private userAuthStatusSubject = new BehaviorSubject<boolean>(false);
   private startCheckTokenExpirySubject = new Subject<void>();
+  private userDetailsSubject = new ReplaySubject<UserDetails>(1);
+
+  private jwt: string;
 
   constructor(private httpClient: HttpClient) {
     this.loadUserData();
     this.userRole$ = this.userRoleSubject.asObservable();
     this.userAuthStatus$ = this.userAuthStatusSubject.asObservable();
+    this.userDetails$ = this.userDetailsSubject.asObservable();
 
     this.triggerCheckingTokenInterval();
   }
@@ -63,39 +73,65 @@ export class AccountService {
         authenticationUser
       )
       .pipe(
-        tap((response) => {
-          const jwt = response.token;
-          localStorage.setItem('jwt', jwt);
+        tap((response: AuthenticationResponse) => {
+          localStorage.setItem('userData', JSON.stringify(response));
           this.startCheckTokenExpirySubject.next();
         })
       );
   }
 
   logout() {
-    if (!localStorage.getItem('jwt')) return;
+    if (!localStorage.getItem('userData')) return;
 
-    localStorage.removeItem('jwt');
+    localStorage.removeItem('userData');
     this.startCheckTokenExpirySubject.next();
   }
 
-  register(registrationUser: RegistrationUser) {
+  register(registrationUser: RegistrationUser): Observable<string> {
     return this.httpClient.post<string>(
       `${this.basePath}/api/account/register`,
       registrationUser
     );
   }
 
+  updateUser(updateUser: UpdateUser): Observable<string> {
+    return this.httpClient.put<string>(
+      `${this.basePath}/api/account/updateUser/${updateUser.userId}`,
+      updateUser
+    );
+  }
+
+  updatePassword(updatePassword: UpdatePassword): Observable<string> {
+    return this.httpClient.put<string>(
+      `${this.basePath}/api/account/updatePassword/${updatePassword.userId}`,
+      updatePassword
+    );
+  }
+
   private loadUserData() {
-    const jwt = localStorage.getItem('jwt');
+    if (localStorage.getItem('userData')) {
+      let authRespose: AuthenticationResponse = JSON.parse(
+        localStorage.getItem('userData') || ''
+      );
 
-    if (!jwt) {
-      this.userRoleSubject.next(UserRoles.None);
-      this.userAuthStatusSubject.next(false);
-      return;
+      if (authRespose.token) {
+        this.jwt = authRespose.token;
+        this.setUserRole(authRespose.token);
+        this.setUserAuthStatus(true);
+      } else {
+        this.userRoleSubject.next(UserRoles.None);
+        this.userAuthStatusSubject.next(false);
+      }
+
+      let userDetails: UserDetails = {
+        userId: authRespose.userId,
+        email: authRespose.email,
+        firstName: authRespose.firstName,
+        lastName: authRespose.lastName,
+      };
+
+      this.userDetailsSubject.next(userDetails);
     }
-
-    this.setUserRole(jwt);
-    this.setUserAuthStatus(true);
   }
 
   private triggerCheckingTokenInterval() {
@@ -113,14 +149,12 @@ export class AccountService {
   }
 
   private checkTokenExpiry() {
-    const jwt = localStorage.getItem('jwt');
-
-    if (jwt) {
-      const payloadJson = this.decodeJwtPayload(jwt);
+    if (this.jwt) {
+      const payloadJson = this.decodeJwtPayload(this.jwt);
       const expiry = new Date(payloadJson.exp * 1000);
 
       if (expiry && expiry < new Date()) {
-        localStorage.removeItem('jwt');
+        localStorage.removeItem('userData');
 
         this.setUserAuthStatus(false);
         this.startCheckTokenExpirySubject.next();

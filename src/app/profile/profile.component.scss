@@ -1,0 +1,42 @@
+.profile-container {
+  width: 100%;
+  padding-top: 48px;
+
+  .form-columns {
+    padding-top: 24px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    .personal-details-form {
+      display: flex;
+      flex-direction: column;
+      width: 500px;
+      gap: 12px;
+    }
+
+    .password-form {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding-left: 64px;
+      border-left: 2px solid #ddd;
+      width: 500px;
+
+      .password-form-fields {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+    }
+
+    .action-button {
+      display: flex;
+      align-self: center;
+    }
+  }
+}
+
+.extra-space {
+    margin-bottom: 20px;
+}

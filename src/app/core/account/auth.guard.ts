@@ -9,6 +9,8 @@ export function authGuardFactory(
   return (route, state) => {
     return accountService.userAuthStatus$.pipe(
       map((isUserLoggedIn) => {
+        if (!isUserLoggedIn) router.navigate(['/']);
+
         return isUserLoggedIn;
       })
     );

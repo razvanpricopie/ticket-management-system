@@ -1,1 +1,147 @@
-<p>profile works!</p>
+<loading-spinner *ngIf="loading"></loading-spinner>
+
+<div class="grid no-horizontal-padding">
+  <div class="profile-container">
+    <h2>Profile Info Account</h2>
+    <div class="form-columns">
+      <form
+        (submit)="updatePersonalDetails()"
+        [formGroup]="personalDetailsFormGroup"
+        class="personal-details-form"
+      >
+        <mat-form-field>
+          <mat-label>Email</mat-label>
+          <input matInput formControlName="email" />
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>First name</mat-label>
+          <input matInput formControlName="firstName" required />
+          <mat-error
+            *ngIf="
+                    personalDetailsFormGroup.get('firstName')?.errors?.['required'] &&
+                    personalDetailsFormGroup.get('firstName')?.touched
+                  "
+          >
+            First name field is required
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Last name</mat-label>
+          <input matInput formControlName="lastName" required />
+          <mat-error
+            *ngIf="
+                    personalDetailsFormGroup.get('lastName')?.errors?.['required'] &&
+                    personalDetailsFormGroup.get('lastName')?.touched
+                  "
+          >
+            Last name field is required
+          </mat-error>
+        </mat-form-field>
+
+        <div class="extra-space" *ngIf="personalDetailsErrorMessageList">
+          <mat-error
+            *ngFor="let errorMessage of personalDetailsErrorMessageList"
+          >
+            {{ errorMessage }}
+          </mat-error>
+        </div>
+
+        <div class="action-button">
+          <button mat-flat-button type="submit" color="warn">
+            Update your profile details
+          </button>
+        </div>
+      </form>
+
+      <form
+        (submit)="updatePassword()"
+        [formGroup]="passwordFormGroup"
+        class="password-form"
+      >
+        <div class="password-form-fields">
+          <mat-form-field>
+            <mat-label>Current password</mat-label>
+            <input
+              matInput
+              formControlName="currentPassword"
+              type="password"
+              required
+            />
+          </mat-form-field>
+
+          <mat-form-field
+            [class.extra-space]="
+              passwordFormGroup.controls['newPassword'].invalid &&
+              passwordFormGroup.controls['newPassword'].touched
+            "
+          >
+            <mat-label>New password</mat-label>
+            <input
+              matInput
+              formControlName="newPassword"
+              type="password"
+              required
+            />
+            <mat-error
+              *ngIf="
+                        passwordFormGroup.get('newPassword')?.errors?.['nonAlphanumeric'] &&
+                        passwordFormGroup.get('newPassword')?.touched
+                      "
+            >
+              Password must contains non-alphanumeric characters
+            </mat-error>
+            <mat-error
+              *ngIf="
+                        passwordFormGroup.get('newPassword')?.errors?.['numeric'] &&
+                        passwordFormGroup.get('newPassword')?.touched
+                      "
+            >
+              Password must contains numeric characters
+            </mat-error>
+            <mat-error
+              *ngIf="
+                        passwordFormGroup.get('newPassword')?.errors?.['uppercase'] &&
+                        passwordFormGroup.get('newPassword')?.touched
+                      "
+            >
+              Password must contains uppercase characters
+            </mat-error>
+            <mat-error
+              *ngIf="
+                        passwordFormGroup.get('newPassword')?.errors?.['minlength'] &&
+                        passwordFormGroup.get('newPassword')?.touched
+                      "
+            >
+              Password must have mininum 6 characters
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>New password confirmation</mat-label>
+            <input
+              matInput
+              formControlName="newPasswordConfirmation"
+              type="password"
+              required
+            />
+          </mat-form-field>
+        </div>
+
+        <div class="extra-space" *ngIf="updatePasswordErrorMessageList" >
+          <mat-error
+            *ngFor="let errorMessage of updatePasswordErrorMessageList"
+          >
+            {{ errorMessage }}
+          </mat-error>
+        </div>
+
+        <div class="action-button">
+          <button mat-flat-button type="submit" color="warn">
+            Update you password
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
