@@ -5,6 +5,7 @@ import {
   CreateOrder,
   OrderDetails,
   OrderDetailsPreview,
+  UserOrderDetails,
 } from '../models/order.model';
 import { BehaviorSubject, Observable } from 'rxjs';
 
@@ -41,6 +42,12 @@ export class OrderService {
     return this.httpClient.post<string>(
       `${this.basePath}/api/order/addOrder`,
       createdOrder
+    );
+  }
+
+  getAllUserOrders(userId: string): Observable<UserOrderDetails[]> {
+    return this.httpClient.get<UserOrderDetails[]>(
+      `${this.basePath}/api/order/allUserOrders/${userId}`
     );
   }
 }

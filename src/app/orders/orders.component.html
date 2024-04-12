@@ -1,0 +1,21 @@
+<loading-spinner *ngIf="loading"></loading-spinner>
+
+<div class="grid no-horizontal-padding">
+  <div class="order-list-container">
+    <h1>My orders and tickets</h1>
+    <div class="order-container" *ngFor="let order of orders">
+      <div class="order-details">
+        <span>Order number: {{ order.id }}</span>
+        <span>Total amount: {{ order.orderTotal | currency : "EUR" }}</span>
+        <span>Order date: {{ order.createdDate | date }}</span>
+      </div>
+      <div *ngFor="let ticket of order.tickets">
+        <order-ticket-item
+          [ticket]="ticket"
+          [quantity]="ticket.quantity"
+          [price]="ticket.price"
+        ></order-ticket-item>
+      </div>
+    </div>
+  </div>
+</div>

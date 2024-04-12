@@ -46,6 +46,12 @@ const routes: Routes = [
           import('./profile/profile.module').then((m) => m.ProfileModule),
       },
       {
+        path: 'orders',
+        canActivate: ['authGuard'],
+        loadChildren: () =>
+          import('./orders/orders.module').then((m) => m.OrdersModule),
+      },
+      {
         path: 'admin-dashboard',
         canActivate: ['adminGuard'],
         loadChildren: () =>

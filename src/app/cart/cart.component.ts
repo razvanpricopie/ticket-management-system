@@ -17,10 +17,11 @@ export class CartComponent implements OnInit, OnDestroy {
   subscriptions: Subscription[] = [];
 
   tickets: Ticket[];
-
   cartTotalAmount: number;
 
   isUserLoggedIn: boolean = false;
+  userId: string;
+
   loading: boolean = true;
 
   constructor(
@@ -42,7 +43,7 @@ export class CartComponent implements OnInit, OnDestroy {
 
   createOrder() {
     let orderToCreate: CreateOrder = {
-      userId: 'c3cb0b6a-033c-4261-8b1d-0e4658544b94',
+      userId: this.userId,
       orderTotal: this.cartTotalAmount,
       tickets: this.tickets.map((ticket) => {
         return <CreateOrderTicket>{
@@ -71,6 +72,12 @@ export class CartComponent implements OnInit, OnDestroy {
     this.subscriptions.push(
       this.accountService.userAuthStatus$.subscribe((isUserLoggedIn) => {
         this.isUserLoggedIn = isUserLoggedIn;
+      })
+    );
+
+    this.subscriptions.push(
+      this.accountService.userDetails$.subscribe((userDetails) => {
+        this.userId = userDetails.userId;
       })
     );
   }

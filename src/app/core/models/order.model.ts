@@ -1,4 +1,4 @@
-import { Ticket } from './event.model';
+import { EventDetails, Ticket } from './event.model';
 
 export interface OrderDetailsPreview {
   id: string;
@@ -33,4 +33,28 @@ export interface CreateOrderTicket {
   eventId: string;
   quantity: number;
   price: number;
+}
+
+export interface UserOrderDetails {
+  id: string;
+  userId: string;
+  orderTotal: number;
+  tickets: UserOrderTicket[];
+  createdDate: Date;
+}
+
+export interface UserOrderTicket {
+  eventId: string;
+  event: EventDetails;
+  quantity: number;
+  price: number;
+}
+
+export interface UserOrderTicketEvent {
+  eventId: string;
+  name: string;
+  date: Date;
+  artist: string;
+  imageUrl: string;
+  location: string;
 }

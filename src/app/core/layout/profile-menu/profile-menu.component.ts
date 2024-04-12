@@ -27,7 +27,7 @@ export class ProfileMenuComponent implements OnInit, OnDestroy {
 
     this.menuButtons = [
       { label: 'Profile', url: '/profile' },
-      { label: 'Tickets', url: '' },
+      { label: 'Orders', url: '/orders' },
     ];
   }
 

@@ -1,0 +1,22 @@
+<div class="cart-ticket-item-container">
+  <div class="cart-ticket-container-left">
+    <img
+      mat-card-image
+      class="product-image"
+      src="https://media.geeksforgeeks.org/wp-content/uploads/geek.png"
+      alt="Product Image"
+    />
+    <div class="ticket-event-preview-details">
+      <span>{{ ticket.event.name }}</span>
+      <span>{{ ticket.event.artist }}</span>
+      <span>{{ ticket.event.date | date }}</span>
+      <span>{{ ticket.event.location }}</span>
+    </div>
+    <div class="important-details">
+      Total amount of item: {{ ticketTotalAmount | currency : "EUR" }}
+    </div>
+  </div>
+  <div class="cart-ticket-container-right">
+    <div class="important-details">Quantity: {{ quantity }}</div>
+  </div>
+</div>

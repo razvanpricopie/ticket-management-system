@@ -16,9 +16,7 @@ export class AuthInterceptor implements HttpInterceptor {
     request: HttpRequest<unknown>,
     next: HttpHandler
   ): Observable<HttpEvent<unknown>> {
-    const jwt = localStorage.getItem('jwt');
-
-    if (jwt) {
+    if (localStorage.getItem('userData')) {
       let isAuthenticated: boolean = false;
 
       this.accountService.userAuthStatus$.subscribe((authStatus) => {
@@ -26,6 +24,10 @@ export class AuthInterceptor implements HttpInterceptor {
       });
 
       if (!isAuthenticated) return next.handle(request);
+
+      let jwt = JSON.parse(
+        localStorage.getItem('userData') || ''
+      ).token;
 
       request = request.clone({
         setHeaders: {
