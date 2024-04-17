@@ -3,6 +3,7 @@ import { AccountService } from '../../account/account.service';
 import { Router } from '@angular/router';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
+import { UserRoles } from '../../account/account.model';
 
 @Component({
   selector: 'profile-menu',
@@ -10,11 +11,12 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./profile-menu.component.scss'],
 })
 export class ProfileMenuComponent implements OnInit, OnDestroy {
-  sub: Subscription;
+  subscriptions: Subscription[] = [];
 
   menuButtons: MenuButtons[];
 
   isUserLoggedIn: boolean;
+  isUserAdmin: boolean;
 
   constructor(
     private accountService: AccountService,
@@ -24,15 +26,11 @@ export class ProfileMenuComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.initUserAuthStatus();
-
-    this.menuButtons = [
-      { label: 'Profile', url: '/profile' },
-      { label: 'Orders', url: '/orders' },
-    ];
+    this.initMenuButtons();
   }
 
   ngOnDestroy(): void {
-    this.sub.unsubscribe();
+    this.subscriptions.forEach((subscription) => subscription.unsubscribe());
   }
 
   logout() {
@@ -52,11 +50,30 @@ export class ProfileMenuComponent implements OnInit, OnDestroy {
   }
 
   private initUserAuthStatus() {
-    this.sub = this.accountService.userAuthStatus$.subscribe(
-      (isUserLoggedIn) => {
+    this.subscriptions.push(
+      this.accountService.userAuthStatus$.subscribe((isUserLoggedIn) => {
         this.isUserLoggedIn = isUserLoggedIn;
-      }
+      })
     );
+
+    this.subscriptions.push(
+      this.accountService.userRole$.subscribe((userRole) => {
+        this.isUserAdmin = userRole === UserRoles.Admin ? true : false;
+      })
+    );
+  }
+
+  private initMenuButtons() {
+    this.menuButtons = [{ label: 'Profile', url: '/profile' }];
+
+    if (this.isUserAdmin) {
+      this.menuButtons.push({
+        label: 'Dashboard',
+        url: '/admin-dashboard',
+      });
+    } else {
+      this.menuButtons.push({ label: 'Orders', url: '/orders' });
+    }
   }
 }
 
