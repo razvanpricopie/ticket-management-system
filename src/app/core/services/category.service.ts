@@ -18,7 +18,6 @@ export class CategoryService {
     );
   }
 
-  //to complete this method
   getCategoryWithEvents(
     categoryId: string,
     includeHistory: boolean

@@ -20,7 +20,7 @@ export interface OrderTicketDetails {
   ticketId: string;
   quantity: number;
   price: number;
-  eventName: number;
+  eventName: string;
 }
 
 export interface CreateOrder {
@@ -55,6 +55,6 @@ export interface UserOrderTicketEvent {
   name: string;
   date: Date;
   artist: string;
-  imageUrl: string;
+  image: Blob | File;
   location: string;
 }

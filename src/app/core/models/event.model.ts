@@ -8,7 +8,7 @@ export interface EventDetails {
   date: Date;
   description: string;
   location: string;
-  imageUrl: string;
+  image: Blob | File;
   category: Category;
 }
 
@@ -19,7 +19,7 @@ export interface CreateEvent {
   date: Date;
   description: string;
   location: string;
-  imageUrl: string;
+  image: Blob | File;
   categoryId: string;
 }
 
@@ -31,7 +31,7 @@ export interface UpdateEvent {
   location: string;
   date: Date;
   description: string;
-  imageUrl: string;
+  image: Blob | File;
   categoryId: string;
 }
 

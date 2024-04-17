@@ -28,7 +28,7 @@ export class CategoriesComponent implements OnInit, OnDestroy {
     this.categoryId = this.route.snapshot.paramMap.get('id') || '';
 
     this.sub = this.categoryService
-      .getCategoryWithEvents(this.categoryId, true)
+      .getCategoryWithEvents(this.categoryId, false)
       .subscribe((category) => {
         this.category = category;
         this.eventsOfCategory = category.events;

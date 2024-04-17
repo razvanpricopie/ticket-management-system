@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment.development';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { CreateEvent, EventDetails, UpdateEvent } from '../models/event.model';
 
 @Injectable({
@@ -25,20 +25,43 @@ export class EventService {
   }
 
   createEvent(createdEvent: CreateEvent): Observable<string> {
+    const formData = new FormData();
+    formData.append('name', createdEvent.name);
+    formData.append('artist', createdEvent.artist);
+    formData.append('description', createdEvent.description);
+    formData.append('location', createdEvent.location);
+    formData.append('price', createdEvent.price.toString());
+    formData.append('categoryId', createdEvent.categoryId);
+    formData.append('date', createdEvent.date.toISOString());
+    formData.append('image', createdEvent.image);
+
     return this.httpClient.post<string>(
       `${this.basePath}/api/event/addevent`,
-      createdEvent
+      formData
     );
   }
 
   updateEvent(updatedEvent: UpdateEvent): Observable<void> {
+    const formData = new FormData();
+    formData.append('eventId', updatedEvent.eventId);
+    formData.append('name', updatedEvent.name);
+    formData.append('artist', updatedEvent.artist);
+    formData.append('description', updatedEvent.description);
+    formData.append('location', updatedEvent.location);
+    formData.append('price', updatedEvent.price.toString());
+    formData.append('categoryId', updatedEvent.categoryId);
+    formData.append('date', updatedEvent.date.toISOString());
+    formData.append('image', updatedEvent.image);
+
     return this.httpClient.put<void>(
       `${this.basePath}/api/event/updateevent`,
-      updatedEvent
+      formData
     );
   }
 
   deleteEvent(eventId: string): Observable<void> {
-    return this.httpClient.delete<void>(`${this.basePath}/api/event/${eventId}`);
+    return this.httpClient.delete<void>(
+      `${this.basePath}/api/event/${eventId}`
+    );
   }
 }

@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { EventDetails } from 'src/app/core/models/event.model';
@@ -22,13 +23,16 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   quantitySub: Subscription = new Subscription();
   quantityValueMultiplied: number = 0;
 
+  imageUrl: SafeUrl;
+
   loading: boolean = true;
 
   constructor(
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private eventService: EventService,
-    private cartService: CartService
+    private cartService: CartService,
+    private sanitizer: DomSanitizer
   ) {}
 
   ngOnInit(): void {
@@ -37,6 +41,8 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     this.form = this.formBuilder.group({ quantity: [0, Validators.min(0)] });
 
     this.initSubscriptions();
+
+    
   }
 
   ngOnDestroy(): void {
@@ -60,6 +66,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
         .getEventDetails(this.eventId)
         .subscribe((eventDetails) => {
           this.eventDetails = eventDetails;
+          this.initEventImage();
           this.loading = false;
         })
     );
@@ -68,6 +75,12 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
       this.form.get('quantity')?.valueChanges.subscribe((value) => {
         this.quantityValueMultiplied = value * this.eventDetails.price;
       }) || new Subscription()
+    );
+  }
+
+  private initEventImage() {
+    this.imageUrl = this.sanitizer.bypassSecurityTrustUrl(
+      `data:image/jpeg;base64,${this.eventDetails.image}`
     );
   }
 }

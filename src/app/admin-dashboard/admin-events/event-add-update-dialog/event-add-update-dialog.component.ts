@@ -25,6 +25,9 @@ export class EventAddUpdateDialogComponent implements OnInit, OnDestroy {
   eventDetailsForm: FormGroup;
 
   tomorrowDate: Date = new Date();
+
+  selectedFileName: string;
+
   errorMessage: string;
 
   constructor(
@@ -32,8 +35,7 @@ export class EventAddUpdateDialogComponent implements OnInit, OnDestroy {
     private dialogRef: MatDialogRef<EventDetailsDialogComponent>,
     private formBuilder: FormBuilder,
     private categoryService: CategoryService,
-    private eventService: EventService,
-    private datePipe: DatePipe
+    private eventService: EventService
   ) {}
 
   ngOnInit(): void {
@@ -42,6 +44,8 @@ export class EventAddUpdateDialogComponent implements OnInit, OnDestroy {
     this.initTomorrowDate();
 
     this.initCategoryOptions();
+
+    if (this.clonedEventData.image) this.selectedFileName = 'image.jpg';
   }
 
   ngOnDestroy(): void {
@@ -68,7 +72,7 @@ export class EventAddUpdateDialogComponent implements OnInit, OnDestroy {
         [
           Validators.required,
           Validators.minLength(5),
-          Validators.maxLength(30),
+          Validators.maxLength(100),
         ],
       ],
       artist: [
@@ -76,7 +80,7 @@ export class EventAddUpdateDialogComponent implements OnInit, OnDestroy {
         [
           Validators.required,
           Validators.minLength(5),
-          Validators.maxLength(30),
+          Validators.maxLength(50),
         ],
       ],
       date: [
@@ -105,9 +109,10 @@ export class EventAddUpdateDialogComponent implements OnInit, OnDestroy {
         [
           Validators.required,
           Validators.minLength(10),
-          Validators.maxLength(100),
+          Validators.maxLength(200),
         ],
       ],
+      image: [this.clonedEventData.image ?? '', [Validators.required]],
     });
   }
 
@@ -135,7 +140,7 @@ export class EventAddUpdateDialogComponent implements OnInit, OnDestroy {
       date: this.formatDateToDateOnly(this.eventDetailsForm.get('date')?.value),
       description: this.eventDetailsForm.get('description')?.value,
       location: this.eventDetailsForm.get('location')?.value,
-      imageUrl: '', //TO COMPLETE AFTER IMAGE FEATURE IMPLEMENTED
+      image: this.eventDetailsForm.get('image')?.value,
       categoryId: this.eventDetailsForm.get('category')?.value,
     };
 
@@ -153,7 +158,7 @@ export class EventAddUpdateDialogComponent implements OnInit, OnDestroy {
       date: this.formatDateToDateOnly(this.eventDetailsForm.get('date')?.value),
       description: this.eventDetailsForm.get('description')?.value,
       location: this.eventDetailsForm.get('location')?.value,
-      imageUrl: '', //TO COMPLETE AFTER IMAGE FEATURE IMPLEMENTED
+      image: this.eventDetailsForm.get('image')?.value,
       categoryId: this.eventDetailsForm.get('category')?.value,
     };
 
@@ -165,6 +170,30 @@ export class EventAddUpdateDialogComponent implements OnInit, OnDestroy {
 
   close() {
     this.dialogRef.close();
+  }
+
+  onFileSelect(event: any) {
+    if (event.target.files.length > 0) {
+      const file = event.target.files[0];
+      this.selectedFileName = event.target.files[0].name;
+
+      const reader = new FileReader();
+
+      if (!file.type.startsWith('image')) {
+        this.errorMessage = 'Please select an image file';
+        return;
+      }
+
+      reader.onloadend = () => {
+        const blob = new Blob([reader.result as ArrayBuffer], {
+          type: file.type,
+        });
+        this.eventDetailsForm.get('image')?.setValue(blob);
+        this.eventDetailsForm.markAsDirty();
+      };
+
+      reader.readAsArrayBuffer(file);
+    }
   }
 
   //format date with time 00:00 for now

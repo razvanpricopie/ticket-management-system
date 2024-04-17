@@ -41,7 +41,7 @@
                 eventDetailsForm.get('name')?.touched
               "
             >
-              Name field cannot be more than 50 characters long
+              Name field cannot be more than 100 characters long
             </mat-error>
           </mat-form-field>
           <mat-form-field>
@@ -186,7 +186,7 @@
                 eventDetailsForm.get('description')?.touched
               "
           >
-            Description field must be at least 5 characters long
+            Description field must be at least 10 characters long
           </mat-error>
           <mat-error
             *ngIf="
@@ -194,9 +194,22 @@
                 eventDetailsForm.get('description')?.touched
               "
           >
-            Description field cannot be more than 50 characters long
+            Description field cannot be more than 200 characters long
           </mat-error>
         </mat-form-field>
+
+        <button type="button" mat-raised-button (click)="fileInput.click()">
+          Choose file
+        </button>
+        <input
+          hidden
+          #fileInput
+          (change)="onFileSelect($event)"
+          type="file"
+          id="file"
+          accept="image/*"
+        />
+        <div *ngIf="selectedFileName">{{ this.selectedFileName }}</div>
       </div>
 
       <mat-error *ngIf="errorMessage"> {{ errorMessage }} </mat-error>
