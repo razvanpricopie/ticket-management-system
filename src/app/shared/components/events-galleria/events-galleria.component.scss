@@ -1,0 +1,57 @@
+.galleria-container {
+    display: flex;
+    justify-content: center;
+  
+    .galleria-image {
+      cursor: pointer;
+      display: block;
+      max-height: 500px;
+      object-fit: cover;
+    }
+  }
+  
+  .p-galleria-item-prev,
+  .p-galleria-item-next {
+    cursor: pointer;
+    background-color: #f8f9fa;
+    border: none;
+    font-size: 20px;
+    border-radius: 12px;
+    margin: 4px;
+  }
+  
+  .p-galleria-item-prev:hover,
+  .p-galleria-item-next:hover {
+    background-color: #e2e6ea;
+    color: #212529;
+  }
+  
+  .p-galleria-item-prev:active,
+  .p-galleria-item-prev:active {
+    background-color: #ced4da;
+    color: #212529;
+  }
+  
+  .p-galleria .p-galleria-indicators .p-galleria-indicator {
+    list-style-type: none;
+    margin-right: 10px;
+  }
+  
+  .p-galleria .p-galleria-indicators .p-galleria-indicator button {
+    cursor: pointer;
+    background-color: #e2e8f0;
+    border: none;
+    font-size: 20px;
+    width: 24px;
+    height: 6px;
+    border-radius: 12px;
+  }
+  
+  .p-galleria .p-galleria-indicators .p-galleria-indicator button:hover {
+    background-color: #cbd5e1;
+  }
+  
+  .p-galleria .p-galleria-indicators .p-highlight button,
+  .p-galleria .p-galleria-indicators .p-highlight button:hover {
+    background-color: #3b82f6;
+  }

@@ -8,7 +8,7 @@ export interface EventDetails {
   date: Date;
   description: string;
   location: string;
-  image: Blob | File;
+  image: string;
   category: Category;
 }
 

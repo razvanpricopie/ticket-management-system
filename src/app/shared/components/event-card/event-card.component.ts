@@ -13,7 +13,7 @@ export class EventCardComponent implements OnInit {
   @Input() name: string;
   @Input() date: Date;
   @Input() location: string;
-  @Input() image: Blob | File;
+  @Input() image: string;
 
   imageUrl: SafeUrl;
 

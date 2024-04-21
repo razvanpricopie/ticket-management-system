@@ -1,0 +1,9 @@
+<div class="galleria-container">
+    <p-galleria [value]="eventsImageUrls" [showItemNavigators]="true" [showThumbnails]="false" [showIndicators]="true">
+      <ng-template let-image pTemplate="item">
+        <div>
+          <img [src]="image.itemImageSrc" class="galleria-image" (click)="redirectToEventPage(image.eventId)"/>
+        </div>
+      </ng-template>
+    </p-galleria>
+  </div>

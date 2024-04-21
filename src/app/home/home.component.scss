@@ -1,11 +1,12 @@
-.presentation-carrousel-placeholder {
-  height: 350px;
-  width:100%;
-  overflow: hidden;
+.events-galleria-container {
+  width: 100%;
+}
 
-  .product-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
+
+
+
+.events-sections-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
 }

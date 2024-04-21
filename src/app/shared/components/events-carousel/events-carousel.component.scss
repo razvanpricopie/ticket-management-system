@@ -1,0 +1,48 @@
+.event-card {
+  padding: 16px;
+}
+
+.p-carousel-prev,
+.p-carousel-next {
+  cursor: pointer;
+  background-color: #f8f9fa;
+  border: none;
+  font-size: 20px;
+  border-radius: 12px;
+}
+
+.p-carousel-prev:hover,
+.p-carousel-next:hover {
+  background-color: #e2e6ea;
+  color: #212529;
+}
+
+.p-carousel-prev:active,
+.p-carousel-next:active {
+  background-color: #ced4da;
+  color: #212529;
+}
+
+.p-carousel .p-carousel-indicators .p-carousel-indicator {
+  list-style-type: none;
+  margin-right: 10px;
+}
+
+.p-carousel .p-carousel-indicators .p-carousel-indicator button {
+  cursor: pointer;
+  background-color: #e2e8f0;
+  border: none;
+  font-size: 20px;
+  width: 24px;
+  height: 6px;
+  border-radius: 12px;
+}
+
+.p-carousel .p-carousel-indicators .p-carousel-indicator button:hover {
+  background-color: #cbd5e1;
+}
+
+.p-carousel .p-carousel-indicators .p-highlight button,
+.p-carousel .p-carousel-indicators .p-highlight button:hover {
+  background-color: #3b82f6; // Change the color of the current page button
+}

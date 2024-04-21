@@ -1,14 +1,12 @@
 <loading-spinner *ngIf="loading"></loading-spinner>
 
 <div class="grid no-horizontal-padding">
-  <div class="presentation-carrousel-placeholder">
-    <img
-      mat-card-image
-      class="product-image"
-      src="https://media.geeksforgeeks.org/wp-content/uploads/geek.png"
-      alt="Product Image"
-    />
-  </div>
+  <ng-container *ngIf="!loading">
+    <events-galleria
+      class="events-galleria-container"
+      [events]="events"
+    ></events-galleria>
+  </ng-container>
 </div>
 
 <mat-divider></mat-divider>
@@ -24,13 +22,10 @@
 </div>
 
 <div class="grid no-horizontal-padding">
-  <div *ngFor="let event of events" class="block-quarter">
-    <app-event-card
-      [eventId]="event.eventId"
-      [name]="event.name"
-      [date]="event.date"
-      [location]="event.location"
-      [image]="event.image"
-    ></app-event-card>
+  <div class="events-sections-container">
+    <events-carousel
+      [carouselHeader]="'Lastly added events'"
+      [events]="events"
+    ></events-carousel>
   </div>
 </div>
