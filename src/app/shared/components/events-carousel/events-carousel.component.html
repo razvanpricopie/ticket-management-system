@@ -4,13 +4,13 @@
   </ng-template>
   <ng-template let-event pTemplate="event">
     <div class="event-card">
-      <app-event-card
+      <event-card
         [eventId]="event.eventId"
         [name]="event.name"
         [date]="event.date"
         [location]="event.location"
         [image]="event.image"
-      ></app-event-card>
+      ></event-card>
     </div>
   </ng-template>
 </p-carousel>

@@ -15,7 +15,7 @@ export class CategoriesComponent implements OnInit, OnDestroy {
 
   categoryId: string;
   category: Category;
-  eventsOfCategory: EventDetails[] = [];
+  categoryEvents: EventDetails[] = [];
 
   loading: boolean = true;
 
@@ -31,7 +31,7 @@ export class CategoriesComponent implements OnInit, OnDestroy {
       .getCategoryWithEvents(this.categoryId, false)
       .subscribe((category) => {
         this.category = category;
-        this.eventsOfCategory = category.events;
+        this.categoryEvents = category.events;
         this.loading = false;
       });
   }
