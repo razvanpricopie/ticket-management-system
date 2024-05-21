@@ -24,7 +24,26 @@
 <div class="grid no-horizontal-padding">
   <div class="events-sections-container">
     <events-carousel
-      [carouselHeader]="'Lastly added events'"
+      *ngIf="tenEventsBasedOnUserOrders && tenEventsBasedOnUserOrders.length > 0"
+      [carouselHeader]="'You may like'"
+      [events]="tenEventsBasedOnUserOrders"
+    ></events-carousel>
+
+    <events-carousel
+      *ngIf="mostBoughtTenEvents && mostBoughtTenEvents.length > 0"
+      [carouselHeader]="'Most wanted'"
+      [events]="mostBoughtTenEvents"
+    ></events-carousel>
+
+    <events-carousel
+      *ngIf="lastTenAddedEvents && lastTenAddedEvents.length > 0"
+      [carouselHeader]="'Newly added'"
+      [events]="lastTenAddedEvents"
+    ></events-carousel>
+
+    <events-carousel
+      *ngIf="events && events.length > 0"
+      [carouselHeader]="'All events'"
       [events]="events"
     ></events-carousel>
   </div>

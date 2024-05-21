@@ -41,8 +41,6 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     this.form = this.formBuilder.group({ quantity: [0, Validators.min(0)] });
 
     this.initSubscriptions();
-
-    
   }
 
   ngOnDestroy(): void {
