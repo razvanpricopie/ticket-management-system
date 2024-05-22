@@ -17,6 +17,10 @@ export class CategoryAddUpdateDialogComponent implements OnInit {
   clonedCategoryData: Category;
   categoryForm: FormGroup;
 
+  selectedFileName: string;
+
+  errorMessage: string;
+
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: Category,
     private dialogRef: MatDialogRef<CategoryAddUpdateDialogComponent>,
@@ -28,6 +32,8 @@ export class CategoryAddUpdateDialogComponent implements OnInit {
     this.clonedCategoryData = this.data ?? {};
 
     this.initCategoryFormGroup();
+
+    if (this.clonedCategoryData.image) this.selectedFileName = 'image.jpg';
   }
 
   initCategoryFormGroup() {
@@ -40,7 +46,32 @@ export class CategoryAddUpdateDialogComponent implements OnInit {
           Validators.maxLength(30),
         ],
       ],
+      image: [this.clonedCategoryData.image ?? '', [Validators.required]],
     });
+  }
+
+  onFileSelect(event: any) {
+    if (event.target.files.length > 0) {
+      const file = event.target.files[0];
+      this.selectedFileName = event.target.files[0].name;
+
+      const reader = new FileReader();
+
+      if (!file.type.startsWith('image')) {
+        this.errorMessage = 'Please select an image file';
+        return;
+      }
+
+      reader.onloadend = () => {
+        const blob = new Blob([reader.result as ArrayBuffer], {
+          type: file.type,
+        });
+        this.categoryForm.get('image')?.setValue(blob);
+        this.categoryForm.markAsDirty();
+      };
+
+      reader.readAsArrayBuffer(file);
+    }
   }
 
   submit() {
@@ -57,6 +88,7 @@ export class CategoryAddUpdateDialogComponent implements OnInit {
     let categoryUpdated: UpdateCategory = {
       categoryId: this.clonedCategoryData.categoryId,
       name: this.categoryForm.get('name')?.value,
+      image: this.categoryForm.get('image')?.value,
     };
 
     this.categoryService.updateCategory(categoryUpdated).subscribe({
@@ -68,6 +100,7 @@ export class CategoryAddUpdateDialogComponent implements OnInit {
   create() {
     let newCategoryCreated: CreateCategory = {
       name: this.categoryForm.get('name')?.value,
+      image: this.categoryForm.get('image')?.value,
     };
 
     this.categoryService.createCategory(newCategoryCreated).subscribe({

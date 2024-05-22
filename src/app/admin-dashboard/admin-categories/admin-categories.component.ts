@@ -39,7 +39,7 @@ export class AdminCategoriesComponent implements OnInit, OnDestroy {
       });
   }
 
-  openCategoryDetails(category: CategoryService) {
+  openCategoryDetails(category: Category) {
     this.dialog.open(CategoryDetailsDialogComponent, {
       data: category,
       width: '500px'

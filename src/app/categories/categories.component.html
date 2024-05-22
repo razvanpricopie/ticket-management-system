@@ -2,16 +2,21 @@
 
 <div class="grid no-horizontal-padding">
   <div class="presentation-carrousel-placeholder">
-    <img mat-card-image class="product-image" alt="Product Image" />
+    <img
+      mat-card-image
+      class="product-image"
+      [src]="imageUrl"
+      alt="Category Image"
+    />
   </div>
 
   <div class="category-with-events-container" *ngIf="!loading">
     <div class="mat-headline-3 category-title">{{ category.name }}</div>
 
     <div class="grid no-horizontal-padding">
-      <div class="events-sections-container">
+      <div class="events-sections-container" *ngIf="categoryEvents.length > 0">
         <events-carousel
-          [carouselHeader]="'Lastly added events'"
+          [carouselHeader]="'Lastly added events of this category'"
           [events]="categoryEvents"
         ></events-carousel>
       </div>

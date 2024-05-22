@@ -43,7 +43,22 @@
             Name field cannot be more than 50 characters long
           </mat-error>
         </mat-form-field>
+
+        <button class="category-image-field" type="button" mat-raised-button (click)="fileInput.click()">
+          Choose file
+        </button>
+        <input
+          hidden
+          #fileInput
+          (change)="onFileSelect($event)"
+          type="file"
+          id="file"
+          accept="image/*"
+        />
+        <div *ngIf="selectedFileName">{{ this.selectedFileName }}</div>
       </div>
+
+      <mat-error *ngIf="errorMessage"> {{ errorMessage }} </mat-error>
     </div>
 
     <div mat-dialog-actions>

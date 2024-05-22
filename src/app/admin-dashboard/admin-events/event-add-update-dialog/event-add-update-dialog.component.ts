@@ -79,8 +79,7 @@ export class EventAddUpdateDialogComponent implements OnInit, OnDestroy {
         this.clonedEventData.artist ?? '',
         [
           Validators.required,
-          Validators.minLength(5),
-          Validators.maxLength(50),
+          Validators.minLength(5)
         ],
       ],
       date: [
@@ -97,7 +96,6 @@ export class EventAddUpdateDialogComponent implements OnInit, OnDestroy {
         [
           Validators.required,
           Validators.minLength(5),
-          Validators.maxLength(30),
         ],
       ],
       price: [
@@ -109,7 +107,6 @@ export class EventAddUpdateDialogComponent implements OnInit, OnDestroy {
         [
           Validators.required,
           Validators.minLength(10),
-          Validators.maxLength(200),
         ],
       ],
       image: [this.clonedEventData.image ?? '', [Validators.required]],

@@ -63,14 +63,6 @@
             >
               Artist field must be at least 5 characters long
             </mat-error>
-            <mat-error
-              *ngIf="
-                eventDetailsForm.get('artist')?.errors?.['maxlength'] &&
-                eventDetailsForm.get('artist')?.touched
-              "
-            >
-              Artist field cannot be more than 50 characters long
-            </mat-error>
           </mat-form-field>
           <mat-form-field>
             <mat-label>Date: </mat-label>
@@ -114,7 +106,7 @@
                 eventDetailsForm.get('category')?.touched
               "
             >
-              Location field is required
+              Category field is required
             </mat-error>
           </mat-form-field>
           <mat-form-field>
@@ -135,14 +127,6 @@
               "
             >
               Location field must be at least 5 characters long
-            </mat-error>
-            <mat-error
-              *ngIf="
-                eventDetailsForm.get('location')?.errors?.['maxlength'] &&
-                eventDetailsForm.get('location')?.touched
-              "
-            >
-              Location field cannot be more than 50 characters long
             </mat-error>
           </mat-form-field>
           <mat-form-field>
@@ -187,14 +171,6 @@
               "
           >
             Description field must be at least 10 characters long
-          </mat-error>
-          <mat-error
-            *ngIf="
-                eventDetailsForm.get('description')?.errors?.['maxlength'] &&
-                eventDetailsForm.get('description')?.touched
-              "
-          >
-            Description field cannot be more than 200 characters long
           </mat-error>
         </mat-form-field>
 
