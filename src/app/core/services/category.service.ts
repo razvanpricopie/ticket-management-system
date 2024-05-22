@@ -28,16 +28,25 @@ export class CategoryService {
   }
 
   createCategory(createdCategory: CreateCategory): Observable<string> {
+    const formData = new FormData();
+    formData.append('name', createdCategory.name);
+    formData.append('image', createdCategory.image);
+
     return this.httpClient.post<string>(
       `${this.basePath}/api/category/addcategory`,
-      createdCategory
+      formData
     );
   }
 
   updateCategory(updatedCategory: UpdateCategory): Observable<void> {
+    const formData = new FormData();
+    formData.append('categoryId', updatedCategory.categoryId);
+    formData.append('name', updatedCategory.name);
+    formData.append('image', updatedCategory.image);
+
     return this.httpClient.put<void>(
       `${this.basePath}/api/category/updatecategory`,
-      updatedCategory
+      formData
     );
   }
 

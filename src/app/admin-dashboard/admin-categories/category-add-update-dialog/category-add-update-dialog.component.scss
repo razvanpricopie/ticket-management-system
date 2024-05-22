@@ -9,6 +9,10 @@
       flex-direction: column;
       flex: 1;
       gap: 12px;
+
+      .category-image-field {
+        width: fit-content;
+      }
     }
   }
 

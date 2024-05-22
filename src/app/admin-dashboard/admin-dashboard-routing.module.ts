@@ -17,14 +17,17 @@ const routes: Routes = [
       },
       {
         path: 'admin-events',
+        canActivate: ['adminGuard'],
         component: AdminEventsComponent,
       },
       {
         path: 'admin-categories',
+        canActivate: ['adminGuard'],
         component: AdminCategoriesComponent,
       },
       {
         path: 'admin-orders',
+        canActivate: ['adminGuard'],
         component: AdminOrdersComponent,
       },
     ],
