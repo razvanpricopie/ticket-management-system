@@ -8,10 +8,22 @@
       [src]="imageUrl"
       alt="Product Image"
     />
+
+    <div class="like-buttons" *ngIf="userEventLikeStatus && isUserLoggedIn">
+      <div class="like-button">
+        <button mat-icon-button (click)="dislikeEvent()" [class.liked]="userEventLikeStatus.isLiked != null && !userEventLikeStatus.isLiked" [disabled]="userEventLikeStatus.isLiked != null && userEventLikeStatus.isLiked">
+          <mat-icon>thumb_down </mat-icon>
+        </button>
+      </div>
+      <div class="like-button" >
+        <button mat-icon-button (click)="likeEvent()" [class.liked]="userEventLikeStatus.isLiked != null && userEventLikeStatus.isLiked"  [disabled]="userEventLikeStatus.isLiked != null && !userEventLikeStatus.isLiked">
+          <mat-icon>thumb_up </mat-icon>
+        </button>
+      </div>
+    </div>
   </div>
 
   <div class="event-details-container" *ngIf="eventDetails">
-
     <div class="event-details-main">
       <div class="mat-subtitle-1">
         {{ eventDetails.date | date }}
@@ -22,7 +34,9 @@
         <div class="mat-body-1">Artist: {{ eventDetails.artist }}</div>
         <div class="mat-body-1">Category: {{ eventDetails.category.name }}</div>
         <div class="mat-body-1">Location: {{ eventDetails.location }}</div>
-        <div class="mat-body-1">Price: {{ eventDetails.price | currency : "EUR"}}</div>
+        <div class="mat-body-1">
+          Price: {{ eventDetails.price | currency : "EUR" }}
+        </div>
         <div class="mat-body-1">
           Description: {{ eventDetails.description }}
         </div>
@@ -30,14 +44,32 @@
     </div>
 
     <div class="event-tickets-container">
-      <form [formGroup]="form" (ngSubmit)="addTickets()" class="tickets-form-container">
+      <form
+        [formGroup]="form"
+        (ngSubmit)="addTickets()"
+        class="tickets-form-container"
+      >
         <mat-form-field>
           <mat-label>Quantity</mat-label>
-          <input matInput type="number" formControlName="quantity" min="0" (keydown)="$event.preventDefault()" />
+          <input
+            matInput
+            type="number"
+            formControlName="quantity"
+            min="0"
+            (keydown)="$event.preventDefault()"
+          />
         </mat-form-field>
 
-        <button mat-raised-button color="warn" type="submit" [disabled]="form.get('quantity')!.value == 0">
-          Add to cart <span *ngIf="form.get('quantity')!.value != 0">for {{quantityValueMultiplied}}</span>
+        <button
+          mat-raised-button
+          color="warn"
+          type="submit"
+          [disabled]="form.get('quantity')!.value == 0"
+        >
+          Add to cart
+          <span *ngIf="form.get('quantity')!.value != 0"
+            >for {{ quantityValueMultiplied }}</span
+          >
         </button>
       </form>
     </div>

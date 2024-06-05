@@ -1,7 +1,27 @@
 .presentation-carrousel-placeholder {
+  position: relative;
   height: 350px;
   width: 100%;
   overflow: hidden;
+
+  .like-buttons {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    display: flex;
+    gap: 6px;
+
+    .like-button {
+      border-radius: 30px;
+      background-color: white;
+
+      .liked {
+        background-color:#f5e900;
+      }
+    }
+  }
+  
+  
 
   .product-image {
     width: 100%;
@@ -14,7 +34,7 @@
   display: flex;
   flex-direction: row;
   width: 100%;
-  
+
   .event-details-main {
     display: flex;
     flex-direction: column;
@@ -22,7 +42,6 @@
   }
 
   .event-tickets-container {
-    
     .tickets-form-container {
       display: flex;
       flex-direction: column;
