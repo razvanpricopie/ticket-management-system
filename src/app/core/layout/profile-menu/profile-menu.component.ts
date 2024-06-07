@@ -73,6 +73,7 @@ export class ProfileMenuComponent implements OnInit, OnDestroy {
       });
     } else {
       this.menuButtons.push({ label: 'Orders', url: '/orders' });
+      this.menuButtons.push({ label: 'Favourite', url: '/favourite-events' });
     }
   }
 }

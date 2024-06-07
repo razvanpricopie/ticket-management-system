@@ -1,0 +1,57 @@
+<div class="grid no-horizontal-padding">
+  <div class="favourite-events-container">
+    <ng-container *ngIf="likedEvents.length > 3; else fewLikedEvents">
+      <div class="events-sections-container">
+        <events-carousel
+          [carouselHeader]="'Your Liked Events'"
+          [events]="likedEvents"
+        ></events-carousel>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="disLikedEvents.length > 3; else fewDislikedEvents">
+      <div class="events-sections-container">
+        <events-carousel
+          [carouselHeader]="'Your Disliked Events'"
+          [events]="disLikedEvents"
+        ></events-carousel>
+      </div>
+    </ng-container>
+  </div>
+</div>
+
+<ng-template #fewLikedEvents>
+  <div class="few-cards-container">
+    <h1>Your Liked Events</h1>
+    <span *ngIf="likedEvents.length == 0" class="event-container-empty-text">You didn't liked any events yet.</span>
+    <div class="few-cards-content">
+      <div *ngFor="let event of likedEvents" class="event-card">
+        <event-card
+          [eventId]="event.eventId"
+          [name]="event.name"
+          [date]="event.date"
+          [location]="event.location"
+          [image]="event.image"
+        ></event-card>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #fewDislikedEvents>
+  <div class="few-cards-container">
+    <h1>Your Disliked Events</h1>
+    <span *ngIf="disLikedEvents.length == 0" class="event-container-empty-text">You didn't disliked any events yet.</span>
+    <div class="few-cards-content">
+      <div *ngFor="let event of disLikedEvents" class="event-card">
+        <event-card
+          [eventId]="event.eventId"
+          [name]="event.name"
+          [date]="event.date"
+          [location]="event.location"
+          [image]="event.image"
+        ></event-card>
+      </div>
+    </div>
+  </div>
+</ng-template>

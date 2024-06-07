@@ -69,6 +69,14 @@ const routes: Routes = [
         canActivate: ['orderCompletionGuard'],
         component: OrderCompletedComponent,
       },
+      {
+        path: 'favourite-events',
+        canActivate: ['authGuard'],
+        loadChildren: () =>
+          import('./favourite-events/favourite-events.module').then(
+            (m) => m.FavouriteEventsModule
+          ),
+      },
       { path: '**', redirectTo: '/home' },
     ],
   },

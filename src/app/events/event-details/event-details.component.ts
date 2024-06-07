@@ -52,7 +52,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
 
     this.form = this.formBuilder.group({ quantity: [0, Validators.min(0)] });
 
-    this.checkUserStatus();
+    this.initUserDeatils();
 
     this.initSubscriptions();
   }
@@ -142,7 +142,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
     }
   }
 
-  private checkUserStatus() {
+  private initUserDeatils() {
     this.accountService.userAuthStatus$.subscribe((isUserLoggedIn) => {
       this.isUserLoggedIn = isUserLoggedIn;
     });

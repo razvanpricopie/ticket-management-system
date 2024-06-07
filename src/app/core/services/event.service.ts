@@ -104,4 +104,16 @@ export class EventService {
       `${this.basePath}/api/event/deleteUserLikeEventStatus/${id}`
     );
   }
+
+  getUserLikedEvents(userId: string): Observable<EventDetails[]> {
+    return this.httpClient.get<EventDetails[]>(
+      `${this.basePath}/api/event/getUserLikedEvents/${userId}`
+    );
+  }
+
+  getUserDislikedEvents(userId: string): Observable<EventDetails[]> {
+    return this.httpClient.get<EventDetails[]>(
+      `${this.basePath}/api/event/getUserDislikedEvents/${userId}`
+    );
+  }
 }
