@@ -5,9 +5,14 @@ import {
   CreateOrder,
   OrderDetails,
   OrderDetailsPreview,
+  Session,
   UserOrderDetails,
 } from '../models/order.model';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, mergeMap, of, tap } from 'rxjs';
+import { CartService } from './cart.service';
+import { Router } from '@angular/router';
+
+declare const Stripe: any;
 
 @Injectable({
   providedIn: 'root',
@@ -16,15 +21,22 @@ export class OrderService {
   orderComplete$: Observable<boolean>;
 
   private readonly basePath = environment.API_ENDPOINT;
+  private readonly successUrl = environment.successUrl;
+  private readonly failureUrl = environment.failureUrl;
+
   private orderCompleteSubject = new BehaviorSubject<boolean>(false);
 
-  constructor(private httpClient: HttpClient) {
+  constructor(
+    private httpClient: HttpClient,
+    private cartService: CartService,
+    private router: Router
+  ) {
     this.orderComplete$ = this.orderCompleteSubject.asObservable();
   }
 
-  setOrderComplete(status: boolean) {
-    this.orderCompleteSubject.next(status);
-  }
+  // setOrderComplete(status: boolean) {
+  //   this.orderCompleteSubject.next(status);
+  // }
 
   getAllOrders(): Observable<OrderDetailsPreview[]> {
     return this.httpClient.get<OrderDetailsPreview[]>(
@@ -49,5 +61,25 @@ export class OrderService {
     return this.httpClient.get<UserOrderDetails[]>(
       `${this.basePath}/api/order/allUserOrders/${userId}`
     );
+  }
+
+  createCheckoutSession(orderToCreate: CreateOrder): void {
+    this.httpClient
+      .post<Session>(`${this.basePath}/api/order/createCheckoutSession`, {
+        ...orderToCreate,
+        successUrl: this.successUrl,
+        failureUrl: this.failureUrl,
+      })
+      .subscribe((session) => {
+        this.redirectToCheckout(session);
+      });
+  }
+
+  private redirectToCheckout(session: Session) {
+    const stripe = Stripe(session.pubKey);
+
+    stripe.redirectToCheckout({
+      sessionId: session.sessionId,
+    });
   }
 }

@@ -48,6 +48,7 @@ export class CartComponent implements OnInit, OnDestroy {
       tickets: this.tickets.map((ticket) => {
         return <CreateOrderTicket>{
           eventId: ticket.event.eventId,
+          eventName: ticket.event.name,
           quantity: ticket.quantity,
           price: ticket.price,
         };
@@ -56,9 +57,25 @@ export class CartComponent implements OnInit, OnDestroy {
 
     this.orderService.createOrder(orderToCreate).subscribe((orderId) => {
       this.cartService.refreshCart();
-      this.orderService.setOrderComplete(true);
       this.router.navigate(['/order-completed', orderId]);
     });
+  }
+
+  createCheckoutSession(){
+    let orderToCreate: CreateOrder = {
+      userId: this.userId,
+      orderTotal: this.cartTotalAmount,
+      tickets: this.tickets.map((ticket) => {
+        return <CreateOrderTicket>{
+          eventId: ticket.event.eventId,
+          eventName: ticket.event.name,
+          quantity: ticket.quantity,
+          price: ticket.price,
+        };
+      }),
+    };
+
+    this.orderService.createCheckoutSession(orderToCreate);
   }
 
   private initSubscriptions() {

@@ -31,6 +31,7 @@ export interface CreateOrder {
 
 export interface CreateOrderTicket {
   eventId: string;
+  eventName: string;
   quantity: number;
   price: number;
 }
@@ -57,4 +58,9 @@ export interface UserOrderTicketEvent {
   artist: string;
   image: Blob | File;
   location: string;
+}
+
+export interface Session {
+  sessionId: string;
+  pubKey: string;
 }
