@@ -7,6 +7,7 @@ import {
   ReplaySubject,
   catchError,
   filter,
+  forkJoin,
   map,
   of,
   switchMap,
@@ -21,6 +22,8 @@ export class OpenAIService {
   mostTenBoughtEvents$: Observable<EventDetails[]>;
   lastTenAddedEvents$: Observable<EventDetails[]>;
   tenEventsBasedOnUserOrders$: Observable<EventDetails[]>;
+  tenEventsBasedOnUserLikeStatuses$: Observable<EventDetails[]>;
+  tenEventsBasedOnOtherUsersLikeStatuses$: Observable<EventDetails[]>;
 
   private readonly basePath = environment.API_ENDPOINT;
   private userId: string;
@@ -30,25 +33,43 @@ export class OpenAIService {
   private tenEventsBasedOnUserOrdersSubject = new ReplaySubject<EventDetails[]>(
     1
   );
+  private tenEventsBasedOnUserLikeStatusesSubject = new ReplaySubject<
+    EventDetails[]
+  >(1);
+  private tenEventsBasedOnOtherUsersLikeStatusesSubject = new ReplaySubject<
+    EventDetails[]
+  >(1);
 
   constructor(
     private httpClient: HttpClient,
     private accountService: AccountService
   ) {
     this.mostTenBoughtEvents$ = this.mostTenBoughtEventsSubject.asObservable();
+
     this.lastTenAddedEvents$ = this.lastTenAddedEventsSubject.asObservable();
+
     this.tenEventsBasedOnUserOrders$ =
       this.tenEventsBasedOnUserOrdersSubject.asObservable();
 
+    this.tenEventsBasedOnUserLikeStatuses$ =
+      this.tenEventsBasedOnUserLikeStatusesSubject.asObservable();
+
+    this.tenEventsBasedOnOtherUsersLikeStatuses$ =
+      this.tenEventsBasedOnOtherUsersLikeStatusesSubject.asObservable();
+
     this.initUserBasedMethods();
 
-    this.getMostTenBoughtEvents().pipe(take(1)).subscribe(events => {
-      this.mostTenBoughtEventsSubject.next(events);
-    })
+    this.getMostTenBoughtEvents()
+      .pipe(take(1))
+      .subscribe((events) => {
+        this.mostTenBoughtEventsSubject.next(events);
+      });
 
-    this.getLastTenAddedEvents().pipe(take(1)).subscribe(events => {
-      this.lastTenAddedEventsSubject.next(events);
-    })
+    this.getLastTenAddedEvents()
+      .pipe(take(1))
+      .subscribe((events) => {
+        this.lastTenAddedEventsSubject.next(events);
+      });
   }
 
   getMostTenBoughtEvents(): Observable<EventDetails[]> {
@@ -72,21 +93,65 @@ export class OpenAIService {
     );
   }
 
+  getTenEventsBasedOnUserLikeStatuses(
+    userId: string
+  ): Observable<EventDetails[]> {
+    return this.httpClient.post<EventDetails[]>(
+      `${this.basePath}/api/openai/getTenEventsBasedOnUserLikeStatuses/${userId}`,
+      null
+    );
+  }
+
+  getTenEventsBasedOnOtherUsersLikeStatuses(
+    userId: string
+  ): Observable<EventDetails[]> {
+    return this.httpClient.post<EventDetails[]>(
+      `${this.basePath}/api/openai/getTenEventsBasedOnOtherUsersLikeStatuses/${userId}`,
+      null
+    );
+  }
+
   private initUserBasedMethods() {
     this.accountService.userAuthStatus$
       .pipe(
         filter((isUserLoggedIn) => isUserLoggedIn),
         switchMap(() => this.accountService.userDetails$),
         filter((userDetails) => !!userDetails.userId),
-        switchMap((userDetails) =>
-          this.getTenEventsBasedOnUserOrders(userDetails.userId).pipe(
-            take(1),
-            catchError(() => of([]))
-          )
-        )
+        switchMap((userDetails) => {
+          return forkJoin([
+            this.getTenEventsBasedOnUserOrders(userDetails.userId).pipe(
+              take(1),
+              catchError(() => of([]))
+            ),
+            this.getTenEventsBasedOnUserLikeStatuses(userDetails.userId).pipe(
+              take(1),
+              catchError(() => of([]))
+            ),
+            this.getTenEventsBasedOnOtherUsersLikeStatuses(
+              userDetails.userId
+            ).pipe(
+              take(1),
+              catchError(() => of([]))
+            ),
+          ]);
+        })
       )
-      .subscribe((events) => {
-        this.tenEventsBasedOnUserOrdersSubject.next(events);
-      });
+      .subscribe(
+        ([
+          tenEventsBasedOnUserOrders,
+          tenEventsBasedOnUserLikeStatuses,
+          tenEventsBasedOnOtherUsersLikeStatuses,
+        ]) => {
+          this.tenEventsBasedOnUserOrdersSubject.next(
+            tenEventsBasedOnUserOrders
+          );
+          this.tenEventsBasedOnUserLikeStatusesSubject.next(
+            tenEventsBasedOnUserLikeStatuses
+          );
+          this.tenEventsBasedOnOtherUsersLikeStatusesSubject.next(
+            tenEventsBasedOnOtherUsersLikeStatuses
+          );
+        }
+      );
   }
 }

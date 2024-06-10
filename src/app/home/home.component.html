@@ -4,7 +4,7 @@
   <ng-container *ngIf="!loading">
     <events-galleria
       class="events-galleria-container"
-      [events]="events"
+      [events]="lastTenAddedEvents"
     ></events-galleria>
   </ng-container>
 </div>
@@ -24,9 +24,29 @@
 <div class="grid no-horizontal-padding">
   <div class="events-sections-container">
     <events-carousel
-      *ngIf="tenEventsBasedOnUserOrders && tenEventsBasedOnUserOrders.length > 0"
+      *ngIf="
+        tenEventsBasedOnUserLikeStatuses &&
+        tenEventsBasedOnUserLikeStatuses.length > 0
+      "
+      [carouselHeader]="'Based on your last likes'"
+      [events]="tenEventsBasedOnUserLikeStatuses"
+    ></events-carousel>
+
+    <events-carousel
+      *ngIf="
+        tenEventsBasedOnUserOrders && tenEventsBasedOnUserOrders.length > 0
+      "
       [carouselHeader]="'You may like'"
       [events]="tenEventsBasedOnUserOrders"
+    ></events-carousel>
+
+    <events-carousel
+      *ngIf="
+        tenEventsBasedOnOtherUsersLikeStatuses &&
+        tenEventsBasedOnOtherUsersLikeStatuses.length > 0
+      "
+      [carouselHeader]="'Based on what likes'"
+      [events]="tenEventsBasedOnOtherUsersLikeStatuses"
     ></events-carousel>
 
     <events-carousel
@@ -35,11 +55,11 @@
       [events]="mostBoughtTenEvents"
     ></events-carousel>
 
-    <events-carousel
+    <!-- <events-carousel
       *ngIf="lastTenAddedEvents && lastTenAddedEvents.length > 0"
       [carouselHeader]="'Newly added'"
       [events]="lastTenAddedEvents"
-    ></events-carousel>
+    ></events-carousel> -->
 
     <events-carousel
       *ngIf="events && events.length > 0"

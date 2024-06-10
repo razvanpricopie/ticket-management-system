@@ -40,6 +40,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   mostBoughtTenEvents: EventDetails[] = [];
   lastTenAddedEvents: EventDetails[] = [];
   tenEventsBasedOnUserOrders: EventDetails[] = [];
+  tenEventsBasedOnUserLikeStatuses: EventDetails[] = [];
+  tenEventsBasedOnOtherUsersLikeStatuses: EventDetails[] = [];
 
   eventsImageUrls: any[] = [];
 
@@ -82,25 +84,46 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.categoryService.getAllCategories(),
       this.eventService.getAllEvents(),
       this.openAIService.mostTenBoughtEvents$.pipe(first()),
-      this.openAIService.lastTenAddedEvents$.pipe(first())
+      this.openAIService.lastTenAddedEvents$.pipe(first()),
     ];
 
     if (this.isUserLoggedIn) {
       observables.push(
-        this.openAIService.tenEventsBasedOnUserOrders$.pipe(first())
+        this.openAIService.tenEventsBasedOnUserOrders$.pipe(first()),
+        this.openAIService.tenEventsBasedOnUserLikeStatuses$.pipe(first()),
+        this.openAIService.tenEventsBasedOnOtherUsersLikeStatuses$.pipe(first())
       );
     }
 
     forkJoin(observables)
       .pipe(takeUntil(this.onDestroy))
-      .subscribe(([categories, events, mostBoughtTenEvents, lastTenAddedEvents, tenEventsBasedOnUserOrders]) => {
-        this.categories = categories;
-        this.events = events;
-        this.mostBoughtTenEvents = mostBoughtTenEvents;
-        this.lastTenAddedEvents = lastTenAddedEvents;
-        if (this.isUserLoggedIn)
-          this.tenEventsBasedOnUserOrders = tenEventsBasedOnUserOrders;
-        this.loading = false;
-      });
+      .subscribe(
+        ([
+          categories,
+          events,
+          mostBoughtTenEvents,
+          lastTenAddedEvents,
+          tenEventsBasedOnUserOrders,
+          tenEventsBasedOnUserLikeStatuses,
+          tenEventsBasedOnOtherUsersLikeStatuses,
+        ]) => {
+          this.categories = categories;
+          this.events = events;
+          this.mostBoughtTenEvents = mostBoughtTenEvents;
+          this.lastTenAddedEvents = lastTenAddedEvents;
+
+          if (this.isUserLoggedIn) {
+            this.tenEventsBasedOnUserOrders = tenEventsBasedOnUserOrders;
+
+            this.tenEventsBasedOnUserLikeStatuses =
+              tenEventsBasedOnUserLikeStatuses;
+
+            this.tenEventsBasedOnOtherUsersLikeStatuses =
+              tenEventsBasedOnOtherUsersLikeStatuses;
+          }
+
+          this.loading = false;
+        }
+      );
   }
 }
