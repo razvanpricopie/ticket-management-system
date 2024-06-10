@@ -40,3 +40,15 @@ export interface Ticket {
   quantity: number;
   price: number;
 }
+
+export interface UserEventLikeStatus {
+  id: string;
+  userId: string;
+  eventId: string;
+  isLiked: boolean;
+}
+
+export interface UserLikeEvent {
+  userId: string;
+  eventId: string;
+}

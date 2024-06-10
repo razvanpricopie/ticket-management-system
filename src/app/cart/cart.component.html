@@ -15,8 +15,8 @@
         </div>
         <div class="check-out-details-container">
           <ng-container *ngIf="isUserLoggedIn; else userNotLogin">
-            <button mat-raised-button color="warn" (click)="createOrder()">
-              Complete the order
+            <button mat-raised-button color="warn" (click)="createCheckoutSession()">
+              Checkout
             </button>
           </ng-container>
           <div class="check-out-total-amount">

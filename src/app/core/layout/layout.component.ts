@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { CartService } from '../services/cart.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { CartPanelComponent } from './cart-panel/cart-panel.component';
@@ -12,11 +12,10 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./layout.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class LayoutComponent implements OnInit, OnDestroy {
+export class LayoutComponent implements OnDestroy, AfterViewInit {
   subscriptions: Subscription[] = [];
 
   cartItemCount: number;
-  displayBadge: boolean = false;
   isUserLoggedIn: boolean;
 
   constructor(
@@ -25,7 +24,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
     private accountService: AccountService
   ) {}
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
     this.initSubscriptions();
   }
 
@@ -75,7 +74,6 @@ export class LayoutComponent implements OnInit, OnDestroy {
     this.subscriptions.push(
       this.cartService.cartItemCount$.subscribe((cartItemCount) => {
         this.cartItemCount = cartItemCount;
-        this.displayBadge = this.cartItemCount > 0;
       })
     );
 
