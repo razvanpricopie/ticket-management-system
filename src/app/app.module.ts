@@ -29,13 +29,13 @@ import { OrderService } from './core/services/order.service';
     BrowserAnimationsModule,
   ],
   providers: [
-    {
-      provide: APP_INITIALIZER,
-      useFactory:
-        (serverConnectionService: ServerConnectionService) => () => {},
-      deps: [ServerConnectionService],
-      multi: true,
-    },
+    // {
+    //   provide: APP_INITIALIZER,
+    //   useFactory:
+    //     (serverConnectionService: ServerConnectionService) => () => {},
+    //   deps: [ServerConnectionService],
+    //   multi: true,
+    // },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ApiRequestInterceptor,

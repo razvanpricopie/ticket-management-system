@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { EventDetails, Ticket } from '../models/event.model';
-import { ServerConnectionService } from './server-connection.service';
 
 @Injectable({
   providedIn: 'root',
