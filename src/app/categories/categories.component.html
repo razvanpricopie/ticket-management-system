@@ -15,11 +15,30 @@
 
     <div class="grid no-horizontal-padding">
       <div class="events-sections-container" *ngIf="categoryEvents.length > 0">
-        <events-carousel
-          [carouselHeader]="'Lastly added events of this category'"
-          [events]="categoryEvents"
-        ></events-carousel>
+        <ng-container *ngIf="categoryEvents.length > 4; else fewEvents">
+          <events-carousel
+            [carouselHeader]="'Lastly added events of this category'"
+            [events]="categoryEvents"
+          ></events-carousel>
+        </ng-container>
       </div>
     </div>
   </div>
 </div>
+
+<ng-template #fewEvents>
+  <div class="few-cards-container">
+    <h1>Lastly added events of this category</h1>
+    <div class="few-cards-content">
+      <div *ngFor="let event of categoryEvents" class="event-card">
+        <event-card
+          [eventId]="event.eventId"
+          [name]="event.name"
+          [date]="event.date"
+          [location]="event.location"
+          [image]="event.image"
+        ></event-card>
+      </div>
+    </div>
+  </div>
+</ng-template>

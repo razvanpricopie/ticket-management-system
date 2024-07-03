@@ -45,7 +45,7 @@
         tenEventsBasedOnOtherUsersLikeStatuses &&
         tenEventsBasedOnOtherUsersLikeStatuses.length > 0
       "
-      [carouselHeader]="'Based on what likes'"
+      [carouselHeader]="'Based on what others likes'"
       [events]="tenEventsBasedOnOtherUsersLikeStatuses"
     ></events-carousel>
 
@@ -54,12 +54,6 @@
       [carouselHeader]="'Most wanted'"
       [events]="mostBoughtTenEvents"
     ></events-carousel>
-
-    <!-- <events-carousel
-      *ngIf="lastTenAddedEvents && lastTenAddedEvents.length > 0"
-      [carouselHeader]="'Newly added'"
-      [events]="lastTenAddedEvents"
-    ></events-carousel> -->
 
     <events-carousel
       *ngIf="events && events.length > 0"

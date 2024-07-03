@@ -85,13 +85,13 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.eventService.getAllEvents(),
       this.openAIService.mostTenBoughtEvents$.pipe(first()),
       this.openAIService.lastTenAddedEvents$.pipe(first()),
+      this.openAIService.tenEventsBasedOnOtherUsersLikeStatuses$.pipe(first()),
     ];
 
     if (this.isUserLoggedIn) {
       observables.push(
         this.openAIService.tenEventsBasedOnUserOrders$.pipe(first()),
-        this.openAIService.tenEventsBasedOnUserLikeStatuses$.pipe(first()),
-        this.openAIService.tenEventsBasedOnOtherUsersLikeStatuses$.pipe(first())
+        this.openAIService.tenEventsBasedOnUserLikeStatuses$.pipe(first())
       );
     }
 
@@ -103,23 +103,23 @@ export class HomeComponent implements OnInit, OnDestroy {
           events,
           mostBoughtTenEvents,
           lastTenAddedEvents,
+          tenEventsBasedOnOtherUsersLikeStatuses,
           tenEventsBasedOnUserOrders,
           tenEventsBasedOnUserLikeStatuses,
-          tenEventsBasedOnOtherUsersLikeStatuses,
         ]) => {
           this.categories = categories;
           this.events = events;
           this.mostBoughtTenEvents = mostBoughtTenEvents;
           this.lastTenAddedEvents = lastTenAddedEvents;
 
+          this.tenEventsBasedOnOtherUsersLikeStatuses =
+            tenEventsBasedOnOtherUsersLikeStatuses;
+
           if (this.isUserLoggedIn) {
             this.tenEventsBasedOnUserOrders = tenEventsBasedOnUserOrders;
 
             this.tenEventsBasedOnUserLikeStatuses =
               tenEventsBasedOnUserLikeStatuses;
-
-            this.tenEventsBasedOnOtherUsersLikeStatuses =
-              tenEventsBasedOnOtherUsersLikeStatuses;
           }
 
           this.loading = false;

@@ -1,6 +1,6 @@
 <div class="grid no-horizontal-padding">
   <div class="favourite-events-container">
-    <ng-container *ngIf="likedEvents.length > 3; else fewLikedEvents">
+    <ng-container *ngIf="likedEvents.length > 4; else fewLikedEvents">
       <div class="events-sections-container">
         <events-carousel
           [carouselHeader]="'Your Liked Events'"
@@ -9,7 +9,7 @@
       </div>
     </ng-container>
 
-    <ng-container *ngIf="disLikedEvents.length > 3; else fewDislikedEvents">
+    <ng-container *ngIf="disLikedEvents.length > 4; else fewDislikedEvents">
       <div class="events-sections-container">
         <events-carousel
           [carouselHeader]="'Your Disliked Events'"

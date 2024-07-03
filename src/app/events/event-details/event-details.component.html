@@ -11,12 +11,30 @@
 
     <div class="like-buttons" *ngIf="userEventLikeStatus && isUserLoggedIn">
       <div class="like-button">
-        <button mat-icon-button (click)="dislikeEvent()" [class.liked]="userEventLikeStatus.isLiked != null && !userEventLikeStatus.isLiked" [disabled]="userEventLikeStatus.isLiked != null && userEventLikeStatus.isLiked">
+        <button
+          mat-icon-button
+          (click)="dislikeEvent()"
+          [class.liked]="
+            userEventLikeStatus.isLiked != null && !userEventLikeStatus.isLiked
+          "
+          [disabled]="
+            userEventLikeStatus.isLiked != null && userEventLikeStatus.isLiked
+          "
+        >
           <mat-icon>thumb_down </mat-icon>
         </button>
       </div>
-      <div class="like-button" >
-        <button mat-icon-button (click)="likeEvent()" [class.liked]="userEventLikeStatus.isLiked != null && userEventLikeStatus.isLiked"  [disabled]="userEventLikeStatus.isLiked != null && !userEventLikeStatus.isLiked">
+      <div class="like-button">
+        <button
+          mat-icon-button
+          (click)="likeEvent()"
+          [class.liked]="
+            userEventLikeStatus.isLiked != null && userEventLikeStatus.isLiked
+          "
+          [disabled]="
+            userEventLikeStatus.isLiked != null && !userEventLikeStatus.isLiked
+          "
+        >
           <mat-icon>thumb_up </mat-icon>
         </button>
       </div>
@@ -25,20 +43,32 @@
 
   <div class="event-details-container" *ngIf="eventDetails">
     <div class="event-details-main">
-      <div class="mat-subtitle-1">
-        {{ eventDetails.date | date }}
-      </div>
       <div class="mat-headline-3 event-title">{{ eventDetails.name }}</div>
 
       <div class="event-details-about">
-        <div class="mat-body-1">Artist: {{ eventDetails.artist }}</div>
-        <div class="mat-body-1">Category: {{ eventDetails.category.name }}</div>
-        <div class="mat-body-1">Location: {{ eventDetails.location }}</div>
-        <div class="mat-body-1">
-          Price: {{ eventDetails.price | currency : "EUR" }}
+        <div class="event-detail-section">
+          <h2>Artist</h2>
+          <div class="mat-body-1">{{ eventDetails.artist }}</div>
         </div>
-        <div class="mat-body-1">
-          Description: {{ eventDetails.description }}
+
+        <div class="event-detail-section">
+          <h2>Date</h2>
+          <div class="mat-body-1">{{ eventDetails.date | date }}</div>
+        </div>
+
+        <div class="event-detail-section">
+          <h2>Category</h2>
+          <div class="mat-body-1">{{ eventDetails.category.name }}</div>
+        </div>
+
+        <div class="event-detail-section">
+          <h2>Location</h2>
+          <div class="mat-body-1">{{ eventDetails.location }}</div>
+        </div>
+
+        <div class="event-detail-section">
+          <h2>About this event</h2>
+          <div class="mat-body-1">{{ eventDetails.description }}</div>
         </div>
       </div>
     </div>
@@ -68,7 +98,7 @@
         >
           Add to cart
           <span *ngIf="form.get('quantity')!.value != 0"
-            >for {{ quantityValueMultiplied }}</span
+            >for {{ quantityValueMultiplied | currency : "EUR" }}</span
           >
         </button>
       </form>

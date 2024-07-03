@@ -70,6 +70,12 @@ export class OpenAIService {
       .subscribe((events) => {
         this.lastTenAddedEventsSubject.next(events);
       });
+
+    this.getTenEventsBasedOnOtherUsersLikeStatuses()
+      .pipe(take(1))
+      .subscribe((events) => {
+        this.tenEventsBasedOnOtherUsersLikeStatusesSubject.next(events);
+      });
   }
 
   getMostTenBoughtEvents(): Observable<EventDetails[]> {
@@ -102,11 +108,9 @@ export class OpenAIService {
     );
   }
 
-  getTenEventsBasedOnOtherUsersLikeStatuses(
-    userId: string
-  ): Observable<EventDetails[]> {
+  getTenEventsBasedOnOtherUsersLikeStatuses(): Observable<EventDetails[]> {
     return this.httpClient.post<EventDetails[]>(
-      `${this.basePath}/api/openai/getTenEventsBasedOnOtherUsersLikeStatuses/${userId}`,
+      `${this.basePath}/api/openai/getTenEventsBasedOnOtherUsersLikeStatuses`,
       null
     );
   }
@@ -127,29 +131,16 @@ export class OpenAIService {
               take(1),
               catchError(() => of([]))
             ),
-            this.getTenEventsBasedOnOtherUsersLikeStatuses(
-              userDetails.userId
-            ).pipe(
-              take(1),
-              catchError(() => of([]))
-            ),
           ]);
         })
       )
       .subscribe(
-        ([
-          tenEventsBasedOnUserOrders,
-          tenEventsBasedOnUserLikeStatuses,
-          tenEventsBasedOnOtherUsersLikeStatuses,
-        ]) => {
+        ([tenEventsBasedOnUserOrders, tenEventsBasedOnUserLikeStatuses]) => {
           this.tenEventsBasedOnUserOrdersSubject.next(
             tenEventsBasedOnUserOrders
           );
           this.tenEventsBasedOnUserLikeStatusesSubject.next(
             tenEventsBasedOnUserLikeStatuses
-          );
-          this.tenEventsBasedOnOtherUsersLikeStatusesSubject.next(
-            tenEventsBasedOnOtherUsersLikeStatuses
           );
         }
       );

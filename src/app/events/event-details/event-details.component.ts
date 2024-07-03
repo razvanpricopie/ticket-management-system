@@ -27,7 +27,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   userEventLikeStatus: UserEventLikeStatus;
 
   quantitySub: Subscription = new Subscription();
-  quantityValueMultiplied: number = 0;
+  quantityValueMultiplied: number;
 
   imageUrl: SafeUrl;
 
@@ -50,7 +50,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.eventId = this.route.snapshot.paramMap.get('id') || '';
 
-    this.form = this.formBuilder.group({ quantity: [0, Validators.min(0)] });
+    this.form = this.formBuilder.group({ quantity: [1, Validators.min(0)] });
 
     this.initUserDeatils();
 
@@ -167,6 +167,8 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.onDestroy))
       .subscribe(([eventDetails, userEventLikeStatus]) => {
         this.eventDetails = eventDetails;
+
+        this.quantityValueMultiplied = this.eventDetails.price;
 
         if (this.isUserLoggedIn) {
           this.userEventLikeStatus = userEventLikeStatus;
