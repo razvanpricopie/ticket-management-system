@@ -1,7 +1,8 @@
 This repository represents the frontend application of a System ticketing management project.
+
 The application was created as a final project for the dissertation.
 
-The repository for the frontend application of this project can be found on my profile under the name "TicketManagementSystemAPI"
+The repository for the backend application of this project can be found on my profile under the name "TicketManagementSystemAPI"
 
 The application contains all the basic functionalities of this type of application:
 - role based functionalities
